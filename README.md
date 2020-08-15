@@ -1,41 +1,18 @@
-# Basic Docz example
+# Downshift Docs
 
-## Using `create-docz-app`
+Repository that hosts the Downshift Docsite. All Downshift examples should be hosted here, along with links to their Codesandbox equivalents, which should be hosted on the [examples repository](https://github.com/downshift-js/downshift-examples).
+
+## Develop
 
 ```sh
-npx create-docz-app docz-app-basic
-# or
-yarn create docz-app docz-app-basic
+npm install
+
+npm run dev
 ```
 
-## Download manually
+This will start the `docz` app in development mode.
 
-```sh
-curl https://codeload.github.com/doczjs/docz/tar.gz/master | tar -xz --strip=2 docz-master/examples/basic
-mv basic docz-basic-example
-cd docz-basic-example
-```
 
-## Setup
+## Contribute
 
-```sh
-yarn # npm i
-```
-
-## Run
-
-```sh
-yarn dev # npm run dev
-```
-
-## Build
-
-```sh
-yarn build # npm run build
-```
-
-## Serve built app
-
-```sh
-yarn serve # npm run serve
-```# downshift-docs
+A great opportunity is to have all the sandboxes of the examples from this docsite in the examples repository. Also to have all examples from the examples repository hosted on the docsite as well.
