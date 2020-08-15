@@ -1,0 +1,21 @@
+{
+  "name": "downshift-docs",
+  "version": "0.0.1",
+  "license": "MIT",
+  "author": "Silviu A. Avram",
+  "scripts": {
+    "dev": "docz dev",
+    "build": "docz build",
+    "serve": "docz serve"
+  },
+  "dependencies": {
+    "@material-ui/core": "^4.11.0",
+    "@material-ui/icons": "^4.9.1",
+    "docz": "latest",
+    "downshift": "^6.0.5",
+    "prop-types": "^15.7.2",
+    "react": "^16.11.0",
+    "react-dom": "^16.11.0",
+    "react-virtual": "^2.2.3"
+  }
+}
