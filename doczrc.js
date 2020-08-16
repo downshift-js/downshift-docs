@@ -5,7 +5,6 @@ export default {
     'Home',
     'Components',
     {name: 'Hooks', menu: ['useCombobox', 'useMultipleSelection', 'useSelect']},
-    'Tests',
   ],
   themeConfig: {
     initialColorMode: 'light',

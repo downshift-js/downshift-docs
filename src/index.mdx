@@ -22,34 +22,29 @@ You need an autocomplete/combobox or select experience in your application and
 you want it to be accessible. You also want it to be simple and flexible to
 account for your use cases.
 
+You need an autocomplete/combobox or a select experience in your application and
+you want it to be accessible. You also want it to be simple and flexible to
+account for your use cases. Finally, it should follow the ARIA design pattern
+for a [combobox][combobox-aria] or a [select][select-aria], depending on your
+use case.
+
 ## This solution
 
-This library provides its users two main sets of solutions: the `Downshift`
-component and a set of hooks. The component is still the main part of the
-library, providing autocomplete/combobox accessibility logic as a render prop.
-The hooks are newer and are going to be the way forward make widgets accessible.
-Right now we support `useSelect` for custom `select` components and
-`useCombobox` for `combobox/autocomplete` inputs. We also offer
-`useMultipleSelection` to complement the first two hooks and easily cover the
-experience of a multiple selection.
+The library offers a couple of solutions. The first solution, which is the one
+we recommend you to try first, is a set of React hooks. Each hook provides the
+stateful logic needed to make the corresponding component functional and
+accessible. Navigate to the documentation for each by using the links in the
+list below.
 
-Since both `useCombobox` and the `Downshift` component aim to provide
-accessibility to a combobox/autocomplete input, we suggest using the new
-`useCombobox` first. If `Downshift` still covers your use case better then use
-the component instead. Make sure to create an issue on [Github][github-page]
-about your use case not being covered by the hook, since we may want that
-functionality in `useCombobox` as well. Both the component and the hooks are
-actively maintained but we are cool kids from the future and prefer to share
-`React` logic via hooks.
+- [useSelect](/use-select) for a custom select component.
+- [useCombobox](/use-combobox) for a combobox/autocomplete input.
+- [useMultipleSelection](/use-multiple-selection) for selecting multiple items
+  in a select or a combobox, as well as deleting items from selection or
+  navigating between the selected items.
 
-### Components
-
-- [Downshift](/downshift)
-
-### Hooks
-
-- [useSelect](/use-select)
-- [useCombobox](/use-combobox)
-- [useMultipleSelection](/use-multiple-selection)
-
-[github-page]: https://github.com/downshift-js/downshift
+The second solution is the [Downshift](/downshift) component, which can also be used to
+create accessible combobox and select components, providing the logic in the
+form of a render prop. It served as inspiration for developing the hooks and it
+has been around for a while. It established a successful pattern for making
+components accessible and functional while giving developers complete freedom
+when building the UI.
