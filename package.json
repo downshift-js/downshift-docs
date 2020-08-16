@@ -13,9 +13,15 @@
     "@material-ui/icons": "^4.9.1",
     "docz": "latest",
     "downshift": "^6.0.5",
+    "gatsby": "^2.24.47",
+    "gatsby-theme-docz": "^2.3.1",
     "prop-types": "^15.7.2",
     "react": "^16.11.0",
     "react-dom": "^16.11.0",
-    "react-virtual": "^2.2.3"
+    "react-virtual": "^2.2.3",
+    "theme-ui": "^0.3.1"
+  },
+  "devDependencies": {
+    "kcd-scripts": "^6.2.4"
   }
 }

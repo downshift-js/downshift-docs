@@ -1,20 +1,16 @@
 export default {
   port: 6006,
-  src: './src/',
+  src: './src/docs/',
   menu: [
     'Home',
     'Components',
     {name: 'Hooks', menu: ['useCombobox', 'useMultipleSelection', 'useSelect']},
   ],
+  repository: 'https://github.com/downshift-js/downshift',
   themeConfig: {
+    showDarkModeSwitch: true,
     initialColorMode: 'light',
-    showDarkModeSwitch: false,
     breakpoints: ['920px'],
-    logo: {
-      src: '/public/logo/downshift.svg',
-      margin: 'auto',
-      width: 128,
-    },
     styles: {
       Container: {
         width: ['100%', '75%'],
@@ -24,4 +20,5 @@ export default {
       },
     },
   },
+  plugins: ['gatsby-theme-docz'],
 }
