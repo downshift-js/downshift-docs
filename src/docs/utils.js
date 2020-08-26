@@ -87,6 +87,14 @@ export const items = [
   'Oganesson',
 ]
 
+export const itemFruits = [
+  {value: 'apple'},
+  {value: 'pear'},
+  {value: 'orange'},
+  {value: 'grape'},
+  {value: 'banana'},
+]
+
 export const itemsAsObjects = [
   {
     primary: 'Cecil Abshire',

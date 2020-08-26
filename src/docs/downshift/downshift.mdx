@@ -7,7 +7,7 @@ route: /downshift
 import {useState} from 'react'
 import {Playground} from 'docz'
 import Downshift from 'downshift'
-import {items, menuStyles, comboboxStyles} from '../utils'
+import {itemFruits as items, menuStyles, comboboxStyles} from '../utils'
 
 # Downshift
 
@@ -49,7 +49,7 @@ are used as follows:
 
 For a complete documentation on all the returned props, component props and more
 information check out the
-[Github Page](https://github.com/downshift-js/downshift).
+[Github Page][github-page].
 
 ## Important
 
@@ -87,20 +87,17 @@ It is possible to achieve the correct HTML structure only if you use
 `getRootProps` getter prop from `Downshift`. You apply `getRootProps` on the
 wrapper element that contains the `<input>` and optionally the trigger button.
 
-[CodeSandbox](https://codesandbox.io/s/simple-downshift-with-getrootprops-example-24s13)
+[CodeSandbox for usage with getRootProps.][code-sandbox-no-get-root-props]
 
 <Playground>
   {() => {
     const DropdownCombobox = () => {
       return (
         <Downshift
-          onChange={selection =>
-            alert(
-              selection
-                ? `You selected ${selection.value}`
-                : 'Selection Cleared',
-            )
+          onChange={(selection) =>
+            alert(selection ? `You selected ${selection.value}` : 'Selection Cleared')
           }
+          itemToString={(item) => (item ? item.value : '')}
         >
           {({
             getInputProps,
@@ -115,7 +112,7 @@ wrapper element that contains the `<input>` and optionally the trigger button.
             getRootProps,
           }) => (
             <div>
-              <label {...getLabelProps()}>Choose an element:</label>
+              <label {...getLabelProps()}>Enter a fruit:</label>
               <div
                 style={comboboxStyles}
                 {...getRootProps({}, {suppressRefError: true})}
@@ -128,24 +125,21 @@ wrapper element that contains the `<input>` and optionally the trigger button.
               <ul {...getMenuProps()} style={menuStyles}>
                 {isOpen
                   ? items
-                      .filter(item => !inputValue || item.includes(inputValue))
+                      .filter((item) => !inputValue || item.value.includes(inputValue))
                       .map((item, index) => (
                         <li
                           {...getItemProps({
-                            key: item,
+                            key: item.value,
                             index,
                             item,
                             style: {
                               backgroundColor:
-                                highlightedIndex === index
-                                  ? 'lightgray'
-                                  : 'white',
-                              fontWeight:
-                                selectedItem === item ? 'bold' : 'normal',
+                                highlightedIndex === index ? 'lightgray' : 'white',
+                              fontWeight: selectedItem === item ? 'bold' : 'normal',
                             },
                           })}
                         >
-                          {item}
+                          {item.value}
                         </li>
                       ))
                   : null}
@@ -170,20 +164,17 @@ was advertised in the past, we are still supporting it, but we strongly suggest
 to move either to the structure with the `getRootProps` or even better to
 `useCombobox`.
 
-[CodeSandbox](https://codesandbox.io/s/usecombobox-usage-evufg)
+[CodeSandbox for usage without getRootProps.][code-sandbox-get-root-props]
 
 <Playground>
   {() => {
     const DropdownCombobox = () => {
       return (
         <Downshift
-          onChange={selection =>
-            alert(
-              selection
-                ? `You selected ${selection.value}`
-                : 'Selection Cleared',
-            )
+          onChange={(selection) =>
+            alert(selection ? `You selected ${selection.value}` : 'Selection Cleared')
           }
+          itemToString={(item) => (item ? item.value : '')}
         >
           {({
             getInputProps,
@@ -196,8 +187,8 @@ to move either to the structure with the `getRootProps` or even better to
             selectedItem,
             isOpen,
           }) => (
-            <div>
-              <label {...getLabelProps()}>Choose an element:</label>
+            <div style={comboboxStyles}>
+              <label {...getLabelProps()}>Enter a fruit:</label>
               <input {...getInputProps()} />
               <button {...getToggleButtonProps()} aria-label={'toggle menu'}>
                 &#8595;
@@ -205,18 +196,21 @@ to move either to the structure with the `getRootProps` or even better to
               <ul {...getMenuProps()} style={menuStyles}>
                 {isOpen &&
                   items
-                    .filter(item => !inputValue || item.includes(inputValue))
+                    .filter((item) => !inputValue || item.value.includes(inputValue))
                     .map((item, index) => (
                       <li
-                        style={
-                          highlightedIndex === index
-                            ? {backgroundColor: '#bde4ff'}
-                            : {}
-                        }
-                        key={`${item}${index}`}
-                        {...getItemProps({item, index})}
+                        {...getItemProps({
+                          key: `${item.value}${index}`,
+                          item,
+                          index,
+                          style: {
+                            backgroundColor:
+                              highlightedIndex === index ? 'lightgray' : 'white',
+                            fontWeight: selectedItem === item ? 'bold' : 'normal',
+                          },
+                        })}
                       >
-                        {item}
+                        {item.value}
                       </li>
                     ))}
               </ul>
@@ -229,6 +223,13 @@ to move either to the structure with the `getRootProps` or even better to
   }}
 </Playground>
 
+## Other usage examples
+
+To see more cool stuff you can build with `Downshift`, explore the [examples repository][examples-code-sandbox].
+
 [combobox-aria]: https://www.w3.org/TR/wai-aria-practices/examples/combobox/aria1.1pattern/listbox-combo.html
 [use-a-render-prop]: https://cdb.reacttraining.com/use-a-render-prop-50de598f11ce
 [github-page]: https://github.com/downshift-js/downshift
+[code-sandbox-get-root-props]: https://codesandbox.io/s/github/kentcdodds/downshift-examples?file=/src/downshift/ordered-examples/01-basic-autocomplete.js
+[code-sandbox-no-get-root-props]: https://codesandbox.io/s/github/kentcdodds/downshift-examples?file=/src/downshift/ordered-examples/00-get-root-props-example.js
+[examples-code-sandbox]: https://codesandbox.io/s/github/kentcdodds/downshift-examples
