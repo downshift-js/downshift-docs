@@ -91,7 +91,7 @@ custom `<select>` is useful for the custom styling of the widget, since the
       return (
         <div>
           <label {...getLabelProps()}>Choose an element:</label>
-          <button {...getToggleButtonProps()}>
+          <button type="button" {...getToggleButtonProps()}>
             {selectedItem || 'Elements'}
           </button>
           <ul {...getMenuProps()} style={menuStyles}>
@@ -240,7 +240,7 @@ will update the value in the other one as well.
       return (
         <div>
           <label {...getLabelProps()}>Choose an element:</label>
-          <button {...getToggleButtonProps()}>
+          <button type="button" {...getToggleButtonProps()}>
             {selectedItem || 'Elements'}
           </button>
           <ul {...getMenuProps()} style={menuStyles}>
@@ -342,7 +342,7 @@ In all other state change types, we return `useSelect` default changes.
       return (
         <div>
           <label {...getLabelProps()}>Choose an element:</label>
-          <button {...getToggleButtonProps()}>
+          <button type="button" {...getToggleButtonProps()}>
             {selectedItem || 'Elements'}
           </button>
           <ul {...getMenuProps()} style={menuStyles}>
@@ -373,7 +373,7 @@ In all other state change types, we return `useSelect` default changes.
 When using `useSelect` in an `<iframe>` or in any other scenario that uses a
 `window` object different than the default browser `window`, it is required to
 provide that `window` object to the hook as well. Internally, we rely on the
-`window` for DOM related logic and working with the wrong object will make the 
+`window` for DOM related logic and working with the wrong object will make the
 hook behave unexpectedly. For example, when using `react-frame-component` to
 produce an `iframe` container, we should pass its `window` object to the hook
 like shown below.
@@ -399,7 +399,7 @@ like shown below.
       return (
         <div>
           <label {...getLabelProps()}>Choose an element:</label>
-          <button {...getToggleButtonProps()}>{selectedItem || "Elements"}</button>
+          <button type="button" {...getToggleButtonProps()}>{selectedItem || "Elements"}</button>
           <ul {...getMenuProps()} style={menuStyles}>
             {isOpen &&
               items.map((item, index) => (
@@ -510,7 +510,7 @@ of them and check only the ones that are selected.
       return (
         <div>
           <label {...getLabelProps()}>Choose an element:</label>
-          <button {...getToggleButtonProps()}>{buttonText}</button>
+          <button type="button" {...getToggleButtonProps()}>{buttonText}</button>
           <ul {...getMenuProps()} style={menuStyles}>
             {isOpen &&
               items.map((item, index) => (
@@ -575,6 +575,7 @@ behaviors.
         <div>
           <label {...getLabelProps()}>Choose an element:</label>
           <button
+          type="button"
             {...getToggleButtonProps({
               onMouseEnter: () => {
                 openMenu();
@@ -584,6 +585,7 @@ behaviors.
             {selectedItem || "Elements"}
           </button>
           <button
+          type="button"
             tabindex={-1}
             onClick={() => {
               selectItem(null);
@@ -617,7 +619,7 @@ behaviors.
 
 When the number of items in the dropdown is too big, you may want to consider
 using a virtualization technique to avoid loss in performance due to unnecessary
-elements rendered in the DOM. [react-virtual][react-virtual-github] is a great 
+elements rendered in the DOM. [react-virtual][react-virtual-github] is a great
 library to provide items virtualization and it's the one we will show in the
 example below. There are other libraries as well, such as
 [react-virtualized][react-virtualized-github] and
@@ -661,7 +663,7 @@ the [react-virtual github link][react-virtual-github].
       return (
         <div>
           <label {...getLabelProps()}>Choose an element:</label>
-          <button data-testid="select-toggle-button" {...getToggleButtonProps()}>
+          <button type="button" data-testid="select-toggle-button" {...getToggleButtonProps()}>
             {selectedItem || 'Elements'}
           </button>
           <ul
