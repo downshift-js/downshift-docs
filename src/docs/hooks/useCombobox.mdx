@@ -479,7 +479,7 @@ like shown below.
     // import Frame, { FrameContextConsumer } from 'react-frame-component'
     // import { useSelect } from 'downshift'
     // import { items, menuStyles, comboboxStyles } from './utils'
-    function DropdownCombobox() {
+    function DropdownCombobox({ environment }) {
       const [inputItems, setInputItems] = useState(items);
       const {
         isOpen,
@@ -492,6 +492,7 @@ like shown below.
         getItemProps
       } = useCombobox({
         items: inputItems,
+        environment,
         onInputValueChange: ({ inputValue }) => {
           setInputItems(
             items.filter(item =>
