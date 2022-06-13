@@ -1,0 +1,388 @@
+---
+title: useMultipleSelection
+description: useMultipleSelection for building taglist-based multiple selection
+slug: /use-multiple-selection
+---
+
+# useMultipleSelection
+
+## The problem
+
+You have a custom **select** or a **combobox** in your applications which
+performs a multiple selection. You want the whole experience to be accessible,
+including adding and removing items from selection, navigating between the items
+and back to the dropdown. You also want this solution to be simple to use and
+flexible enough so you can tailor it further to your specific needs.
+
+## This solution
+
+**useMultipleSelection** is a React hook that manages all the stateful logic
+needed to make the multiple selection dropdown functional and accessible. It
+returns a set of props that are meant to be called and their results
+destructured on the dropdown's elements that involve the multiple selection
+experience: the dropdown main element itself, which can be either an _input_ (if
+you are building a _combobox_) or a _button_ (if you are building a _select_),
+and the selected items. The props are similar to the ones provided by vanilla
+_Downshift_ to the children render prop.
+
+These props are called getter props and their return values are destructured as
+a set of ARIA attributes and event listeners. Together with the action props and
+state props, they create all the stateful logic needed for the dropdown to
+become accessible. Every functionality needed should be provided out of the box:
+arrow navigation between dropdown and items, navigation between the items
+themselves, removing and adding items, and also a helpful _aria-live_ message
+when an item has been removed from the selection.
+
+## Props used in examples
+
+In the examples below, we use the _useMultipleSelection_ hook with both
+_useSelect_ and _useCombobox_, destructure from its result the getter props and
+state variables. The **getDropdownProps** can be called with a
+**preventKeyAction** parameter. In some cases you may not want the user to
+navigate from the dropdown to the selected items or to delete them with
+**Backspace**. For example you can pass _isOpen_ as its value in order to keep
+removal and navigation actions from occuring while the dropdown is open. The
+returned props are used as follows:
+
+| Returned prop          | Element                 | Comments                                                                                                                                   |
+| ---------------------- | ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
+| `getDropdownProps`     | `<input>` or `<button>` | Call optionally with _preventKeyAction_ and destructure its returned object on the toggle button (select) or input (combobox) element.     |
+| `getSelectedItemProps` | `<span>`                | Call and destructure its returned object on the selected item element.                                                                     |
+| `selectedItems`        | `<span>`                | State value with the items currently selected. Used to render the Tags.                                                                    |
+| `addSelectedItem`      |                         | Action prop that adds the item to the selection. Best used in _useSelect_ and _useCombobox_ prop _onStateChange_ or _onSelectedItemChange_ |
+| `removeSelectedItem`   | `<span>` icon           | Action prop that removes the item from the selection. Used in the _X_ icon/button onClick handler.                                         |
+
+For a complete documentation on all the returned props, hook props and more
+information check out the [Github Page][use-multiple-selection-github].
+
+## Usage with combobox
+
+A _combobox_ with multiple selection can be created in a similar way to a single
+selection equivalent, with the addition of rendering the selected items. The UI
+is completely up to the developer, as the selected items can be created using
+_span_ elements or custom Components from UI libraries, within an _inline-block_
+or _flex_ display.
+
+In the example below, each item has an _X_ icon attached to it, with a
+_removeSelectedItem_ callback in the _onClick_ handler. Items are added using
+the _addSelectedItem_ function inside the _onStateChange_ handler of
+_useCombobox_. We also control the _selectedItem_ of _useCombobox_ and pass a
+_null_ value since _useMultipleSelection_ will handle the items selection in
+this case.
+
+[CodeSandbox for combobox usage example][code-sandbox-combobox-usage].
+
+```jsx live
+function ComboBoxExample() {
+  const books = [
+    {author: 'Harper Lee', title: 'To Kill a Mockingbird'},
+    {author: 'Lev Tolstoy', title: 'War and Peace'},
+    {author: 'Fyodor Dostoyevsy', title: 'The Idiot'},
+    {author: 'Oscar Wilde', title: 'A Picture of Dorian Gray'},
+    {author: 'George Orwell', title: '1984'},
+    {author: 'Jane Austen', title: 'Pride and Prejudice'},
+    {author: 'Marcus Aurelius', title: 'Meditations'},
+    {author: 'Fyodor Dostoevsky', title: 'The Brothers Karamazov'},
+    {author: 'Lev Tolstoy', title: 'Anna Karenina'},
+    {author: 'Fyodor Dostoevsky', title: 'Crime and Punishment'},
+  ]
+  function getBooksFilter(inputValue, selectedItems) {
+    return function booksFilter(book) {
+      return (
+        (!inputValue ||
+          book.title.toLowerCase().includes(inputValue) ||
+          book.author.toLowerCase().includes(inputValue)) &&
+        selectedItems.indexOf(book) < 0
+      )
+    }
+  }
+
+  function ComboBox() {
+    const [items, setItems] = React.useState(books)
+    const {
+      getSelectedItemProps,
+      getDropdownProps,
+      addSelectedItem,
+      removeSelectedItem,
+      selectedItems,
+    } = useMultipleSelection({initialSelectedItems: [items[0], items[1]]})
+    const {
+      isOpen,
+      getToggleButtonProps,
+      getLabelProps,
+      getMenuProps,
+      getInputProps,
+      getComboboxProps,
+      highlightedIndex,
+      getItemProps,
+      selectedItem,
+      inputValue,
+    } = useCombobox({
+      items,
+      itemToString(item) {
+        return item ? item.title : ''
+      },
+      defaultHighlightedIndex: 0, // after selection, highlight the first item.
+      selectedItem: null,
+      stateReducer(state, actionAndChanges) {
+        const {changes, type} = actionAndChanges
+
+        switch (type) {
+          case useCombobox.stateChangeTypes.InputKeyDownEnter:
+          case useCombobox.stateChangeTypes.ItemClick:
+          case useCombobox.stateChangeTypes.InputBlur:
+            return {
+              ...changes,
+              isOpen: !!changes.selectedItem, // keep the menu open after selection.
+            }
+        }
+        return changes
+      },
+      onStateChange({inputValue, type, selectedItem}) {
+        setItems(books.filter(getBooksFilter(inputValue, selectedItems)))
+
+        switch (type) {
+          case useCombobox.stateChangeTypes.InputKeyDownEnter:
+          case useCombobox.stateChangeTypes.ItemClick:
+            if (selectedItem) {
+              addSelectedItem(selectedItem)
+            }
+            break
+          default:
+            break
+        }
+      },
+    })
+
+    return (
+      <div className="w-[592px]">
+        <div className="flex flex-col gap-1">
+          <label className="w-fit" {...getLabelProps()}>
+            Choose an element:
+          </label>
+          <div className="shadow-sm bg-white inline-flex gap-2 items-center flex-wrap p-1.5">
+            {selectedItems.map(function renderSelectedItem(
+              selectedItem,
+              index,
+            ) {
+              return (
+                <span
+                  className="bg-gray-100 rounded-md px-1 focus:bg-red-400"
+                  key={`selected-item-${index}`}
+                  {...getSelectedItemProps({selectedItem, index})}
+                >
+                  {selectedItem.title}
+                  <span
+                    className="px-1 cursor-pointer"
+                    onClick={e => {
+                      e.stopPropagation()
+                      removeSelectedItem(selectedItem)
+                    }}
+                  >
+                    &#10005;
+                  </span>
+                </span>
+              )
+            })}
+            <div className="flex gap-0.5 grow" {...getComboboxProps()}>
+              <input
+                className="w-full"
+                {...getInputProps(getDropdownProps({preventKeyAction: isOpen}))}
+              />
+              <button
+                aria-label="toggle menu"
+                className="px-2"
+                type="button"
+                {...getToggleButtonProps()}
+              >
+                &#8595;
+              </button>
+            </div>
+          </div>
+        </div>
+        <ul
+          {...getMenuProps()}
+          className="absolute bg-white shadow-md max-h-80 overflow-scroll w-inherit"
+        >
+          {isOpen &&
+            items.map((item, index) => (
+              <li
+                className={cx(
+                  highlightedIndex === index && 'bg-blue-300',
+                  selectedItem === item && 'font-bold',
+                  'py-2 px-3 shadow-sm flex flex-col',
+                )}
+                key={`${item.value}${index}`}
+                {...getItemProps({item, index})}
+              >
+                <span>{item.title}</span>
+                <span className="text-sm text-gray-700">{item.author}</span>
+              </li>
+            ))}
+        </ul>
+      </div>
+    )
+  }
+  return <ComboBox />
+}
+```
+
+## Usage with select
+
+A _select_ with multiple selection is similar to the _combobox_ equivalent. We
+use the basic _useSelect_ example and add the selected items as _span_ elements.
+Custom components from UI libraries can be used as well, since the UI is up to
+the developer.
+
+[CodeSandbox for select usage example][code-sandbox-select-usage].
+
+```jsx live
+function SelectExample() {
+  const books = [
+    {author: 'Harper Lee', title: 'To Kill a Mockingbird'},
+    {author: 'Lev Tolstoy', title: 'War and Peace'},
+    {author: 'Fyodor Dostoyevsy', title: 'The Idiot'},
+    {author: 'Oscar Wilde', title: 'A Picture of Dorian Gray'},
+    {author: 'George Orwell', title: '1984'},
+    {author: 'Jane Austen', title: 'Pride and Prejudice'},
+    {author: 'Marcus Aurelius', title: 'Meditations'},
+    {author: 'Fyodor Dostoevsky', title: 'The Brothers Karamazov'},
+    {author: 'Lev Tolstoy', title: 'Anna Karenina'},
+    {author: 'Fyodor Dostoevsky', title: 'Crime and Punishment'},
+  ]
+  function getBooksFilter(selectedItems) {
+    return function booksFilter(book) {
+      return selectedItems.indexOf(book) < 0
+    }
+  }
+
+  function Select() {
+    const {
+      getSelectedItemProps,
+      getDropdownProps,
+      addSelectedItem,
+      removeSelectedItem,
+      selectedItems,
+    } = useMultipleSelection({initialSelectedItems: [books[0], books[1]]})
+    const items = books.filter(getBooksFilter(selectedItems))
+    const {
+      isOpen,
+      selectedItem,
+      getToggleButtonProps,
+      getLabelProps,
+      getMenuProps,
+      highlightedIndex,
+      getItemProps,
+    } = useSelect({
+      selectedItem: null,
+      defaultHighlightedIndex: 0, // after selection, highlight the first item.
+      items,
+      stateReducer: (state, actionAndChanges) => {
+        const {changes, type} = actionAndChanges
+        switch (type) {
+          case useSelect.stateChangeTypes.MenuKeyDownEnter:
+          case useSelect.stateChangeTypes.MenuKeyDownSpaceButton:
+          case useSelect.stateChangeTypes.ItemClick:
+            return {
+              ...changes,
+              isOpen: true, // keep the menu open after selection.
+            }
+        }
+        return changes
+      },
+      onStateChange: ({type, selectedItem}) => {
+        switch (type) {
+          case useSelect.stateChangeTypes.MenuKeyDownEnter:
+          case useSelect.stateChangeTypes.MenuKeyDownSpaceButton:
+          case useSelect.stateChangeTypes.ItemClick:
+            if (selectedItem) {
+              addSelectedItem(selectedItem)
+            }
+            break
+          default:
+            break
+        }
+      },
+    })
+
+    return (
+      <div className="w-[592px]">
+        <div className="flex flex-col gap-1">
+          <label className="w-fit" {...getLabelProps()}>
+            Choose an element:
+          </label>
+          <div className="shadow-sm bg-white inline-flex gap-2 items-center flex-wrap p-1.5 border-2 focus-within:border-gray-400">
+            {selectedItems.map(function renderSelectedItem(
+              selectedItem,
+              index,
+            ) {
+              return (
+                <span
+                  className="bg-gray-100 rounded-md px-1 focus:bg-graborder-gray-400"
+                  key={`selected-item-${index}`}
+                  {...getSelectedItemProps({selectedItem, index})}
+                >
+                  {selectedItem.title}
+                  <span
+                    className="px-1 cursor-pointer"
+                    onClick={e => {
+                      e.stopPropagation()
+                      removeSelectedItem(selectedItem)
+                    }}
+                  >
+                    &#10005;
+                  </span>
+                </span>
+              )
+            })}
+            <button
+              className="px-2 py-1 outline-2 outline-graborder-gray-400"
+              type="button"
+              {...getToggleButtonProps(
+                getDropdownProps({preventKeyAction: isOpen}),
+              )}
+            >
+              Pick some books &#8595;
+            </button>
+          </div>
+        </div>
+        <ul
+          {...getMenuProps()}
+          className="absolute bg-white shadow-md max-h-80 overflow-scroll w-inherit"
+        >
+          {isOpen &&
+            items.map((item, index) => (
+              <li
+                className={cx(
+                  highlightedIndex === index && 'bg-blue-300',
+                  selectedItem === item && 'font-bold',
+                  'py-2 px-3 shadow-sm flex flex-col',
+                )}
+                key={`${item.value}${index}`}
+                {...getItemProps({item, index})}
+              >
+                <span>{item.title}</span>
+                <span className="text-sm text-gray-700">{item.author}</span>
+              </li>
+            ))}
+        </ul>
+      </div>
+    )
+  }
+  return <Select />
+}
+```
+
+## Other usage examples
+
+To see more cool stuff you can build with _useMultipleSelection_, explore the
+[examples repository][examples-code-sandbox].
+
+[use-multiple-selection-github]:
+  https://github.com/downshift-js/downshift/tree/master/src/hooks/useMultipleSelection
+[code-sandbox-combobox-usage]:
+  https://codesandbox.io/s/github/kentcdodds/downshift-examples?file=/src/hooks/useMultipleSelection/combobox.js
+[code-sandbox-select-usage]:
+  https://codesandbox.io/s/github/kentcdodds/downshift-examples?file=/src/hooks/useMultipleSelection/select.js
+[examples-code-sandbox]:
+  https://codesandbox.io/s/github/kentcdodds/downshift-examples
