@@ -1,0 +1,1119 @@
+---
+title: useCombobox
+description: useCombobox for building combobox elements
+slug: /use-combobox
+---
+
+# useCombobox
+
+## The problem
+
+You have a **combobox/autocomplete** dropdown in your application and you want
+it to be accessible and functional. For consistency reasons you want it to
+follow the [ARIA design pattern][combobox-aria] for a combobox. You also want
+this solution to be simple to use and flexible so you can tailor it further to
+your specific needs.
+
+## This solution
+
+**useCombobox** is a React hook that manages all the stateful logic needed to
+make the combobox functional and accessible. It returns a set of props that are
+meant to be called and their results destructured on the combobox's elements:
+its label, toggle button, input, combobox container, list and list items. The
+props are similar to the ones provided by the **Downshift** component to its
+children via render prop.
+
+These props are called getter props and their return values are destructured as
+a set of ARIA attributes and event listeners. Together with the action props and
+state props, they create all the stateful logic needed for the combobox to
+implement the corresponding ARIA pattern. Every functionality needed should be
+provided out-of-the-box: menu toggle, item selection and up/down movement
+between them, screen reader support, focus management etc.
+
+## Props used in examples
+
+In the examples below, we use the _useCombobox_ hook and destructure from its
+result the getter props and state variables. The hooks also has the
+_onInputValueChange_ prop passed in order to filter the items in the list
+according to the input value. The getter props are used as follows:
+
+| Returned prop          | Element                     | Comments                                                                                     |
+| ---------------------- | --------------------------- | -------------------------------------------------------------------------------------------- |
+| `getLabelProps`        | `<label className="w-fit">` | Call and destructure its returned object on the label element.                               |
+| `getToggleButtonProps` | `<button>`                  | Call and destructure its returned object on the toggle button (if any).                      |
+| `getComboboxProps`     | `<div>`                     | Call and destructure its returned object on the input and toggle button parent.              |
+| `getInputProps`        | `<input>`                   | Call and destructure its returned object on the input element.                               |
+| `getMenuProps`         | `<ul>`                      | Call and destructure its returned object on the menu element.                                |
+| `getItemProps`         | `<li>`                      | Call with `index` or `item` and destructure its returned object on each menu item element.   |
+| `isOpen`               |                             | State value with the open state of the menu. Used below for conditionally showing the items. |
+| `highlightedIndex`     |                             | State value with the index of thehighlighted menu item. Used below for styling.              |
+| `selectedItem`         |                             | State value with the item that is selected. Used below for styling.                          |
+| `inputValue`           |                             | State value with the search query. Used below for filtering the items.                       |
+
+For a complete documentation on all the returned props, hook props and more
+information check out the [Github Page][use-combobox-github].
+
+## Basic Usage
+
+A _combobox_ element can be created with HTML elements such as: **label**,
+**ul**, **li**, **button**, **input** and a **div** or something similar to
+contain the input and the toggle button. It is absolutely important to follow
+the HTML structure below, as it will allow all screen readers to properly work
+with the widget. Most importantly, the **input** needs to be contained by the
+combobox **div** and the **ul** needs to be at the same level with the combobox
+**div**.
+
+[CodeSandbox for basic usage example][code-sandbox-basic-usage].
+
+```jsx live
+function ComboBoxExample() {
+  const books = [
+    {author: 'Harper Lee', title: 'To Kill a Mockingbird'},
+    {author: 'Lev Tolstoy', title: 'War and Peace'},
+    {author: 'Fyodor Dostoyevsy', title: 'The Idiot'},
+    {author: 'Oscar Wilde', title: 'A Picture of Dorian Gray'},
+    {author: 'George Orwell', title: '1984'},
+    {author: 'Jane Austen', title: 'Pride and Prejudice'},
+    {author: 'Marcus Aurelius', title: 'Meditations'},
+    {author: 'Fyodor Dostoevsky', title: 'The Brothers Karamazov'},
+    {author: 'Lev Tolstoy', title: 'Anna Karenina'},
+    {author: 'Fyodor Dostoevsky', title: 'Crime and Punishment'},
+  ]
+  function getBooksFilter(inputValue) {
+    return function booksFilter(book) {
+      return (
+        !inputValue ||
+        book.title.toLowerCase().includes(inputValue) ||
+        book.author.toLowerCase().includes(inputValue)
+      )
+    }
+  }
+
+  function ComboBox() {
+    const [items, setItems] = React.useState(books)
+    const {
+      isOpen,
+      getToggleButtonProps,
+      getLabelProps,
+      getMenuProps,
+      getInputProps,
+      getComboboxProps,
+      highlightedIndex,
+      getItemProps,
+      selectedItem,
+    } = useCombobox({
+      onInputValueChange({inputValue}) {
+        setItems(books.filter(getBooksFilter(inputValue)))
+      },
+      items,
+      itemToString(item) {
+        return item ? item.title : ''
+      },
+    })
+
+    return (
+      <div>
+        <div className="w-72 flex flex-col gap-1">
+          <label className="w-fit" {...getLabelProps()}>
+            Choose your favorite book:
+          </label>
+          <div
+            className="flex shadow-sm bg-white gap-0.5"
+            {...getComboboxProps()}
+          >
+            <input className="w-full p-1.5" {...getInputProps()} />
+            <button
+              aria-label="toggle menu"
+              className="px-2"
+              type="button"
+              {...getToggleButtonProps()}
+            >
+              {isOpen ? <>&#8593;</> : <>&#8595;</>}
+            </button>
+          </div>
+        </div>
+        <ul
+          {...getMenuProps()}
+          className="absolute w-72 bg-white shadow-md max-h-80 overflow-scroll"
+        >
+          {isOpen &&
+            items.map((item, index) => (
+              <li
+                className={cx(
+                  highlightedIndex === index && 'bg-blue-300',
+                  selectedItem === item && 'font-bold',
+                  'py-2 px-3 shadow-sm flex flex-col',
+                )}
+                key={`${item.value}${index}`}
+                {...getItemProps({item, index})}
+              >
+                <span>{item.title}</span>
+                <span className="text-sm text-gray-700">{item.author}</span>
+              </li>
+            ))}
+        </ul>
+      </div>
+    )
+  }
+  return <ComboBox />
+}
+```
+
+## MaterialUI
+
+A custom _combobox/autocomoplete_ element can be created using UI Library
+components as well. Many libraries will provide basic elements such as buttons,
+texts/labels, inputs and lists, which can be styled according to each library
+guidelines. _useCombobox_ is providing the additional stateful logic that will
+transform this selection of basic components into a fully working dropdown
+component.
+
+As _useCombobox_ needs to perform some _focus()_ and _scroll()_ logic on the DOM
+elements, it will require the refs to the _React_ components used. The example
+below will illustrate how to use _useCombobox_ with _MaterialUI_ library
+components and how to correctly pass refs to the hook where needed.
+
+Since _MaterialUI_ components already accept a _ref_ prop that will be filled
+with the resulting DOM element, we don't need to do anything specific rather
+than just spreading the getter props, apart from the case of the _Input_, which
+renders a wrapper element over the actual HTML _input_. In this case, since
+_Input_ provides a prop for accessing the _input_ element called _inputRef_, we
+will use the getter function like this: _getInputProps({refKey: 'inputRef'})_.
+
+Another point worth mentioning is that in this case items are objects and not
+strings. As a result, the _itemToString_ prop is passed to _useCombobox_. It
+will return the string equivalent of the item which will be used for displaying
+the item in the _input_ once selected and for the a11y _aria-live_ message that
+will occur on every item selection: _${itemToString(item)} has been selected_.
+_item.title_ is chosen to be the string equialent of each item object, so our
+prop will be passed as _itemToString: item => item ? item.title : ''_. Since
+clearing the input by _Escape_ key is also considered an element change, we will
+return an empty string in this case.
+
+[CodeSandbox for MaterialUI usage example][code-sandbox-material-ui-usage].
+
+```jsx live
+function ComboBoxExample() {
+  const books = [
+    {author: 'Harper Lee', title: 'To Kill a Mockingbird'},
+    {author: 'Lev Tolstoy', title: 'War and Peace'},
+    {author: 'Fyodor Dostoyevsy', title: 'The Idiot'},
+    {author: 'Oscar Wilde', title: 'A Picture of Dorian Gray'},
+    {author: 'George Orwell', title: '1984'},
+    {author: 'Jane Austen', title: 'Pride and Prejudice'},
+    {author: 'Marcus Aurelius', title: 'Meditations'},
+    {author: 'Fyodor Dostoevsky', title: 'The Brothers Karamazov'},
+    {author: 'Lev Tolstoy', title: 'Anna Karenina'},
+    {author: 'Fyodor Dostoevsky', title: 'Crime and Punishment'},
+  ]
+  function getBooksFilter(inputValue) {
+    return function booksFilter(book) {
+      return (
+        !inputValue ||
+        book.title.toLowerCase().includes(inputValue) ||
+        book.author.toLowerCase().includes(inputValue)
+      )
+    }
+  }
+
+  function ComboBox() {
+    const [items, setItems] = React.useState(books)
+    const {
+      inputValue,
+      selectedItem,
+      isOpen,
+      getToggleButtonProps,
+      getLabelProps,
+      getMenuProps,
+      highlightedIndex,
+      getItemProps,
+      getInputProps,
+      getComboboxProps,
+    } = useCombobox({
+      items,
+      onInputValueChange({inputValue}) {
+        setItems(books.filter(getBooksFilter(inputValue)))
+      },
+      itemToString(item) {
+        return item ? item.title : ''
+      },
+    })
+
+    return (
+      <Box>
+        <Box className="w-72 flex flex-col gap-1">
+          <FormLabel classeName="w-fit" {...getLabelProps()}>
+            Choose your favorite book:
+          </FormLabel>
+          <Box
+            className="flex shadow-sm bg-white gap-0.5"
+            {...getComboboxProps()}
+          >
+            <Input
+              className="w-full p-1.5"
+              placeholder="Employees"
+              {...getInputProps({refKey: 'inputRef'})}
+            />
+            <IconButton
+              className="px-2"
+              color="secondary"
+              {...getToggleButtonProps()}
+            >
+              {isOpen ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+            </IconButton>
+          </Box>
+        </Box>
+        <List
+          className={cx(
+            !isOpen && 'hidden',
+            '!absolute bg-white w-72 shadow-md max-h-80 overflow-scroll',
+          )}
+          {...getMenuProps()}
+        >
+          {isOpen &&
+            items.map((item, index) => {
+              return (
+                <ListItem
+                  className={cx(
+                    highlightedIndex === index && 'bg-blue-300',
+                    selectedItem === item && 'font-bold',
+                    'py-2 px-3 shadow-sm',
+                  )}
+                  key={`${item.title}-${index}`}
+                  {...getItemProps({
+                    item,
+                    index,
+                  })}
+                >
+                  <ListItemText primary={item.title} secondary={item.author} />
+                </ListItem>
+              )
+            })}
+        </List>
+      </Box>
+    )
+  }
+  return <ComboBox />
+}
+```
+
+## Controlling state
+
+Controlling state is possible by receiving the state changes done by Downshift
+via onChange props (_onHighlightedIndexChange_, _onSelectedItemChange_,
+_onStateChange_ etc.). You can then change them based on your requirements and
+pass them back to _useCombobox_ as props, such as for instance
+_highlightedIndex_ or _selectedItem_.
+
+The example below shows how to control _selectedItem_ with the help of
+_React.useState_.
+
+[CodeSandbox for controlling state example][code-sandbox-controlling-state].
+
+```jsx live
+function ComboBoxExample() {
+  const books = [
+    {author: 'Harper Lee', title: 'To Kill a Mockingbird'},
+    {author: 'Lev Tolstoy', title: 'War and Peace'},
+    {author: 'Fyodor Dostoyevsy', title: 'The Idiot'},
+    {author: 'Oscar Wilde', title: 'A Picture of Dorian Gray'},
+    {author: 'George Orwell', title: '1984'},
+    {author: 'Jane Austen', title: 'Pride and Prejudice'},
+    {author: 'Marcus Aurelius', title: 'Meditations'},
+    {author: 'Fyodor Dostoevsky', title: 'The Brothers Karamazov'},
+    {author: 'Lev Tolstoy', title: 'Anna Karenina'},
+    {author: 'Fyodor Dostoevsky', title: 'Crime and Punishment'},
+  ]
+  function getBooksFilter(inputValue) {
+    return function booksFilter(book) {
+      return (
+        !inputValue ||
+        book.title.toLowerCase().includes(inputValue) ||
+        book.author.toLowerCase().includes(inputValue)
+      )
+    }
+  }
+
+  function ComboBox() {
+    const [items, setItems] = React.useState(books)
+    const [selectedItem, setSelectedItem] = React.useState(null)
+    const {
+      isOpen,
+      getToggleButtonProps,
+      getLabelProps,
+      getMenuProps,
+      getInputProps,
+      getComboboxProps,
+      highlightedIndex,
+      getItemProps,
+    } = useCombobox({
+      onInputValueChange({inputValue}) {
+        setItems(books.filter(getBooksFilter(inputValue)))
+      },
+      items,
+      itemToString(item) {
+        return item ? item.title : ''
+      },
+      selectedItem,
+      onSelectedItemChange: ({selectedItem: newSelectedItem}) =>
+        setSelectedItem(newSelectedItem),
+    })
+    return (
+      <div>
+        <div className="w-72 flex flex-col gap-1">
+          <label className="w-fit" {...getLabelProps()}>
+            Choose your favorite book:
+          </label>
+          <div
+            className="flex shadow-sm bg-white gap-0.5"
+            {...getComboboxProps()}
+          >
+            <input className="w-full p-1.5" {...getInputProps()} />
+            <button
+              aria-label="toggle menu"
+              className="px-2"
+              type="button"
+              {...getToggleButtonProps()}
+            >
+              {isOpen ? <>&#8593;</> : <>&#8595;</>}
+            </button>
+          </div>
+        </div>
+        <ul
+          {...getMenuProps()}
+          className="absolute w-72 bg-white shadow-md max-h-80 overflow-scroll"
+        >
+          {isOpen &&
+            items.map((item, index) => (
+              <li
+                className={cx(
+                  highlightedIndex === index && 'bg-blue-300',
+                  selectedItem === item && 'font-bold',
+                  'py-2 px-3 shadow-sm flex flex-col',
+                )}
+                key={`${item.value}${index}`}
+                {...getItemProps({item, index})}
+              >
+                <span>{item.title}</span>
+                <span className="text-sm text-gray-700">{item.author}</span>
+              </li>
+            ))}
+        </ul>
+        <p className="font-semibold">
+          {selectedItem
+            ? `You have selected ${selectedItem.title} by ${selectedItem.author}.`
+            : 'Select a book!'}
+        </p>
+      </div>
+    )
+  }
+  return <ComboBox />
+}
+```
+
+## State Reducer
+
+For an even more granular control of the state changing process, you can add
+your own reducer on top of the default one. When **stateReducer** is called it
+will receive the previous **state** and the **actionAndChanges** object.
+_actionAndChanges_ contains the change _type_, which explains why the state is
+being changed. It also contains the _changes_ proposed by _Downshift_ that
+should occur as a consequence of that change type. You are supposed to return
+the new state according to your needs.
+
+In the example below, let's say we want to show input characters uppercased all
+the time. In _stateReducer_ we wait for the
+_useCombobox.stateChangeTypes.InputChange_ event, get the proposed _inputValue_
+from the default reducer, uppercase the value, and return the new value along
+with the rest of the changes. We will also uppercase the _inputValue_ also when
+a selection is performed, since on item selection the _inputValue_ is changed
+based on the string version of the selected item.
+
+In all other state change types, we return _Downshift_ default changes.
+
+[CodeSandbox for state reducer example][code-sandbox-state-reducer].
+
+```jsx live
+function ComboBoxExample() {
+  const books = [
+    {author: 'Harper Lee', title: 'To Kill a Mockingbird'},
+    {author: 'Lev Tolstoy', title: 'War and Peace'},
+    {author: 'Fyodor Dostoyevsy', title: 'The Idiot'},
+    {author: 'Oscar Wilde', title: 'A Picture of Dorian Gray'},
+    {author: 'George Orwell', title: '1984'},
+    {author: 'Jane Austen', title: 'Pride and Prejudice'},
+    {author: 'Marcus Aurelius', title: 'Meditations'},
+    {author: 'Fyodor Dostoevsky', title: 'The Brothers Karamazov'},
+    {author: 'Lev Tolstoy', title: 'Anna Karenina'},
+    {author: 'Fyodor Dostoevsky', title: 'Crime and Punishment'},
+  ]
+  function getBooksFilter(inputValue) {
+    return function booksFilter(book) {
+      return (
+        !inputValue ||
+        book.title.toLowerCase().includes(inputValue) ||
+        book.author.toLowerCase().includes(inputValue)
+      )
+    }
+  }
+
+  function ComboBox() {
+    const [items, setItems] = React.useState(books)
+    const stateReducer = React.useCallback((state, actionAndChanges) => {
+      const {type, changes} = actionAndChanges
+      // returning an uppercased version of the item string.
+      switch (type) {
+        case useCombobox.stateChangeTypes.InputChange:
+          return {
+            // return normal changes.
+            ...changes,
+            // but taking the change from default reducer and uppercasing it.
+            inputValue: changes.inputValue.toUpperCase(),
+          }
+        // also on selection.
+        case useCombobox.stateChangeTypes.ItemClick:
+        case useCombobox.stateChangeTypes.InputKeyDownEnter:
+        case useCombobox.stateChangeTypes.InputBlur:
+          return {
+            ...changes,
+            // if we had an item selected.
+            ...(changes.selectedItem && {
+              // we will show it uppercased.
+              inputValue: changes.inputValue.toUpperCase(),
+            }),
+          }
+        default:
+          return changes // otherwise business as usual.
+      }
+    }, [])
+
+    const {
+      isOpen,
+      getToggleButtonProps,
+      getLabelProps,
+      getMenuProps,
+      getInputProps,
+      getComboboxProps,
+      highlightedIndex,
+      getItemProps,
+      selectedItem,
+    } = useCombobox({
+      onInputValueChange({inputValue}) {
+        setItems(books.filter(getBooksFilter(inputValue)))
+      },
+      items,
+      itemToString(item) {
+        return item ? item.title : ''
+      },
+      stateReducer,
+    })
+    return (
+      <div>
+        <div className="w-72 flex flex-col gap-1">
+          <label className="w-fit" {...getLabelProps()}>
+            Choose your favorite book:
+          </label>
+          <div
+            className="flex shadow-sm bg-white gap-0.5"
+            {...getComboboxProps()}
+          >
+            <input className="w-full p-1.5" {...getInputProps()} />
+            <button
+              aria-label="toggle menu"
+              className="px-2"
+              type="button"
+              {...getToggleButtonProps()}
+            >
+              {isOpen ? <>&#8593;</> : <>&#8595;</>}
+            </button>
+          </div>
+        </div>
+        <ul
+          {...getMenuProps()}
+          className="absolute w-72 bg-white shadow-md max-h-80 overflow-scroll"
+        >
+          {isOpen &&
+            items.map((item, index) => (
+              <li
+                className={cx(
+                  highlightedIndex === index && 'bg-blue-300',
+                  selectedItem === item && 'font-bold',
+                  'py-2 px-3 shadow-sm flex flex-col',
+                )}
+                key={`${item.value}${index}`}
+                {...getItemProps({item, index})}
+              >
+                <span>{item.title}</span>
+                <span className="text-sm text-gray-700">{item.author}</span>
+              </li>
+            ))}
+        </ul>
+      </div>
+    )
+  }
+  return <ComboBox />
+}
+```
+
+## Custom window
+
+When using _useCombobox_ in an **iframe** or in any other scenario that uses a
+**window** object different than the default browser **window**, it is required
+to provide that _window_ object to the hook as well. Internally, we rely on the
+_window_ for DOM related logic and working with the wrong object will make the
+hook behave unexpectedly. For example, when using **react-frame-component** to
+produce an _iframe_ container, we should pass its _window_ object to the hook
+like shown below.
+
+[CodeSandbox for custom window example][code-sandbox-custom-window].
+
+```jsx live
+function ComboBoxExample() {
+  const books = [
+    {author: 'Harper Lee', title: 'To Kill a Mockingbird'},
+    {author: 'Lev Tolstoy', title: 'War and Peace'},
+    {author: 'Fyodor Dostoyevsy', title: 'The Idiot'},
+    {author: 'Oscar Wilde', title: 'A Picture of Dorian Gray'},
+    {author: 'George Orwell', title: '1984'},
+    {author: 'Jane Austen', title: 'Pride and Prejudice'},
+    {author: 'Marcus Aurelius', title: 'Meditations'},
+    {author: 'Fyodor Dostoevsky', title: 'The Brothers Karamazov'},
+    {author: 'Lev Tolstoy', title: 'Anna Karenina'},
+    {author: 'Fyodor Dostoevsky', title: 'Crime and Punishment'},
+  ]
+  function getBooksFilter(inputValue) {
+    return function booksFilter(book) {
+      return (
+        !inputValue ||
+        book.title.toLowerCase().includes(inputValue) ||
+        book.author.toLowerCase().includes(inputValue)
+      )
+    }
+  }
+
+  function ComboBox() {
+    const [items, setItems] = React.useState(books)
+    const {window} = useFrame()
+    const {
+      isOpen,
+      getToggleButtonProps,
+      getLabelProps,
+      getMenuProps,
+      getInputProps,
+      getComboboxProps,
+      highlightedIndex,
+      getItemProps,
+      selectedItem,
+    } = useCombobox({
+      onInputValueChange({inputValue}) {
+        setItems(books.filter(getBooksFilter(inputValue)))
+      },
+      items,
+      itemToString(item) {
+        return item ? item.title : ''
+      },
+      environment: window,
+    })
+    return (
+      <div>
+        <div className="w-72 flex flex-col gap-1">
+          <label className="w-fit" {...getLabelProps()}>
+            Choose your favorite book:
+          </label>
+          <div
+            className="flex shadow-sm bg-white gap-0.5"
+            {...getComboboxProps()}
+          >
+            <input className="w-full p-1.5" {...getInputProps()} />
+            <button
+              aria-label="toggle menu"
+              className="px-2"
+              type="button"
+              {...getToggleButtonProps()}
+            >
+              {isOpen ? <>&#8593;</> : <>&#8595;</>}
+            </button>
+          </div>
+        </div>
+        <ul
+          {...getMenuProps()}
+          className="absolute w-72 bg-white shadow-md max-h-40 overflow-scroll"
+        >
+          {isOpen &&
+            items.map((item, index) => (
+              <li
+                className={cx(
+                  highlightedIndex === index && 'bg-blue-300',
+                  selectedItem === item && 'font-bold',
+                  'py-2 px-3 shadow-sm flex flex-col',
+                )}
+                key={`${item.value}${index}`}
+                {...getItemProps({item, index})}
+              >
+                <span>{item.title}</span>
+                <span className="text-sm text-gray-700">{item.author}</span>
+              </li>
+            ))}
+        </ul>
+      </div>
+    )
+  }
+
+  return (
+    <Frame className="h-60 w-full">
+      <link href="/styles.css" rel="stylesheet" />
+      <ComboBox />
+    </Frame>
+  )
+}
+```
+
+## Basic Multiple Selection
+
+The _useCombobox_ hook can be used to create a widget that supports multiple
+selection. In the example below, we mark each selected item with a checked
+checkbox inside the menu list. Every other aspect remains the same as with the
+single selection combobox. For a more interactive example of multiple selection,
+you can use our **useMultipleSelection** hook together with _useCombobox_, as
+shown in the
+[multiple selection section](/use-multiple-selection#usage-with-combobox).
+
+In the example below, we control the _selectedItem_ to always be _null_ and keep
+our selected items in a state variable, _selectedItems_. We use
+_onSelectedItemChange_ prop to retrieve the _selectedItem_ from _useCombobox_,
+which is added to / removed from the _selectedItems_ array. We also use
+_stateReducer_ to keep the menu open on selection by Enter key or by click, and
+also to keep the _highlightedIndex_ to be the most recent selected item.
+
+In order to visually illustrate the selection, we render a checkbox before each
+of them and check only the ones that are selected.
+
+[CodeSandbox for basic multiple selection
+example][code-sandbox-basic-multiple-selection].
+
+```jsx live
+function ComboBoxExample() {
+  const books = [
+    {author: 'Harper Lee', title: 'To Kill a Mockingbird'},
+    {author: 'Lev Tolstoy', title: 'War and Peace'},
+    {author: 'Fyodor Dostoyevsy', title: 'The Idiot'},
+    {author: 'Oscar Wilde', title: 'A Picture of Dorian Gray'},
+    {author: 'George Orwell', title: '1984'},
+    {author: 'Jane Austen', title: 'Pride and Prejudice'},
+    {author: 'Marcus Aurelius', title: 'Meditations'},
+    {author: 'Fyodor Dostoevsky', title: 'The Brothers Karamazov'},
+    {author: 'Lev Tolstoy', title: 'Anna Karenina'},
+    {author: 'Fyodor Dostoevsky', title: 'Crime and Punishment'},
+  ]
+  function getBooksFilter(inputValue) {
+    return function booksFilter(book) {
+      return (
+        !inputValue ||
+        book.title.toLowerCase().includes(inputValue) ||
+        book.author.toLowerCase().includes(inputValue)
+      )
+    }
+  }
+
+  function ComboBox() {
+    const [items, setItems] = React.useState(books)
+    const [selectedItems, setSelectedItems] = useState([])
+
+    const {
+      isOpen,
+      getToggleButtonProps,
+      getLabelProps,
+      getMenuProps,
+      getInputProps,
+      getComboboxProps,
+      highlightedIndex,
+      getItemProps,
+      selectedItem,
+    } = useCombobox({
+      onInputValueChange({inputValue}) {
+        setItems(books.filter(getBooksFilter(inputValue)))
+      },
+      items,
+      itemToString(item) {
+        return item ? item.title : ''
+      },
+      onSelectedItemChange: ({selectedItem}) => {
+        if (!selectedItem) {
+          return
+        }
+        const index = selectedItems.indexOf(selectedItem)
+        if (index > 0) {
+          setSelectedItems([
+            ...selectedItems.slice(0, index),
+            ...selectedItems.slice(index + 1),
+          ])
+        } else if (index === 0) {
+          setSelectedItems([...selectedItems.slice(1)])
+        } else {
+          setSelectedItems([...selectedItems, selectedItem])
+        }
+      },
+      selectedItem: null,
+      stateReducer: (state, actionAndChanges) => {
+        const {changes, type} = actionAndChanges
+        switch (type) {
+          case useCombobox.stateChangeTypes.InputKeyDownEnter:
+          case useCombobox.stateChangeTypes.ItemClick:
+            return {
+              ...changes,
+              isOpen: true, // keep menu open after selection.
+              highlightedIndex: state.highlightedIndex,
+              inputValue: '', // don't add the item string as input value at selection.
+            }
+          case useCombobox.stateChangeTypes.InputBlur:
+            return {
+              ...changes,
+              inputValue: '', // don't add the item string as input value at selection.
+            }
+          default:
+            return changes
+        }
+      },
+    })
+
+    return (
+      <div>
+        <div className="w-72 flex flex-col gap-1">
+          <label className="w-fit" {...getLabelProps()}>
+            Choose your favorite books:
+          </label>
+          <div
+            className="flex shadow-sm bg-white gap-0.5"
+            {...getComboboxProps()}
+          >
+            <input className="w-full p-1.5" {...getInputProps()} />
+            <button
+              aria-label="toggle menu"
+              className="px-2"
+              type="button"
+              {...getToggleButtonProps()}
+            >
+              {isOpen ? <>&#8593;</> : <>&#8595;</>}
+            </button>
+          </div>
+        </div>
+        <ul
+          {...getMenuProps()}
+          className="absolute w-72 bg-white shadow-md max-h-80 overflow-scroll"
+        >
+          {isOpen &&
+            items.map((item, index) => (
+              <li
+                className={cx(
+                  highlightedIndex === index && 'bg-blue-300',
+                  selectedItem === item && 'font-bold',
+                  'py-2 px-3 shadow-sm flex gap-3 items-center',
+                )}
+                key={`${item.value}${index}`}
+                {...getItemProps({item, index})}
+              >
+                <input
+                  type="checkbox"
+                  className="h-5 w-5"
+                  checked={selectedItems.includes(item)}
+                  value={item}
+                  onChange={() => null}
+                />
+                <div className="flex flex-col">
+                  <span>{item.title}</span>
+                  <span className="text-sm text-gray-700">{item.author}</span>
+                </div>
+              </li>
+            ))}
+        </ul>
+      </div>
+    )
+  }
+
+  return <ComboBox />
+}
+```
+
+## Using action props
+
+Action props are functions returned by _useCombobox_ along with the state props
+and getter props. They are handy when you need to execute combobox state changes
+from event handlers, state change handlers or any other external location. In
+the example below we open the menu when the combobox input is focused, and clear
+the selection by clicking on the custom selection clearing button. We use the
+_openMenu_ and _selectItem_ action props in order to achieve these custom
+behaviors.
+
+[CodeSandbox for action props example][code-sandbox-action-props].
+
+```jsx live
+function ComboBoxExample() {
+  const books = [
+    {author: 'Harper Lee', title: 'To Kill a Mockingbird'},
+    {author: 'Lev Tolstoy', title: 'War and Peace'},
+    {author: 'Fyodor Dostoyevsy', title: 'The Idiot'},
+    {author: 'Oscar Wilde', title: 'A Picture of Dorian Gray'},
+    {author: 'George Orwell', title: '1984'},
+    {author: 'Jane Austen', title: 'Pride and Prejudice'},
+    {author: 'Marcus Aurelius', title: 'Meditations'},
+    {author: 'Fyodor Dostoevsky', title: 'The Brothers Karamazov'},
+    {author: 'Lev Tolstoy', title: 'Anna Karenina'},
+    {author: 'Fyodor Dostoevsky', title: 'Crime and Punishment'},
+  ]
+  function getBooksFilter(inputValue) {
+    return function booksFilter(book) {
+      return (
+        !inputValue ||
+        book.title.toLowerCase().includes(inputValue) ||
+        book.author.toLowerCase().includes(inputValue)
+      )
+    }
+  }
+
+  function ComboBox() {
+    const [items, setItems] = React.useState(books)
+    const {
+      isOpen,
+      getToggleButtonProps,
+      getLabelProps,
+      getMenuProps,
+      getInputProps,
+      getComboboxProps,
+      highlightedIndex,
+      getItemProps,
+      selectedItem,
+      selectItem,
+    } = useCombobox({
+      onInputValueChange({inputValue}) {
+        setItems(books.filter(getBooksFilter(inputValue)))
+      },
+      items,
+      itemToString(item) {
+        return item ? item.title : ''
+      },
+    })
+    return (
+      <div>
+        <div className="w-72 flex flex-col gap-1">
+          <label className="w-fit" {...getLabelProps()}>
+            Choose your favorite book:
+          </label>
+          <div
+            className="flex shadow-sm bg-white gap-0.5"
+            {...getComboboxProps()}
+          >
+            <input className="w-full p-1.5" {...getInputProps()} />
+            <button
+              aria-label="clear selection"
+              className="px-2"
+              type="button"
+              onClick={() => {
+                selectItem(null)
+              }}
+              tabIndex={-1}
+            >
+              &#215;
+            </button>
+            <button
+              aria-label="toggle menu"
+              className="px-2"
+              type="button"
+              {...getToggleButtonProps()}
+            >
+              {isOpen ? <>&#8593;</> : <>&#8595;</>}
+            </button>
+          </div>
+        </div>
+        <ul
+          {...getMenuProps()}
+          className="absolute w-72 bg-white shadow-md max-h-80 overflow-scroll"
+        >
+          {isOpen &&
+            items.map((item, index) => (
+              <li
+                className={cx(
+                  highlightedIndex === index && 'bg-blue-300',
+                  selectedItem === item && 'font-bold',
+                  'py-2 px-3 shadow-sm flex flex-col',
+                )}
+                key={`${item.value}${index}`}
+                {...getItemProps({item, index})}
+              >
+                <span>{item.title}</span>
+                <span className="text-sm text-gray-700">{item.author}</span>
+              </li>
+            ))}
+        </ul>
+      </div>
+    )
+  }
+  return <ComboBox />
+}
+```
+
+## Virtualizing items with react-virtual
+
+When the number of items in the dropdown is too big, you may want to consider
+using a virtualization technique to avoid loss in performance due to unnecessary
+elements rendered in the DOM. [react-virtual][react-virtual-github] is a great
+library to provide items virtualization and it's the one we will show in the
+example below. There are other libraries as well, such as
+[react-virtualized][react-virtualized-github] and
+[react-virtual][react-virtual-github].
+
+Since **react-virtual** has its own scrolling library, we will use it instead of
+the default one from _Downshift_. Apart from this it's business as usual in both
+the case of using _useCombobox_ and _useVirtual_, about which you can learn in
+the [react-virtual github link][react-virtual-github].
+
+[CodeSandbox for virtualized list example][code-sandbox-react-virtual].
+
+```jsx live
+function ComboBoxExample() {
+  const books = []
+
+  for (let index = 1; index <= 1000; index++) {
+    books.push({author: `Author ${index}`, title: `Book Number ${index}`})
+  }
+
+  function getBooksFilter(inputValue) {
+    return function booksFilter(book) {
+      return (
+        !inputValue ||
+        book.title.toLowerCase().includes(inputValue) ||
+        book.author.toLowerCase().includes(inputValue)
+      )
+    }
+  }
+  function estimateSize() {
+    return 60
+  }
+
+  function ComboBox() {
+    const [items, setItems] = React.useState(books)
+    const listRef = useRef()
+    const rowVirtualizer = useVirtual({
+      size: items.length,
+      parentRef: listRef,
+      estimateSize,
+      overscan: 2,
+    })
+    const {
+      isOpen,
+      getToggleButtonProps,
+      getLabelProps,
+      getMenuProps,
+      getInputProps,
+      getComboboxProps,
+      highlightedIndex,
+      getItemProps,
+      selectedItem,
+    } = useCombobox({
+      items,
+      onInputValueChange({inputValue}) {
+        setItems(books.filter(getBooksFilter(inputValue)))
+      },
+      itemToString(item) {
+        return item ? item.title : ''
+      },
+      scrollIntoView() {},
+      onHighlightedIndexChange({highlightedIndex}) {
+        rowVirtualizer.scrollToIndex(highlightedIndex)
+      },
+    })
+
+    return (
+      <div>
+        <div className="w-72 flex flex-col gap-1">
+          <label className="w-fit" {...getLabelProps()}>
+            Choose your favorite book:
+          </label>
+          <div
+            className="flex shadow-sm bg-white gap-0.5"
+            {...getComboboxProps()}
+          >
+            <input className="w-full p-1.5" {...getInputProps()} />
+            <button
+              aria-label="toggle menu"
+              className="px-2"
+              type="button"
+              {...getToggleButtonProps()}
+            >
+              {isOpen ? <>&#8593;</> : <>&#8595;</>}
+            </button>
+          </div>
+        </div>
+        <ul
+          {...getMenuProps({ref: listRef})}
+          className="absolute w-72 bg-white shadow-md max-h-80 overflow-scroll"
+        >
+          {isOpen && (
+            <>
+              <li key="total-size" style={{height: rowVirtualizer.totalSize}} />
+              {rowVirtualizer.virtualItems.map(virtualRow => (
+                <li
+                  className={cx(
+                    highlightedIndex === virtualRow.index && 'bg-blue-300',
+                    selectedItem === items[virtualRow.index] && 'font-bold',
+                    'py-2 px-3 shadow-sm flex flex-col',
+                  )}
+                  key={items[virtualRow.index].id}
+                  {...getItemProps({
+                    index: virtualRow.index,
+                    item: items[virtualRow.index],
+                  })}
+                  style={{
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    width: '100%',
+                    height: virtualRow.size,
+                    transform: `translateY(${virtualRow.start}px)`,
+                  }}
+                >
+                  <span>{items[virtualRow.index].title}</span>
+                  <span className="text-sm text-gray-700">
+                    {items[virtualRow.index].author}
+                  </span>
+                </li>
+              ))}
+            </>
+          )}
+        </ul>
+      </div>
+    )
+  }
+  return <ComboBox />
+}
+```
+
+## Other usage examples
+
+To see more cool stuff you can build with _useCombobox_, explore the [examples
+repository][examples-code-sandbox].
+
+[combobox-aria]:
+  https://w3c.github.io/aria-practices/examples/combobox/combobox-autocomplete-list.html
+[use-combobox-github]:
+  https://github.com/downshift-js/downshift/tree/master/src/hooks/useCombobox
+[code-sandbox-basic-usage]:
+  https://codesandbox.io/s/github/kentcdodds/downshift-examples?file=/src/hooks/useCombobox/basic-usage.js
+[code-sandbox-material-ui-usage]:
+  https://codesandbox.io/s/github/kentcdodds/downshift-examples?file=/src/hooks/useCombobox/material-ui/index.js
+[code-sandbox-controlling-state]:
+  https://codesandbox.io/s/github/kentcdodds/downshift-examples?file=/src/hooks/useCombobox/controlling-state.js
+[code-sandbox-state-reducer]:
+  https://codesandbox.io/s/github/kentcdodds/downshift-examples?file=/src/hooks/useCombobox/state-reducer.js
+[code-sandbox-custom-window]:
+  https://codesandbox.io/s/github/kentcdodds/downshift-examples?file=/src/hooks/useCombobox/iframe.js
+[code-sandbox-basic-multiple-selection]:
+  https://codesandbox.io/s/github/kentcdodds/downshift-examples?file=/src/hooks/useCombobox/basic-multiple-selection.js
+[code-sandbox-action-props]:
+  https://codesandbox.io/s/github/kentcdodds/downshift-examples?file=/src/hooks/useCombobox/action-props.js
+[code-sandbox-react-virtual]:
+  https://codesandbox.io/s/github/kentcdodds/downshift-examples?file=/src/hooks/useCombobox/react-virtual.js
+[examples-code-sandbox]:
+  https://codesandbox.io/s/github/kentcdodds/downshift-examples
+[react-virtual-github]: https://github.com/tannerlinsley/react-virtual
+[react-virtualized-github]: https://github.com/bvaughn/react-virtualized
+[react-window-github]: https://github.com/bvaughn/react-window

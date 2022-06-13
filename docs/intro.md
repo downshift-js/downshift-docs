@@ -1,18 +1,19 @@
 ---
-name: Home
-route: /
-order: 1
+title: Introduction
+description: Downshift Library Documentation
+slug: /
+sidebar_position: 1
 ---
 
 # Downshift 🏎
 
-Primitives to build simple, flexible, `WAI-ARIA` compliant React
-`autocomplete/combobox` or select dropdown components.
+Primitives to build simple, flexible, **WAI-ARI** compliant React
+**autocomplete/combobox** or **select** dropdown components.
 
 ## The problem
 
-You need an `autocomplete/combobox` or a `select` experience in your application and
-you want it to be accessible. You also want it to be simple and flexible to
+You need an _autocomplete/combobox_ or a _select_ experience in your application
+and you want it to be accessible. You also want it to be simple and flexible to
 account for your use cases. Finally, it should follow the ARIA design pattern
 for a [combobox][combobox-aria] or a [select][select-aria], depending on your
 use case.
@@ -39,6 +40,6 @@ components accessible and functional while giving developers complete freedom
 when building the UI.
 
 [combobox-aria]:
-  https://www.w3.org/TR/wai-aria-practices/examples/combobox/aria1.1pattern/listbox-combo.html
+  https://w3c.github.io/aria-practices/examples/combobox/combobox-autocomplete-list.html
 [select-aria]:
-  https://www.w3.org/TR/wai-aria-practices/examples/listbox/listbox-collapsible.html
+  https://w3c.github.io/aria-practices/examples/combobox/combobox-select-only.html
