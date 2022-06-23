@@ -1,41 +1,18 @@
-# Website
+# Downshift Docs
 
-This website is built using [Docusaurus 2](https://docusaurus.io/), a modern static website generator.
+Repository that hosts the Downshift Docsite. All Downshift examples should be hosted here, along with links to their Codesandbox equivalents, which should be hosted on the [examples repository](https://github.com/downshift-js/downshift-examples).
 
-### Installation
+## Develop
 
-```
-$ yarn
-```
+```sh
+npm install
 
-### Local Development
-
-```
-$ yarn start
+npm run serve
 ```
 
-This command starts a local development server and opens up a browser window. Most changes are reflected live without having to restart the server.
+This will start the `docusaurus` app in development mode.
 
-### Build
 
-```
-$ yarn build
-```
+## Contribute
 
-This command generates static content into the `build` directory and can be served using any static contents hosting service.
-
-### Deployment
-
-Using SSH:
-
-```
-$ USE_SSH=true yarn deploy
-```
-
-Not using SSH:
-
-```
-$ GIT_USER=<Your GitHub username> yarn deploy
-```
-
-If you are using GitHub pages for hosting, this command is a convenient way to build the website and push to the `gh-pages` branch.
+A great opportunity is to have all the sandboxes of the examples from this docsite in the examples repository. Also to have all examples from the examples repository hosted on the docsite as well.
