@@ -121,7 +121,11 @@ function ComboBoxExample() {
             className="flex shadow-sm bg-white gap-0.5"
             {...getComboboxProps()}
           >
-            <input className="w-full p-1.5" {...getInputProps()} />
+            <input
+              placeholder="Best book ever"
+              className="w-full p-1.5"
+              {...getInputProps()}
+            />
             <button
               aria-label="toggle menu"
               className="px-2"
@@ -134,7 +138,7 @@ function ComboBoxExample() {
         </div>
         <ul
           {...getMenuProps()}
-          className="absolute w-72 bg-white shadow-md max-h-80 overflow-scroll"
+          className="absolute p-0 w-72 bg-white shadow-md max-h-80 overflow-scroll"
         >
           {isOpen &&
             items.map((item, index) => (
@@ -250,8 +254,8 @@ function ComboBoxExample() {
             {...getComboboxProps()}
           >
             <Input
+              placeholder="Best book ever"
               className="w-full p-1.5"
-              placeholder="Select a book"
               {...getInputProps({refKey: 'inputRef'})}
             />
             <IconButton
@@ -368,7 +372,11 @@ function ComboBoxExample() {
             className="flex shadow-sm bg-white gap-0.5"
             {...getComboboxProps()}
           >
-            <input className="w-full p-1.5" {...getInputProps()} />
+            <input
+              placeholder="Best book ever"
+              className="w-full p-1.5"
+              {...getInputProps()}
+            />
             <button
               aria-label="toggle menu"
               className="px-2"
@@ -381,7 +389,7 @@ function ComboBoxExample() {
         </div>
         <ul
           {...getMenuProps()}
-          className="absolute w-72 bg-white shadow-md max-h-80 overflow-scroll"
+          className="absolute p-0 w-72 bg-white shadow-md max-h-80 overflow-scroll"
         >
           {isOpen &&
             items.map((item, index) => (
@@ -517,7 +525,11 @@ function ComboBoxExample() {
             className="flex shadow-sm bg-white gap-0.5"
             {...getComboboxProps()}
           >
-            <input className="w-full p-1.5" {...getInputProps()} />
+            <input
+              placeholder="Best book ever"
+              className="w-full p-1.5"
+              {...getInputProps()}
+            />
             <button
               aria-label="toggle menu"
               className="px-2"
@@ -530,7 +542,7 @@ function ComboBoxExample() {
         </div>
         <ul
           {...getMenuProps()}
-          className="absolute w-72 bg-white shadow-md max-h-80 overflow-scroll"
+          className="absolute p-0 w-72 bg-white shadow-md max-h-80 overflow-scroll"
         >
           {isOpen &&
             items.map((item, index) => (
@@ -624,7 +636,11 @@ function ComboBoxExample() {
             className="flex shadow-sm bg-white gap-0.5"
             {...getComboboxProps()}
           >
-            <input className="w-full p-1.5" {...getInputProps()} />
+            <input
+              placeholder="Best book ever"
+              className="w-full p-1.5"
+              {...getInputProps()}
+            />
             <button
               aria-label="toggle menu"
               className="px-2"
@@ -637,7 +653,7 @@ function ComboBoxExample() {
         </div>
         <ul
           {...getMenuProps()}
-          className="absolute w-72 bg-white shadow-md max-h-40 overflow-scroll"
+          className="absolute p-0 w-72 bg-white shadow-md max-h-40 overflow-scroll"
         >
           {isOpen &&
             items.map((item, index) => (
@@ -786,7 +802,11 @@ function ComboBoxExample() {
             className="flex shadow-sm bg-white gap-0.5"
             {...getComboboxProps()}
           >
-            <input className="w-full p-1.5" {...getInputProps()} />
+            <input
+              placeholder="Best book ever"
+              className="w-full p-1.5"
+              {...getInputProps()}
+            />
             <button
               aria-label="toggle menu"
               className="px-2"
@@ -799,7 +819,7 @@ function ComboBoxExample() {
         </div>
         <ul
           {...getMenuProps()}
-          className="absolute w-72 bg-white shadow-md max-h-80 overflow-scroll"
+          className="absolute p-0 w-72 bg-white shadow-md max-h-80 overflow-scroll"
         >
           {isOpen &&
             items.map((item, index) => (
@@ -813,6 +833,7 @@ function ComboBoxExample() {
                 {...getItemProps({item, index})}
               >
                 <input
+                  placeholder="Best book ever"
                   type="checkbox"
                   className="h-5 w-5"
                   checked={selectedItems.includes(item)}
@@ -902,7 +923,11 @@ function ComboBoxExample() {
             className="flex shadow-sm bg-white gap-0.5"
             {...getComboboxProps()}
           >
-            <input className="w-full p-1.5" {...getInputProps()} />
+            <input
+              placeholder="Best book ever"
+              className="w-full p-1.5"
+              {...getInputProps()}
+            />
             <button
               aria-label="clear selection"
               className="px-2"
@@ -926,7 +951,7 @@ function ComboBoxExample() {
         </div>
         <ul
           {...getMenuProps()}
-          className="absolute w-72 bg-white shadow-md max-h-80 overflow-scroll"
+          className="absolute p-0 w-72 bg-white shadow-md max-h-80 overflow-scroll"
         >
           {isOpen &&
             items.map((item, index) => (
@@ -1032,7 +1057,11 @@ function ComboBoxExample() {
             className="flex shadow-sm bg-white gap-0.5"
             {...getComboboxProps()}
           >
-            <input className="w-full p-1.5" {...getInputProps()} />
+            <input
+              placeholder="Best book ever"
+              className="w-full p-1.5"
+              {...getInputProps()}
+            />
             <button
               aria-label="toggle menu"
               className="px-2"
@@ -1045,7 +1074,7 @@ function ComboBoxExample() {
         </div>
         <ul
           {...getMenuProps({ref: listRef})}
-          className="absolute w-72 bg-white shadow-md max-h-80 overflow-scroll"
+          className="absolute p-0 w-72 bg-white shadow-md max-h-80 overflow-scroll"
         >
           {isOpen && (
             <>
