@@ -73,7 +73,7 @@ this case.
 [CodeSandbox for combobox usage example][code-sandbox-combobox-usage].
 
 ```jsx live
-function ComboBoxExample() {
+function MultipleComboBoxExample() {
   const books = [
     {author: 'Harper Lee', title: 'To Kill a Mockingbird'},
     {author: 'Lev Tolstoy', title: 'War and Peace'},
@@ -86,26 +86,49 @@ function ComboBoxExample() {
     {author: 'Lev Tolstoy', title: 'Anna Karenina'},
     {author: 'Fyodor Dostoevsky', title: 'Crime and Punishment'},
   ]
-  function getBooksFilter(inputValue, selectedItems) {
-    return function booksFilter(book) {
+  const initialSelectedItems = [books[0], books[1]]
+
+  function getFilteredBooks(selectedItems, inputValue) {
+    const lowerCasedInputValue = inputValue.toLowerCase()
+
+    return books.filter(function filterBook(book) {
       return (
-        (!inputValue ||
-          book.title.toLowerCase().includes(inputValue) ||
-          book.author.toLowerCase().includes(inputValue)) &&
-        selectedItems.indexOf(book) < 0
+        !selectedItems.includes(book) &&
+        book.title.toLowerCase().includes(lowerCasedInputValue) &&
+        book.author.toLowerCase().includes(lowerCasedInputValue)
       )
-    }
+    })
   }
 
-  function ComboBox() {
-    const [items, setItems] = React.useState(books)
+  function MultipleComboBox() {
+    const [inputValue, setInputValue] = React.useState('')
+    const [selectedItems, setSelectedItems] =
+      React.useState(initialSelectedItems)
+    const items = React.useMemo(
+      () => getFilteredBooks(selectedItems, inputValue),
+      [selectedItems, inputValue],
+    )
     const {
       getSelectedItemProps,
       getDropdownProps,
       addSelectedItem,
       removeSelectedItem,
+    } = useMultipleSelection({
       selectedItems,
-    } = useMultipleSelection({initialSelectedItems: [items[0], items[1]]})
+      onStateChange({selectedItems: newSelectedItems, type}) {
+        switch (type) {
+          case useMultipleSelection.stateChangeTypes
+            .SelectedItemKeyDownBackspace:
+          case useMultipleSelection.stateChangeTypes.SelectedItemKeyDownDelete:
+          case useMultipleSelection.stateChangeTypes.DropdownKeyDownBackspace:
+          case useMultipleSelection.stateChangeTypes.FunctionRemoveSelectedItem:
+            setSelectedItems(newSelectedItems)
+            break
+          default:
+            break
+        }
+      },
+    })
     const {
       isOpen,
       getToggleButtonProps,
@@ -116,7 +139,6 @@ function ComboBoxExample() {
       highlightedIndex,
       getItemProps,
       selectedItem,
-      inputValue,
     } = useCombobox({
       items,
       itemToString(item) {
@@ -133,20 +155,26 @@ function ComboBoxExample() {
           case useCombobox.stateChangeTypes.InputBlur:
             return {
               ...changes,
-              isOpen: !!changes.selectedItem, // keep the menu open after selection.
+              ...(changes.selectedItem && {isOpen: true, highlightedIndex: 0}),
             }
+          default:
+            return changes
         }
-        return changes
       },
-      onStateChange({inputValue, type, selectedItem}) {
-        setItems(books.filter(getBooksFilter(inputValue, selectedItems)))
-
+      onStateChange({
+        inputValue: newInputValue,
+        type,
+        selectedItem: newSelectedItem,
+      }) {
         switch (type) {
           case useCombobox.stateChangeTypes.InputKeyDownEnter:
           case useCombobox.stateChangeTypes.ItemClick:
-            if (selectedItem) {
-              addSelectedItem(selectedItem)
-            }
+            setSelectedItems([...selectedItems, newSelectedItem])
+            break
+
+          case useCombobox.stateChangeTypes.InputChange:
+            setInputValue(newInputValue)
+
             break
           default:
             break
@@ -162,21 +190,24 @@ function ComboBoxExample() {
           </label>
           <div className="shadow-sm bg-white inline-flex gap-2 items-center flex-wrap p-1.5">
             {selectedItems.map(function renderSelectedItem(
-              selectedItem,
+              selectedItemForRender,
               index,
             ) {
               return (
                 <span
                   className="bg-gray-100 rounded-md px-1 focus:bg-red-400"
                   key={`selected-item-${index}`}
-                  {...getSelectedItemProps({selectedItem, index})}
+                  {...getSelectedItemProps({
+                    selectedItem: selectedItemForRender,
+                    index,
+                  })}
                 >
-                  {selectedItem.title}
+                  {selectedItemForRender.title}
                   <span
                     className="px-1 cursor-pointer"
                     onClick={e => {
                       e.stopPropagation()
-                      removeSelectedItem(selectedItem)
+                      removeSelectedItem(selectedItemForRender)
                     }}
                   >
                     &#10005;
@@ -202,7 +233,7 @@ function ComboBoxExample() {
         </div>
         <ul
           {...getMenuProps()}
-          className="absolute bg-white shadow-md max-h-80 overflow-scroll w-inherit"
+          className="absolute p-0 bg-white shadow-md max-h-80 overflow-scroll w-inherit"
         >
           {isOpen &&
             items.map((item, index) => (
@@ -223,7 +254,7 @@ function ComboBoxExample() {
       </div>
     )
   }
-  return <ComboBox />
+  return <MultipleComboBox />
 }
 ```
 
@@ -237,7 +268,7 @@ the developer.
 [CodeSandbox for select usage example][code-sandbox-select-usage].
 
 ```jsx live
-function SelectExample() {
+function MultipleSelectExample() {
   const books = [
     {author: 'Harper Lee', title: 'To Kill a Mockingbird'},
     {author: 'Lev Tolstoy', title: 'War and Peace'},
@@ -256,7 +287,7 @@ function SelectExample() {
     }
   }
 
-  function Select() {
+  function MultipleSelect() {
     const {
       getSelectedItemProps,
       getDropdownProps,
@@ -313,21 +344,24 @@ function SelectExample() {
           </label>
           <div className="shadow-sm bg-white inline-flex gap-2 items-center flex-wrap p-1.5 border-2 focus-within:border-gray-400">
             {selectedItems.map(function renderSelectedItem(
-              selectedItem,
+              selectedItemForRender,
               index,
             ) {
               return (
                 <span
                   className="bg-gray-100 rounded-md px-1 focus:bg-graborder-gray-400"
                   key={`selected-item-${index}`}
-                  {...getSelectedItemProps({selectedItem, index})}
+                  {...getSelectedItemProps({
+                    selectedItem: selectedItemForRender,
+                    index,
+                  })}
                 >
-                  {selectedItem.title}
+                  {selectedItemForRender.title}
                   <span
                     className="px-1 cursor-pointer"
                     onClick={e => {
                       e.stopPropagation()
-                      removeSelectedItem(selectedItem)
+                      removeSelectedItem(selectedItemForRender)
                     }}
                   >
                     &#10005;
@@ -348,7 +382,7 @@ function SelectExample() {
         </div>
         <ul
           {...getMenuProps()}
-          className="absolute bg-white shadow-md max-h-80 overflow-scroll w-inherit"
+          className="absolute p-0 bg-white shadow-md max-h-80 overflow-scroll w-inherit"
         >
           {isOpen &&
             items.map((item, index) => (
@@ -369,7 +403,7 @@ function SelectExample() {
       </div>
     )
   }
-  return <Select />
+  return <MultipleSelect />
 }
 ```
 
