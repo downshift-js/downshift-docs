@@ -94,8 +94,8 @@ function MultipleComboBoxExample() {
     return books.filter(function filterBook(book) {
       return (
         !selectedItems.includes(book) &&
-        book.title.toLowerCase().includes(lowerCasedInputValue) &&
-        book.author.toLowerCase().includes(lowerCasedInputValue)
+        (book.title.toLowerCase().includes(lowerCasedInputValue) ||
+          book.author.toLowerCase().includes(lowerCasedInputValue))
       )
     })
   }
