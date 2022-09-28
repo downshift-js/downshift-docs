@@ -189,7 +189,7 @@ strings. As a result, the _itemToString_ prop is passed to _useCombobox_. It
 will return the string equivalent of the item which will be used for displaying
 the item in the _input_ once selected and for the a11y _aria-live_ message that
 will occur on every item selection: _${itemToString(item)} has been selected_.
-_item.title_ is chosen to be the string equialent of each item object, so our
+_item.title_ is chosen to be the string equivalent of each item object, so our
 prop will be passed as _itemToString: item => item ? item.title : ''_. Since
 clearing the input by _Escape_ key is also considered an element change, we will
 return an empty string in this case.
