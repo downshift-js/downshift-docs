@@ -37,18 +37,17 @@ result the getter props and state variables. The hooks also has the
 _onInputValueChange_ prop passed in order to filter the items in the list
 according to the input value. The getter props are used as follows:
 
-| Returned prop          | Element                     | Comments                                                                                     |
-| ---------------------- | --------------------------- | -------------------------------------------------------------------------------------------- |
-| `getLabelProps`        | `<label className="w-fit">` | Call and destructure its returned object on the label element.                               |
-| `getToggleButtonProps` | `<button>`                  | Call and destructure its returned object on the toggle button (if any).                      |
-| `getComboboxProps`     | `<div>`                     | Call and destructure its returned object on the input and toggle button parent.              |
-| `getInputProps`        | `<input>`                   | Call and destructure its returned object on the input element.                               |
-| `getMenuProps`         | `<ul>`                      | Call and destructure its returned object on the menu element.                                |
-| `getItemProps`         | `<li>`                      | Call with `index` or `item` and destructure its returned object on each menu item element.   |
-| `isOpen`               |                             | State value with the open state of the menu. Used below for conditionally showing the items. |
-| `highlightedIndex`     |                             | State value with the index of thehighlighted menu item. Used below for styling.              |
-| `selectedItem`         |                             | State value with the item that is selected. Used below for styling.                          |
-| `inputValue`           |                             | State value with the search query. Used below for filtering the items.                       |
+| Returned prop          | Element    | Comments                                                                                     |
+| ---------------------- | ---------- | -------------------------------------------------------------------------------------------- |
+| `getLabelProps`        | `<label>`  | Call and destructure its returned object on the label element.                               |
+| `getToggleButtonProps` | `<button>` | Call and destructure its returned object on the toggle button (if any).                      |
+| `getInputProps`        | `<input>`  | Call and destructure its returned object on the input element.                               |
+| `getMenuProps`         | `<ul>`     | Call and destructure its returned object on the menu element.                                |
+| `getItemProps`         | `<li>`     | Call with `index` or `item` and destructure its returned object on each menu item element.   |
+| `isOpen`               |            | State value with the open state of the menu. Used below for conditionally showing the items. |
+| `highlightedIndex`     |            | State value with the index of thehighlighted menu item. Used below for styling.              |
+| `selectedItem`         |            | State value with the item that is selected. Used below for styling.                          |
+| `inputValue`           |            | State value with the search query. Used below for filtering the items.                       |
 
 For a complete documentation on all the returned props, hook props and more
 information check out the [Github Page][use-combobox-github].
@@ -97,7 +96,6 @@ function ComboBoxExample() {
       getLabelProps,
       getMenuProps,
       getInputProps,
-      getComboboxProps,
       highlightedIndex,
       getItemProps,
       selectedItem,
@@ -117,10 +115,7 @@ function ComboBoxExample() {
           <label className="w-fit" {...getLabelProps()}>
             Choose your favorite book:
           </label>
-          <div
-            className="flex shadow-sm bg-white gap-0.5"
-            {...getComboboxProps()}
-          >
+          <div className="flex shadow-sm bg-white gap-0.5">
             <input
               placeholder="Best book ever"
               className="w-full p-1.5"
@@ -232,7 +227,6 @@ function ComboBoxExample() {
       highlightedIndex,
       getItemProps,
       getInputProps,
-      getComboboxProps,
     } = useCombobox({
       items,
       onInputValueChange({inputValue}) {
@@ -246,13 +240,10 @@ function ComboBoxExample() {
     return (
       <Box>
         <Box className="w-72 flex flex-col gap-1">
-          <FormLabel classeName="w-fit" {...getLabelProps()}>
+          <FormLabel className="w-fit" {...getLabelProps()}>
             Choose your favorite book:
           </FormLabel>
-          <Box
-            className="flex shadow-sm bg-white gap-0.5"
-            {...getComboboxProps()}
-          >
+          <Box className="flex shadow-sm bg-white gap-0.5">
             <Input
               placeholder="Best book ever"
               className="w-full p-1.5"
@@ -347,7 +338,6 @@ function ComboBoxExample() {
       getLabelProps,
       getMenuProps,
       getInputProps,
-      getComboboxProps,
       highlightedIndex,
       getItemProps,
     } = useCombobox({
@@ -368,10 +358,7 @@ function ComboBoxExample() {
           <label className="w-fit" {...getLabelProps()}>
             Choose your favorite book:
           </label>
-          <div
-            className="flex shadow-sm bg-white gap-0.5"
-            {...getComboboxProps()}
-          >
+          <div className="flex shadow-sm bg-white gap-0.5">
             <input
               placeholder="Best book ever"
               className="w-full p-1.5"
@@ -501,7 +488,6 @@ function ComboBoxExample() {
       getLabelProps,
       getMenuProps,
       getInputProps,
-      getComboboxProps,
       highlightedIndex,
       getItemProps,
       selectedItem,
@@ -521,10 +507,7 @@ function ComboBoxExample() {
           <label className="w-fit" {...getLabelProps()}>
             Choose your favorite book:
           </label>
-          <div
-            className="flex shadow-sm bg-white gap-0.5"
-            {...getComboboxProps()}
-          >
+          <div className="flex shadow-sm bg-white gap-0.5">
             <input
               placeholder="Best book ever"
               className="w-full p-1.5"
@@ -612,7 +595,6 @@ function ComboBoxExample() {
       getLabelProps,
       getMenuProps,
       getInputProps,
-      getComboboxProps,
       highlightedIndex,
       getItemProps,
       selectedItem,
@@ -632,10 +614,7 @@ function ComboBoxExample() {
           <label className="w-fit" {...getLabelProps()}>
             Choose your favorite book:
           </label>
-          <div
-            className="flex shadow-sm bg-white gap-0.5"
-            {...getComboboxProps()}
-          >
+          <div className="flex shadow-sm bg-white gap-0.5">
             <input
               placeholder="Best book ever"
               className="w-full p-1.5"
@@ -741,7 +720,6 @@ function ComboBoxExample() {
       getLabelProps,
       getMenuProps,
       getInputProps,
-      getComboboxProps,
       highlightedIndex,
       getItemProps,
       selectedItem,
@@ -798,10 +776,7 @@ function ComboBoxExample() {
           <label className="w-fit" {...getLabelProps()}>
             Choose your favorite books:
           </label>
-          <div
-            className="flex shadow-sm bg-white gap-0.5"
-            {...getComboboxProps()}
-          >
+          <div className="flex shadow-sm bg-white gap-0.5">
             <input
               placeholder="Best book ever"
               className="w-full p-1.5"
@@ -899,7 +874,6 @@ function ComboBoxExample() {
       getLabelProps,
       getMenuProps,
       getInputProps,
-      getComboboxProps,
       highlightedIndex,
       getItemProps,
       selectedItem,
@@ -919,10 +893,7 @@ function ComboBoxExample() {
           <label className="w-fit" {...getLabelProps()}>
             Choose your favorite book:
           </label>
-          <div
-            className="flex shadow-sm bg-white gap-0.5"
-            {...getComboboxProps()}
-          >
+          <div className="flex shadow-sm bg-white gap-0.5">
             <input
               placeholder="Best book ever"
               className="w-full p-1.5"
@@ -1029,7 +1000,6 @@ function ComboBoxExample() {
       getLabelProps,
       getMenuProps,
       getInputProps,
-      getComboboxProps,
       highlightedIndex,
       getItemProps,
       selectedItem,
@@ -1053,10 +1023,7 @@ function ComboBoxExample() {
           <label className="w-fit" {...getLabelProps()}>
             Choose your favorite book:
           </label>
-          <div
-            className="flex shadow-sm bg-white gap-0.5"
-            {...getComboboxProps()}
-          >
+          <div className="flex shadow-sm bg-white gap-0.5">
             <input
               placeholder="Best book ever"
               className="w-full p-1.5"

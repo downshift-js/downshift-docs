@@ -34,15 +34,15 @@ between them, screen reader support, highlight by character keys etc.
 In the examples below, we use the _useSelect_ hook and destructure the getter
 props and state variables it returns. These are used in the following way:
 
-| Returned prop          | Element    | Comments                                                                                     |
-| ---------------------- | ---------- | -------------------------------------------------------------------------------------------- |
-| `getLabelProps`        | `<label>`  | Call and destructure its returned object on the label element.                               |
-| `getToggleButtonProps` | `<button>` | Call and destructure its returned object on the toggle button.                      |
-| `getMenuProps`         | `<ul>`     | Call and destructure its returned object on the menu element.                                |
-| `getItemProps`         | `<li>`     | Call with `index` or `item` and destructure its returned object on each menu item element.   |
-| `isOpen`               |            | State value with the open state of the menu. Used below for conditionally showing the items. |
-| `highlightedIndex`     |            | State value with the index of thehighlighted menu item. Used below for styling.              |
-| `selectedItem`         |            | State value with the item that is selected. Used below for styling.                          |
+| Returned prop          | Element   | Comments                                                                                     |
+| ---------------------- | --------- | -------------------------------------------------------------------------------------------- |
+| `getLabelProps`        | `<label>` | Call and destructure its returned object on the label element.                               |
+| `getToggleButtonProps` | `<div>`   | Call and destructure its returned object on the toggle element.                              |
+| `getMenuProps`         | `<ul>`    | Call and destructure its returned object on the menu element.                                |
+| `getItemProps`         | `<li>`    | Call with `index` or `item` and destructure its returned object on each menu item element.   |
+| `isOpen`               |           | State value with the open state of the menu. Used below for conditionally showing the items. |
+| `highlightedIndex`     |           | State value with the index of thehighlighted menu item. Used below for styling.              |
+| `selectedItem`         |           | State value with the item that is selected. Used below for styling.                          |
 
 For a complete documentation on all the returned props, hook props and more
 information check out the [Github Page][use-select-github].
@@ -92,19 +92,17 @@ function SelectExample() {
       <div>
         <div className="w-72 flex flex-col gap-1">
           <label {...getLabelProps()}>Choose your favorite book:</label>
-          <button
-            aria-label="toggle menu"
-            className="p-2 bg-white flex justify-between"
-            type="button"
+          <div
+            className="p-2 bg-white flex justify-between cursor-pointer"
             {...getToggleButtonProps()}
           >
             <span>{selectedItem ? selectedItem.title : 'Elements'}</span>
             <span className="px-2">{isOpen ? <>&#8593;</> : <>&#8595;</>}</span>
-          </button>
+          </div>
         </div>
         <ul
           {...getMenuProps()}
-          className="absolute w-72 bg-white shadow-md max-h-80 overflow-scroll"
+          className="absolute w-72 p-0 bg-white shadow-md max-h-80 overflow-scroll"
         >
           {isOpen &&
             books.map((item, index) => (
@@ -197,6 +195,7 @@ function SelectExample() {
             Choose your favorite book:
           </FormLabel>
           <Button
+            component="div"
             variant="contained"
             color="secondary"
             className="flex !justify-between"
@@ -293,19 +292,17 @@ function SelectExample() {
       <div>
         <div className="w-72 flex flex-col gap-1">
           <label {...getLabelProps()}>Choose your favorite book:</label>
-          <button
-            aria-label="toggle menu"
-            className="p-2 bg-white flex justify-between"
-            type="button"
+          <div
+            className="p-2 bg-white flex justify-between cursor-pointer"
             {...getToggleButtonProps()}
           >
             <span>{selectedItem ? selectedItem.title : 'Elements'}</span>
             <span className="px-2">{isOpen ? <>&#8593;</> : <>&#8595;</>}</span>
-          </button>
+          </div>
         </div>
         <ul
           {...getMenuProps()}
-          className="absolute w-72 bg-white shadow-md max-h-80 overflow-scroll"
+          className="absolute w-72 p-0 bg-white shadow-md max-h-80 overflow-scroll"
         >
           {isOpen &&
             books.map((item, index) => (
@@ -359,6 +356,46 @@ In all other state change types, we return _useSelect_ default changes.
 
 ```jsx live
 function SelectExample() {
+  const books = [
+    {author: 'Harper Lee', title: 'To Kill a Mockingbird'},
+    {author: 'Lev Tolstoy', title: 'War and Peace'},
+    {author: 'Fyodor Dostoyevsy', title: 'The Idiot'},
+    {author: 'Oscar Wilde', title: 'A Picture of Dorian Gray'},
+    {author: 'George Orwell', title: '1984'},
+    {author: 'Jane Austen', title: 'Pride and Prejudice'},
+    {author: 'Marcus Aurelius', title: 'Meditations'},
+    {author: 'Fyodor Dostoevsky', title: 'The Brothers Karamazov'},
+    {author: 'Lev Tolstoy', title: 'Anna Karenina'},
+    {author: 'Fyodor Dostoevsky', title: 'Crime and Punishment'},
+  ]
+  function itemToString(item) {
+    return item ? item.title : ''
+  }
+  function stateReducer(state, actionAndChanges) {
+    const {type, changes} = actionAndChanges
+
+    if (state.isOpen) {
+      return changes
+    }
+
+    switch (type) {
+      case useSelect.stateChangeTypes.ToggleButtonKeyDownArrowDown:
+        const nextItemIndex = books.indexOf(state.selectedItem)
+        if (nextItemIndex === books.length - 1) {
+          return {selectedItem: books[0]}
+        }
+        return {selectedItem: books[nextItemIndex + 1]}
+      case useSelect.stateChangeTypes.ToggleButtonKeyDownArrowUp:
+        const previousItemIndex = books.indexOf(state.selectedItem)
+        if (previousItemIndex === 0) {
+          return {selectedItem: books[books.length - 1]}
+        }
+        return {selectedItem: books[previousItemIndex - 1]}
+      default:
+        return changes // otherwise business as usual.
+    }
+  }
+
   function Select() {
     const {
       isOpen,
@@ -378,19 +415,17 @@ function SelectExample() {
       <div>
         <div className="w-72 flex flex-col gap-1">
           <label {...getLabelProps()}>Choose your favorite book:</label>
-          <button
-            aria-label="toggle menu"
-            className="p-2 bg-white flex justify-between"
-            type="button"
+          <div
+            className="p-2 bg-white flex justify-between cursor-pointer"
             {...getToggleButtonProps()}
           >
             <span>{selectedItem ? selectedItem.title : 'Elements'}</span>
             <span className="px-2">{isOpen ? <>&#8593;</> : <>&#8595;</>}</span>
-          </button>
+          </div>
         </div>
         <ul
           {...getMenuProps()}
-          className="absolute w-72 bg-white shadow-md max-h-80 overflow-scroll"
+          className="absolute w-72 p-0 bg-white shadow-md max-h-80 overflow-scroll"
         >
           {isOpen &&
             books.map((item, index) => (
@@ -410,41 +445,6 @@ function SelectExample() {
         </ul>
       </div>
     )
-  }
-
-  const books = [
-    {author: 'Harper Lee', title: 'To Kill a Mockingbird'},
-    {author: 'Lev Tolstoy', title: 'War and Peace'},
-    {author: 'Fyodor Dostoyevsy', title: 'The Idiot'},
-    {author: 'Oscar Wilde', title: 'A Picture of Dorian Gray'},
-    {author: 'George Orwell', title: '1984'},
-    {author: 'Jane Austen', title: 'Pride and Prejudice'},
-    {author: 'Marcus Aurelius', title: 'Meditations'},
-    {author: 'Fyodor Dostoevsky', title: 'The Brothers Karamazov'},
-    {author: 'Lev Tolstoy', title: 'Anna Karenina'},
-    {author: 'Fyodor Dostoevsky', title: 'Crime and Punishment'},
-  ]
-  function itemToString(item) {
-    return item ? item.title : ''
-  }
-  function stateReducer(state, actionAndChanges) {
-    const {type, changes} = actionAndChanges
-    switch (type) {
-      case useSelect.stateChangeTypes.ToggleButtonKeyDownArrowDown:
-        const nextItemIndex = books.indexOf(state.selectedItem)
-        if (nextItemIndex === books.length - 1) {
-          return {selectedItem: books[0]}
-        }
-        return {selectedItem: books[nextItemIndex + 1]}
-      case useSelect.stateChangeTypes.ToggleButtonKeyDownArrowUp:
-        const previousItemIndex = books.indexOf(state.selectedItem)
-        if (previousItemIndex === 0) {
-          return {selectedItem: books[books.length - 1]}
-        }
-        return {selectedItem: books[previousItemIndex - 1]}
-      default:
-        return changes // otherwise business as usual.
-    }
   }
 
   return <Select />
@@ -501,19 +501,17 @@ function SelectExample() {
       <div>
         <div className="w-72 flex flex-col gap-1">
           <label {...getLabelProps()}>Choose your favorite book:</label>
-          <button
-            aria-label="toggle menu"
-            className="p-2 bg-white flex justify-between"
-            type="button"
+          <div
+            className="p-2 bg-white flex justify-between cursor-pointer"
             {...getToggleButtonProps()}
           >
             <span>{selectedItem ? selectedItem.title : 'Elements'}</span>
             <span className="px-2">{isOpen ? <>&#8593;</> : <>&#8595;</>}</span>
-          </button>
+          </div>
         </div>
         <ul
           {...getMenuProps()}
-          className="absolute w-72 bg-white shadow-md max-h-40 overflow-scroll"
+          className="absolute w-72 p-0 bg-white shadow-md max-h-40 overflow-scroll"
         >
           {isOpen &&
             books.map((item, index) => (
@@ -641,19 +639,17 @@ function SelectExample() {
       <div>
         <div className="w-72 flex flex-col gap-1">
           <label {...getLabelProps()}>Choose your favorite book:</label>
-          <button
-            aria-label="toggle menu"
-            className="p-2 bg-white flex justify-between"
-            type="button"
+          <div
+            className="p-2 bg-white flex justify-between cursor-pointer"
             {...getToggleButtonProps()}
           >
             <span>{buttonText}</span>
             <span className="px-2">{isOpen ? <>&#8593;</> : <>&#8595;</>}</span>
-          </button>
+          </div>
         </div>
         <ul
           {...getMenuProps()}
-          className="absolute w-72 bg-white shadow-md max-h-80 overflow-scroll"
+          className="absolute w-72 p-0 bg-white shadow-md max-h-80 overflow-scroll"
         >
           {isOpen &&
             books.map((item, index) => (
@@ -740,10 +736,8 @@ function SelectExample() {
         <div className="w-72 flex flex-col gap-1">
           <label {...getLabelProps()}>Choose your favorite book:</label>
           <div className="flex justify-between">
-            <button
-              aria-label="toggle menu"
-              className="p-2 bg-white flex justify-between grow"
-              type="button"
+            <div
+              className="p-2 bg-white flex justify-between grow cursor-pointer"
               {...getToggleButtonProps({
                 onMouseEnter() {
                   openMenu()
@@ -754,7 +748,7 @@ function SelectExample() {
               <span className="px-2">
                 {isOpen ? <>&#8593;</> : <>&#8595;</>}
               </span>
-            </button>
+            </div>
             <button
               aria-label="clear selection"
               className="p-2 bg-white"
@@ -769,7 +763,7 @@ function SelectExample() {
         </div>
         <ul
           {...getMenuProps()}
-          className="absolute w-72 bg-white shadow-md max-h-80 overflow-scroll"
+          className="absolute w-72 p-0 bg-white shadow-md max-h-80 overflow-scroll"
         >
           {isOpen &&
             books.map((item, index) => (
@@ -855,19 +849,17 @@ function SelectExample() {
       <div>
         <div className="w-72 flex flex-col gap-1">
           <label {...getLabelProps()}>Choose your favorite book:</label>
-          <button
-            aria-label="toggle menu"
-            className="p-2 bg-white flex justify-between"
-            type="button"
+          <div
+            className="p-2 bg-white flex justify-between cursor-pointer"
             {...getToggleButtonProps()}
           >
             <span>{selectedItem ? selectedItem.title : 'Elements'}</span>
             <span className="px-2">{isOpen ? <>&#8593;</> : <>&#8595;</>}</span>
-          </button>
+          </div>
         </div>
         <ul
           {...getMenuProps({ref: listRef})}
-          className="absolute w-72 bg-white shadow-md max-h-80 overflow-scroll"
+          className="absolute w-72 p-0 bg-white shadow-md max-h-80 overflow-scroll"
         >
           {isOpen && (
             <>
