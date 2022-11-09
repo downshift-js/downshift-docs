@@ -7,7 +7,7 @@ sidebar_position: 1
 
 # Downshift 🏎
 
-Primitives to build simple, flexible, **WAI-ARI** compliant React
+Primitives to build simple, flexible, **WAI-ARIA** compliant React
 **autocomplete/combobox** or **select** dropdown components.
 
 ## The problem
