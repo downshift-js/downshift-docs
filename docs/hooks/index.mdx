@@ -17,3 +17,11 @@ is actioned by a button (a **select**, basically), then use
 If you need to add multiple selection for any of them and have the selected
 items act as a Tag List next to the _select_ or _combobox_, then
 [useMultipleSelection](/use-multiple-selection) is the right tool for that.
+
+## Breaking Changes in v7
+
+Since version 7, the _useSelect_ and _useCombobox_ hooks to support the ARIA 1.2
+pattern for the combobox, which contains some changes from the ARIA 1.1 pattern.
+This brings changes in the API and the behaviour of _useCombobox_, detailed in
+the
+[migration page](https://github.com/downshift-js/downshift/blob/master/src/hooks/MIGRATION_V7.md).
