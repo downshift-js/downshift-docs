@@ -65,6 +65,11 @@ const config = {
             label: 'GitHub',
             position: 'right',
           },
+          {
+            href: 'https://www.npmjs.com/package/downshift',
+            label: 'npm',
+            position: 'right',
+          },
         ],
       },
       footer: {
@@ -76,6 +81,10 @@ const config = {
               {
                 label: 'GitHub',
                 href: 'https://github.com/downshift-js/downshift',
+              },
+              {
+                label: 'npm',
+                href: 'https://www.npmjs.com/package/downshift',
               },
             ],
           },
