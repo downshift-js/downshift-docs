@@ -145,7 +145,9 @@ function ComboBox() {
             </div>
           </div>
           <ul
-            className="absolute w-72 bg-white mt-1 shadow-md max-h-80 overflow-scroll p-0"
+            className={`absolute w-72 bg-white mt-1 shadow-md max-h-80 overflow-scroll p-0 ${
+              isOpen && items.length ? '' : 'hidden'
+            }`}
             {...getMenuProps()}
           >
             {isOpen
@@ -153,8 +155,8 @@ function ComboBox() {
                   .filter(
                     item =>
                       !inputValue ||
-                      item.title.toLowerCase().includes(inputValue) ||
-                      item.author.toLowerCase().includes(inputValue),
+                      item.title.toLowerCase().includes(inputValue.toLowerCase()) ||
+                      item.author.toLowerCase().includes(inputValue.toLowerCase()),
                   )
                   .map((item, index) => (
                     <li
@@ -253,7 +255,9 @@ function ComboBox() {
             </div>
           </div>
           <ul
-            className="absolute w-72 bg-white mt-1 shadow-md max-h-80 overflow-scroll p-0"
+            className={`absolute w-72 bg-white mt-1 shadow-md max-h-80 overflow-scroll p-0 ${
+              isOpen && items.length ? '' : 'hidden'
+            }`}
             {...getMenuProps()}
           >
             {isOpen
@@ -261,8 +265,8 @@ function ComboBox() {
                   .filter(
                     item =>
                       !inputValue ||
-                      item.title.toLowerCase().includes(inputValue) ||
-                      item.author.toLowerCase().includes(inputValue),
+                      item.title.toLowerCase().includes(inputValue.toLowerCase()) ||
+                      item.author.toLowerCase().includes(inputValue.toLowerCase()),
                   )
                   .map((item, index) => (
                     <li

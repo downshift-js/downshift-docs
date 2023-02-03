@@ -108,8 +108,10 @@ function SelectExample() {
           </div>
         </div>
         <ul
+          className={`absolute w-72 bg-white mt-1 shadow-md max-h-80 overflow-scroll p-0 ${
+            isOpen && items.length ? '' : 'hidden'
+          }`}
           {...getMenuProps()}
-          className="absolute w-72 p-0 bg-white shadow-md max-h-80 overflow-scroll"
         >
           {isOpen &&
             books.map((item, index) => (
@@ -308,8 +310,10 @@ function SelectExample() {
           </div>
         </div>
         <ul
+          className={`absolute w-72 bg-white mt-1 shadow-md max-h-80 overflow-scroll p-0 ${
+            isOpen && items.length ? '' : 'hidden'
+          }`}
           {...getMenuProps()}
-          className="absolute w-72 p-0 bg-white shadow-md max-h-80 overflow-scroll"
         >
           {isOpen &&
             books.map((item, index) => (
@@ -431,8 +435,10 @@ function SelectExample() {
           </div>
         </div>
         <ul
+          className={`absolute w-72 bg-white mt-1 shadow-md max-h-80 overflow-scroll p-0 ${
+            isOpen && items.length ? '' : 'hidden'
+          }`}
           {...getMenuProps()}
-          className="absolute w-72 p-0 bg-white shadow-md max-h-80 overflow-scroll"
         >
           {isOpen &&
             books.map((item, index) => (
@@ -517,8 +523,10 @@ function SelectExample() {
           </div>
         </div>
         <ul
+          className={`absolute w-72 bg-white mt-1 shadow-md max-h-80 overflow-scroll p-0 ${
+            isOpen && items.length ? '' : 'hidden'
+          }`}
           {...getMenuProps()}
-          className="absolute w-72 p-0 bg-white shadow-md max-h-40 overflow-scroll"
         >
           {isOpen &&
             books.map((item, index) => (
@@ -655,8 +663,10 @@ function SelectExample() {
           </div>
         </div>
         <ul
+          className={`absolute w-72 bg-white mt-1 shadow-md max-h-80 overflow-scroll p-0 ${
+            isOpen && items.length ? '' : 'hidden'
+          }`}
           {...getMenuProps()}
-          className="absolute w-72 p-0 bg-white shadow-md max-h-80 overflow-scroll"
         >
           {isOpen &&
             books.map((item, index) => (
@@ -773,8 +783,10 @@ function SelectExample() {
           </div>
         </div>
         <ul
+          className={`absolute w-72 bg-white mt-1 shadow-md max-h-80 overflow-scroll p-0 ${
+            isOpen && items.length ? '' : 'hidden'
+          }`}
           {...getMenuProps()}
-          className="absolute w-72 p-0 bg-white shadow-md max-h-80 overflow-scroll"
         >
           {isOpen &&
             books.map((item, index) => (
@@ -872,8 +884,10 @@ function SelectExample() {
           </div>
         </div>
         <ul
-          {...getMenuProps({ref: listRef})}
-          className="absolute w-72 p-0 bg-white shadow-md max-h-80 overflow-scroll"
+          className={`absolute w-72 bg-white mt-1 shadow-md max-h-80 overflow-scroll p-0 ${
+            isOpen && items.length ? '' : 'hidden'
+          }`}
+          {...getMenuProps()}
         >
           {isOpen && (
             <>

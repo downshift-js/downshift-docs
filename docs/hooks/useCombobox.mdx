@@ -86,11 +86,13 @@ function ComboBoxExample() {
     {author: 'Fyodor Dostoevsky', title: 'Crime and Punishment'},
   ]
   function getBooksFilter(inputValue) {
+    const lowerCasedInputValue = inputValue.toLowerCase()
+
     return function booksFilter(book) {
       return (
         !inputValue ||
-        book.title.toLowerCase().includes(inputValue) ||
-        book.author.toLowerCase().includes(inputValue)
+        book.title.toLowerCase().includes(lowerCasedInputValue) ||
+        book.author.toLowerCase().includes(lowerCasedInputValue)
       )
     }
   }
@@ -139,8 +141,10 @@ function ComboBoxExample() {
           </div>
         </div>
         <ul
+          className={`absolute w-72 bg-white mt-1 shadow-md max-h-80 overflow-scroll p-0 ${
+            isOpen && items.length ? '' : 'hidden'
+          }`}
           {...getMenuProps()}
-          className="absolute p-0 w-72 bg-white shadow-md max-h-80 overflow-scroll"
         >
           {isOpen &&
             items.map((item, index) => (
@@ -213,11 +217,13 @@ function ComboBoxExample() {
     {author: 'Fyodor Dostoevsky', title: 'Crime and Punishment'},
   ]
   function getBooksFilter(inputValue) {
+    const lowerCasedInputValue = inputValue.toLowerCase()
+
     return function booksFilter(book) {
       return (
         !inputValue ||
-        book.title.toLowerCase().includes(inputValue) ||
-        book.author.toLowerCase().includes(inputValue)
+        book.title.toLowerCase().includes(lowerCasedInputValue) ||
+        book.author.toLowerCase().includes(lowerCasedInputValue)
       )
     }
   }
@@ -327,11 +333,13 @@ function ComboBoxExample() {
     {author: 'Fyodor Dostoevsky', title: 'Crime and Punishment'},
   ]
   function getBooksFilter(inputValue) {
+    const lowerCasedInputValue = inputValue.toLowerCase()
+
     return function booksFilter(book) {
       return (
         !inputValue ||
-        book.title.toLowerCase().includes(inputValue) ||
-        book.author.toLowerCase().includes(inputValue)
+        book.title.toLowerCase().includes(lowerCasedInputValue) ||
+        book.author.toLowerCase().includes(lowerCasedInputValue)
       )
     }
   }
@@ -382,8 +390,10 @@ function ComboBoxExample() {
           </div>
         </div>
         <ul
+          className={`absolute w-72 bg-white mt-1 shadow-md max-h-80 overflow-scroll p-0 ${
+            isOpen && items.length ? '' : 'hidden'
+          }`}
           {...getMenuProps()}
-          className="absolute p-0 w-72 bg-white shadow-md max-h-80 overflow-scroll"
         >
           {isOpen &&
             items.map((item, index) => (
@@ -450,11 +460,13 @@ function ComboBoxExample() {
     {author: 'Fyodor Dostoevsky', title: 'Crime and Punishment'},
   ]
   function getBooksFilter(inputValue) {
+    const lowerCasedInputValue = inputValue.toLowerCase()
+
     return function booksFilter(book) {
       return (
         !inputValue ||
-        book.title.toLowerCase().includes(inputValue) ||
-        book.author.toLowerCase().includes(inputValue)
+        book.title.toLowerCase().includes(lowerCasedInputValue) ||
+        book.author.toLowerCase().includes(lowerCasedInputValue)
       )
     }
   }
@@ -531,8 +543,10 @@ function ComboBoxExample() {
           </div>
         </div>
         <ul
+          className={`absolute w-72 bg-white mt-1 shadow-md max-h-80 overflow-scroll p-0 ${
+            isOpen && items.length ? '' : 'hidden'
+          }`}
           {...getMenuProps()}
-          className="absolute p-0 w-72 bg-white shadow-md max-h-80 overflow-scroll"
         >
           {isOpen &&
             items.map((item, index) => (
@@ -584,11 +598,13 @@ function ComboBoxExample() {
     {author: 'Fyodor Dostoevsky', title: 'Crime and Punishment'},
   ]
   function getBooksFilter(inputValue) {
+    const lowerCasedInputValue = inputValue.toLowerCase()
+
     return function booksFilter(book) {
       return (
         !inputValue ||
-        book.title.toLowerCase().includes(inputValue) ||
-        book.author.toLowerCase().includes(inputValue)
+        book.title.toLowerCase().includes(lowerCasedInputValue) ||
+        book.author.toLowerCase().includes(lowerCasedInputValue)
       )
     }
   }
@@ -638,8 +654,10 @@ function ComboBoxExample() {
           </div>
         </div>
         <ul
+          className={`absolute w-72 bg-white mt-1 shadow-md max-h-80 overflow-scroll p-0 ${
+            isOpen && items.length ? '' : 'hidden'
+          }`}
           {...getMenuProps()}
-          className="absolute p-0 w-72 bg-white shadow-md max-h-40 overflow-scroll"
         >
           {isOpen &&
             items.map((item, index) => (
@@ -708,11 +726,13 @@ function ComboBoxExample() {
     {author: 'Fyodor Dostoevsky', title: 'Crime and Punishment'},
   ]
   function getBooksFilter(inputValue) {
+    const lowerCasedInputValue = inputValue.toLowerCase()
+
     return function booksFilter(book) {
       return (
         !inputValue ||
-        book.title.toLowerCase().includes(inputValue) ||
-        book.author.toLowerCase().includes(inputValue)
+        book.title.toLowerCase().includes(lowerCasedInputValue) ||
+        book.author.toLowerCase().includes(lowerCasedInputValue)
       )
     }
   }
@@ -800,8 +820,10 @@ function ComboBoxExample() {
           </div>
         </div>
         <ul
+          className={`absolute w-72 bg-white mt-1 shadow-md max-h-80 overflow-scroll p-0 ${
+            isOpen && items.length ? '' : 'hidden'
+          }`}
           {...getMenuProps()}
-          className="absolute p-0 w-72 bg-white shadow-md max-h-80 overflow-scroll"
         >
           {isOpen &&
             items.map((item, index) => (
@@ -867,11 +889,13 @@ function ComboBoxExample() {
     {author: 'Fyodor Dostoevsky', title: 'Crime and Punishment'},
   ]
   function getBooksFilter(inputValue) {
+    const lowerCasedInputValue = inputValue.toLowerCase()
+
     return function booksFilter(book) {
       return (
         !inputValue ||
-        book.title.toLowerCase().includes(inputValue) ||
-        book.author.toLowerCase().includes(inputValue)
+        book.title.toLowerCase().includes(lowerCasedInputValue) ||
+        book.author.toLowerCase().includes(lowerCasedInputValue)
       )
     }
   }
@@ -931,8 +955,10 @@ function ComboBoxExample() {
           </div>
         </div>
         <ul
+          className={`absolute w-72 bg-white mt-1 shadow-md max-h-80 overflow-scroll p-0 ${
+            isOpen && items.length ? '' : 'hidden'
+          }`}
           {...getMenuProps()}
-          className="absolute p-0 w-72 bg-white shadow-md max-h-80 overflow-scroll"
         >
           {isOpen &&
             items.map((item, index) => (
@@ -983,14 +1009,17 @@ function ComboBoxExample() {
   }
 
   function getBooksFilter(inputValue) {
+    const lowerCasedInputValue = inputValue.toLowerCase()
+
     return function booksFilter(book) {
       return (
         !inputValue ||
-        book.title.toLowerCase().includes(inputValue) ||
-        book.author.toLowerCase().includes(inputValue)
+        book.title.toLowerCase().includes(lowerCasedInputValue) ||
+        book.author.toLowerCase().includes(lowerCasedInputValue)
       )
     }
   }
+
   function estimateSize() {
     return 60
   }
@@ -1052,8 +1081,10 @@ function ComboBoxExample() {
           </div>
         </div>
         <ul
+          className={`absolute w-72 bg-white mt-1 shadow-md max-h-80 overflow-scroll p-0 ${
+            isOpen && items.length ? '' : 'hidden'
+          }`}
           {...getMenuProps({ref: listRef})}
-          className="absolute p-0 w-72 bg-white shadow-md max-h-80 overflow-scroll"
         >
           {isOpen && (
             <>
