@@ -142,7 +142,7 @@ function ComboBoxExample() {
         </div>
         <ul
           className={`absolute w-72 bg-white mt-1 shadow-md max-h-80 overflow-scroll p-0 ${
-            isOpen && items.length ? '' : 'hidden'
+            !(isOpen && items.length) && 'hidden'
           }`}
           {...getMenuProps()}
         >
@@ -273,7 +273,7 @@ function ComboBoxExample() {
         </Box>
         <List
           className={cx(
-            !isOpen && 'hidden',
+            (!isOpen || !items.length) && 'hidden',
             '!absolute bg-white w-72 shadow-md max-h-80 overflow-scroll',
           )}
           {...getMenuProps()}
@@ -391,7 +391,7 @@ function ComboBoxExample() {
         </div>
         <ul
           className={`absolute w-72 bg-white mt-1 shadow-md max-h-80 overflow-scroll p-0 ${
-            isOpen && items.length ? '' : 'hidden'
+            !(isOpen && items.length) && 'hidden'
           }`}
           {...getMenuProps()}
         >
@@ -544,7 +544,7 @@ function ComboBoxExample() {
         </div>
         <ul
           className={`absolute w-72 bg-white mt-1 shadow-md max-h-80 overflow-scroll p-0 ${
-            isOpen && items.length ? '' : 'hidden'
+            !(isOpen && items.length) && 'hidden'
           }`}
           {...getMenuProps()}
         >
@@ -655,7 +655,7 @@ function ComboBoxExample() {
         </div>
         <ul
           className={`absolute w-72 bg-white mt-1 shadow-md max-h-80 overflow-scroll p-0 ${
-            isOpen && items.length ? '' : 'hidden'
+            !(isOpen && items.length) && 'hidden'
           }`}
           {...getMenuProps()}
         >
@@ -821,7 +821,7 @@ function ComboBoxExample() {
         </div>
         <ul
           className={`absolute w-72 bg-white mt-1 shadow-md max-h-80 overflow-scroll p-0 ${
-            isOpen && items.length ? '' : 'hidden'
+            !(isOpen && items.length) && 'hidden'
           }`}
           {...getMenuProps()}
         >
@@ -956,7 +956,7 @@ function ComboBoxExample() {
         </div>
         <ul
           className={`absolute w-72 bg-white mt-1 shadow-md max-h-80 overflow-scroll p-0 ${
-            isOpen && items.length ? '' : 'hidden'
+            !(isOpen && items.length) && 'hidden'
           }`}
           {...getMenuProps()}
         >
@@ -1082,7 +1082,7 @@ function ComboBoxExample() {
         </div>
         <ul
           className={`absolute w-72 bg-white mt-1 shadow-md max-h-80 overflow-scroll p-0 ${
-            isOpen && items.length ? '' : 'hidden'
+            !(isOpen && items.length) && 'hidden'
           }`}
           {...getMenuProps({ref: listRef})}
         >
