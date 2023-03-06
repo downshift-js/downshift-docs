@@ -4,6 +4,8 @@ description: useCombobox for building combobox elements
 slug: /use-combobox
 ---
 
+import {ThemedSnack} from '@site/src/components/ThemedSnack'
+
 # useCombobox
 
 ## The problem
@@ -168,6 +170,14 @@ function ComboBoxExample() {
   return <ComboBox />
 }
 ```
+
+## React Native
+
+The hook can be used with _React Native_ as well. The HTML elements and styles
+are replaced with React Native equivalents, but the _useCombobox_ usage is exactly
+the same as on React web.
+
+<ThemedSnack snackId="@silviuaavram/downshift-usecombobox-in-react-native" />
 
 ## MaterialUI
 
