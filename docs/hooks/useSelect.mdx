@@ -4,6 +4,8 @@ description: useSelect for building select elements
 slug: /use-select
 ---
 
+import {ThemedSnack} from '@site/src/components/ThemedSnack'
+
 # useSelect
 
 ## The problem
@@ -137,6 +139,14 @@ function SelectExample() {
 }
 ```
 
+## React Native
+
+The hook can be used with _React Native_ as well. The HTML elements and styles
+are replaced with React Native equivalents, but the _useSelect_ usage is exactly
+the same as on React web.
+
+<ThemedSnack snackId="@silviuaavram/downshift-useselect-in-react-native" />
+
 ## MaterialUI
 
 A custom _select_ element can be created using UI Library components as well.
@@ -200,7 +210,7 @@ function SelectExample() {
     return (
       <Box>
         <Box className="w-72 flex flex-col gap-1">
-          <FormLabel classeName="w-fit" {...getLabelProps()}>
+          <FormLabel className="w-fit" {...getLabelProps()}>
             Choose your favorite book:
           </FormLabel>
           <Button
