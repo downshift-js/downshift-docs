@@ -65,10 +65,11 @@ or _flex_ display.
 
 In the example below, each item has an _X_ icon attached to it, with a
 _removeSelectedItem_ callback in the _onClick_ handler. Items are added using
-the _addSelectedItem_ function inside the _onStateChange_ handler of
-_useCombobox_. We also control the _selectedItem_ of _useCombobox_ and pass a
-_null_ value since _useMultipleSelection_ will handle the items selection in
-this case.
+the _setSelectedItems_ function inside the _onStateChange_ handler of
+_useCombobox_, and _selectedItems_ are passed to _useMultipleSelection_ as a
+control prop. _selectedItem_ of _useCombobox_ is also controlled and being
+passed a _null_ value since _useMultipleSelection_ will handle the items
+selection in this case.
 
 [CodeSandbox for combobox usage example][code-sandbox-combobox-usage].
 
@@ -108,27 +109,25 @@ function MultipleComboBoxExample() {
       () => getFilteredBooks(selectedItems, inputValue),
       [selectedItems, inputValue],
     )
-    const {
-      getSelectedItemProps,
-      getDropdownProps,
-      addSelectedItem,
-      removeSelectedItem,
-    } = useMultipleSelection({
-      selectedItems,
-      onStateChange({selectedItems: newSelectedItems, type}) {
-        switch (type) {
-          case useMultipleSelection.stateChangeTypes
-            .SelectedItemKeyDownBackspace:
-          case useMultipleSelection.stateChangeTypes.SelectedItemKeyDownDelete:
-          case useMultipleSelection.stateChangeTypes.DropdownKeyDownBackspace:
-          case useMultipleSelection.stateChangeTypes.FunctionRemoveSelectedItem:
-            setSelectedItems(newSelectedItems)
-            break
-          default:
-            break
-        }
-      },
-    })
+    const {getSelectedItemProps, getDropdownProps, removeSelectedItem} =
+      useMultipleSelection({
+        selectedItems,
+        onStateChange({selectedItems: newSelectedItems, type}) {
+          switch (type) {
+            case useMultipleSelection.stateChangeTypes
+              .SelectedItemKeyDownBackspace:
+            case useMultipleSelection.stateChangeTypes
+              .SelectedItemKeyDownDelete:
+            case useMultipleSelection.stateChangeTypes.DropdownKeyDownBackspace:
+            case useMultipleSelection.stateChangeTypes
+              .FunctionRemoveSelectedItem:
+              setSelectedItems(newSelectedItems)
+              break
+            default:
+              break
+          }
+        },
+      })
     const {
       isOpen,
       getToggleButtonProps,
@@ -151,10 +150,10 @@ function MultipleComboBoxExample() {
         switch (type) {
           case useCombobox.stateChangeTypes.InputKeyDownEnter:
           case useCombobox.stateChangeTypes.ItemClick:
-          case useCombobox.stateChangeTypes.InputBlur:
             return {
               ...changes,
-              ...(changes.selectedItem && {isOpen: true, highlightedIndex: 0}),
+              isOpen: true, // keep the menu open after selection.
+              highlightedIndex: 0, // with the first option highlighted.
             }
           default:
             return changes
@@ -168,7 +167,10 @@ function MultipleComboBoxExample() {
         switch (type) {
           case useCombobox.stateChangeTypes.InputKeyDownEnter:
           case useCombobox.stateChangeTypes.ItemClick:
-            setSelectedItems([...selectedItems, newSelectedItem])
+          case useCombobox.stateChangeTypes.InputBlur:
+            if (newSelectedItem) {
+              setSelectedItems([...selectedItems, newSelectedItem])
+            }
             break
 
           case useCombobox.stateChangeTypes.InputChange:
@@ -319,17 +321,19 @@ function MultipleSelectExample() {
             return {
               ...changes,
               isOpen: true, // keep the menu open after selection.
+              highlightedIndex: 0, // with the first option highlighted.
             }
         }
         return changes
       },
-      onStateChange: ({type, selectedItem}) => {
+      onStateChange: ({type, selectedItem: newSelectedItem}) => {
         switch (type) {
-          case useSelect.stateChangeTypes.ToggleKeyDownEnter:
-          case useSelect.stateChangeTypes.ToggleKeyDownSpaceButton:
+          case useSelect.stateChangeTypes.ToggleButtonKeyDownEnter:
+          case useSelect.stateChangeTypes.ToggleButtonKeyDownSpaceButton:
           case useSelect.stateChangeTypes.ItemClick:
-            if (selectedItem) {
-              addSelectedItem(selectedItem)
+          case useSelect.stateChangeTypes.InputBlur:
+            if (newSelectedItem) {
+              addSelectedItem(newSelectedItem)
             }
             break
           default:
