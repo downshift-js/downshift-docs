@@ -331,7 +331,7 @@ function MultipleSelectExample() {
           case useSelect.stateChangeTypes.ToggleButtonKeyDownEnter:
           case useSelect.stateChangeTypes.ToggleButtonKeyDownSpaceButton:
           case useSelect.stateChangeTypes.ItemClick:
-          case useSelect.stateChangeTypes.InputBlur:
+          case useSelect.stateChangeTypes.ToggleButtonBlur:
             if (newSelectedItem) {
               addSelectedItem(newSelectedItem)
             }
@@ -413,6 +413,14 @@ function MultipleSelectExample() {
   return <MultipleSelect />
 }
 ```
+
+## React Native
+
+The hook can be used with _React Native_ as well. The HTML elements and styles
+are replaced with React Native equivalents, but the _useMultipleSelection_ usage
+is exactly the same as on React web.
+
+<ThemedSnack snackId="@silviuaavram/downshift-usemultipleselection-in-react-native" />
 
 ## Other usage examples
 
