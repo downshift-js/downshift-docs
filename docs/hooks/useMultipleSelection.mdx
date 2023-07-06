@@ -144,6 +144,7 @@ function MultipleComboBoxExample() {
       },
       defaultHighlightedIndex: 0, // after selection, highlight the first item.
       selectedItem: null,
+      inputValue,
       stateReducer(state, actionAndChanges) {
         const {changes, type} = actionAndChanges
 
@@ -170,6 +171,7 @@ function MultipleComboBoxExample() {
           case useCombobox.stateChangeTypes.InputBlur:
             if (newSelectedItem) {
               setSelectedItems([...selectedItems, newSelectedItem])
+              setInputValue('')
             }
             break
 
