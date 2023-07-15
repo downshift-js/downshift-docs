@@ -32,6 +32,11 @@ implement the corresponding ARIA pattern. Every functionality needed should be
 provided out-of-the-box: menu toggle, item selection and up/down movement
 between them, screen reader support, focus management etc.
 
+## Breaking Changes in v8
+
+_useCombobox_ has been affected by breaking changes in v8, so check out the
+[migration page][migration-guide-v8].
+
 ## Breaking Changes in v7
 
 Since version 7, _useCombobox_ to supports the ARIA 1.2 pattern for the
@@ -174,8 +179,8 @@ function ComboBoxExample() {
 ## React Native
 
 The hook can be used with _React Native_ as well. The HTML elements and styles
-are replaced with React Native equivalents, but the _useCombobox_ usage is exactly
-the same as on React web.
+are replaced with React Native equivalents, but the _useCombobox_ usage is
+exactly the same as on React web.
 
 <ThemedSnack snackId="@silviuaavram/downshift-usecombobox-in-react-native" />
 
@@ -1168,3 +1173,5 @@ repository][examples-code-sandbox].
 [react-window-github]: https://github.com/bvaughn/react-window
 [migration-guide-v7]:
   https://github.com/downshift-js/downshift/tree/master/src/hooks/MIGRATION_V7.md#usecombobox
+[migration-guide-v8]:
+  https://github.com/downshift-js/downshift/tree/master/src/hooks/MIGRATION_V8.md

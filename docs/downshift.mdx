@@ -26,6 +26,11 @@ then expose many options to allow for extensibility resulting in a bigger API
 that is less flexible as well as making the implementation more complicated and
 harder to contribute to.
 
+## Breaking Changes in v8
+
+_Downshift_ has been affected by breaking changes in v8, so check out the
+[migration page][migration-guide-v8].
+
 ## Props used in examples
 
 In the examples below, we use the **Downshift** component and destructure from
@@ -308,9 +313,9 @@ function ComboBox() {
 
 ## React Native
 
-The component can be used with _React Native_ as well. The HTML elements and styles
-are replaced with React Native equivalents, but the _Downshift_ usage is exactly
-the same as on React web.
+The component can be used with _React Native_ as well. The HTML elements and
+styles are replaced with React Native equivalents, but the _Downshift_ usage is
+exactly the same as on React web.
 
 <ThemedSnack snackId="@silviuaavram/downshift-in-react-native" />
 
@@ -330,3 +335,5 @@ repository][examples-code-sandbox].
   https://codesandbox.io/s/github/kentcdodds/downshift-examples?file=/src/downshift/ordered-examples/00-get-root-props-example.js
 [examples-code-sandbox]:
   https://codesandbox.io/s/github/kentcdodds/downshift-examples
+[migration-guide-v8]:
+  https://github.com/downshift-js/downshift/tree/master/src/hooks/MIGRATION_V8.md
