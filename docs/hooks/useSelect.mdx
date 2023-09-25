@@ -73,16 +73,16 @@ _select_ is notoriously [difficult to style][mdn-select].
 ```jsx live
 function SelectExample() {
   const books = [
-    {author: 'Harper Lee', title: 'To Kill a Mockingbird'},
-    {author: 'Lev Tolstoy', title: 'War and Peace'},
-    {author: 'Fyodor Dostoyevsy', title: 'The Idiot'},
-    {author: 'Oscar Wilde', title: 'A Picture of Dorian Gray'},
-    {author: 'George Orwell', title: '1984'},
-    {author: 'Jane Austen', title: 'Pride and Prejudice'},
-    {author: 'Marcus Aurelius', title: 'Meditations'},
-    {author: 'Fyodor Dostoevsky', title: 'The Brothers Karamazov'},
-    {author: 'Lev Tolstoy', title: 'Anna Karenina'},
-    {author: 'Fyodor Dostoevsky', title: 'Crime and Punishment'},
+    {id: 'book-1', author: 'Harper Lee', title: 'To Kill a Mockingbird'},
+    {id: 'book-2', author: 'Lev Tolstoy', title: 'War and Peace'},
+    {id: 'book-3', author: 'Fyodor Dostoyevsy', title: 'The Idiot'},
+    {id: 'book-4', author: 'Oscar Wilde', title: 'A Picture of Dorian Gray'},
+    {id: 'book-5', author: 'George Orwell', title: '1984'},
+    {id: 'book-6', author: 'Jane Austen', title: 'Pride and Prejudice'},
+    {id: 'book-7', author: 'Marcus Aurelius', title: 'Meditations'},
+    {id: 'book-8', author: 'Fyodor Dostoevsky', title: 'The Brothers Karamazov'},
+    {id: 'book-9', author: 'Lev Tolstoy', title: 'Anna Karenina'},
+    {id: 'book-10', author: 'Fyodor Dostoevsky', title: 'Crime and Punishment'},
   ]
   function itemToString(item) {
     return item ? item.title : ''
@@ -128,7 +128,7 @@ function SelectExample() {
                   selectedItem === item && 'font-bold',
                   'py-2 px-3 shadow-sm flex flex-col',
                 )}
-                key={`${item.value}${index}`}
+                key={item.id}
                 {...getItemProps({item, index})}
               >
                 <span>{item.title}</span>
@@ -182,16 +182,16 @@ object.
 ```jsx live
 function SelectExample() {
   const books = [
-    {author: 'Harper Lee', title: 'To Kill a Mockingbird'},
-    {author: 'Lev Tolstoy', title: 'War and Peace'},
-    {author: 'Fyodor Dostoyevsy', title: 'The Idiot'},
-    {author: 'Oscar Wilde', title: 'A Picture of Dorian Gray'},
-    {author: 'George Orwell', title: '1984'},
-    {author: 'Jane Austen', title: 'Pride and Prejudice'},
-    {author: 'Marcus Aurelius', title: 'Meditations'},
-    {author: 'Fyodor Dostoevsky', title: 'The Brothers Karamazov'},
-    {author: 'Lev Tolstoy', title: 'Anna Karenina'},
-    {author: 'Fyodor Dostoevsky', title: 'Crime and Punishment'},
+    {id: 'book-1', author: 'Harper Lee', title: 'To Kill a Mockingbird'},
+    {id: 'book-2', author: 'Lev Tolstoy', title: 'War and Peace'},
+    {id: 'book-3', author: 'Fyodor Dostoyevsy', title: 'The Idiot'},
+    {id: 'book-4', author: 'Oscar Wilde', title: 'A Picture of Dorian Gray'},
+    {id: 'book-5', author: 'George Orwell', title: '1984'},
+    {id: 'book-6', author: 'Jane Austen', title: 'Pride and Prejudice'},
+    {id: 'book-7', author: 'Marcus Aurelius', title: 'Meditations'},
+    {id: 'book-8', author: 'Fyodor Dostoevsky', title: 'The Brothers Karamazov'},
+    {id: 'book-9', author: 'Lev Tolstoy', title: 'Anna Karenina'},
+    {id: 'book-10', author: 'Fyodor Dostoevsky', title: 'Crime and Punishment'},
   ]
 
   function itemToString(item) {
@@ -245,7 +245,7 @@ function SelectExample() {
                     selectedItem === item && 'font-bold',
                     'py-2 px-3 shadow-sm',
                   )}
-                  key={`${item.title}-${index}`}
+                  key={item.id}
                   {...getItemProps({
                     item,
                     index,
@@ -280,16 +280,16 @@ will update the value in the other one as well.
 ```jsx live
 function SelectExample() {
   const books = [
-    {author: 'Harper Lee', title: 'To Kill a Mockingbird'},
-    {author: 'Lev Tolstoy', title: 'War and Peace'},
-    {author: 'Fyodor Dostoyevsy', title: 'The Idiot'},
-    {author: 'Oscar Wilde', title: 'A Picture of Dorian Gray'},
-    {author: 'George Orwell', title: '1984'},
-    {author: 'Jane Austen', title: 'Pride and Prejudice'},
-    {author: 'Marcus Aurelius', title: 'Meditations'},
-    {author: 'Fyodor Dostoevsky', title: 'The Brothers Karamazov'},
-    {author: 'Lev Tolstoy', title: 'Anna Karenina'},
-    {author: 'Fyodor Dostoevsky', title: 'Crime and Punishment'},
+    {id: 'book-1', author: 'Harper Lee', title: 'To Kill a Mockingbird'},
+    {id: 'book-2', author: 'Lev Tolstoy', title: 'War and Peace'},
+    {id: 'book-3', author: 'Fyodor Dostoyevsy', title: 'The Idiot'},
+    {id: 'book-4', author: 'Oscar Wilde', title: 'A Picture of Dorian Gray'},
+    {id: 'book-5', author: 'George Orwell', title: '1984'},
+    {id: 'book-6', author: 'Jane Austen', title: 'Pride and Prejudice'},
+    {id: 'book-7', author: 'Marcus Aurelius', title: 'Meditations'},
+    {id: 'book-8', author: 'Fyodor Dostoevsky', title: 'The Brothers Karamazov'},
+    {id: 'book-9', author: 'Lev Tolstoy', title: 'Anna Karenina'},
+    {id: 'book-10', author: 'Fyodor Dostoevsky', title: 'Crime and Punishment'},
   ]
   function itemToString(item) {
     return item ? item.title : ''
@@ -338,7 +338,7 @@ function SelectExample() {
                   selectedItem === item && 'font-bold',
                   'py-2 px-3 shadow-sm flex flex-col',
                 )}
-                key={`${item.value}${index}`}
+                key={item.id}
                 {...getItemProps({item, index})}
               >
                 <span>{item.title}</span>
@@ -383,16 +383,16 @@ In all other state change types, we return _useSelect_ default changes.
 ```jsx live
 function SelectExample() {
   const books = [
-    {author: 'Harper Lee', title: 'To Kill a Mockingbird'},
-    {author: 'Lev Tolstoy', title: 'War and Peace'},
-    {author: 'Fyodor Dostoyevsy', title: 'The Idiot'},
-    {author: 'Oscar Wilde', title: 'A Picture of Dorian Gray'},
-    {author: 'George Orwell', title: '1984'},
-    {author: 'Jane Austen', title: 'Pride and Prejudice'},
-    {author: 'Marcus Aurelius', title: 'Meditations'},
-    {author: 'Fyodor Dostoevsky', title: 'The Brothers Karamazov'},
-    {author: 'Lev Tolstoy', title: 'Anna Karenina'},
-    {author: 'Fyodor Dostoevsky', title: 'Crime and Punishment'},
+    {id: 'book-1', author: 'Harper Lee', title: 'To Kill a Mockingbird'},
+    {id: 'book-2', author: 'Lev Tolstoy', title: 'War and Peace'},
+    {id: 'book-3', author: 'Fyodor Dostoyevsy', title: 'The Idiot'},
+    {id: 'book-4', author: 'Oscar Wilde', title: 'A Picture of Dorian Gray'},
+    {id: 'book-5', author: 'George Orwell', title: '1984'},
+    {id: 'book-6', author: 'Jane Austen', title: 'Pride and Prejudice'},
+    {id: 'book-7', author: 'Marcus Aurelius', title: 'Meditations'},
+    {id: 'book-8', author: 'Fyodor Dostoevsky', title: 'The Brothers Karamazov'},
+    {id: 'book-9', author: 'Lev Tolstoy', title: 'Anna Karenina'},
+    {id: 'book-10', author: 'Fyodor Dostoevsky', title: 'Crime and Punishment'},
   ]
   function itemToString(item) {
     return item ? item.title : ''
@@ -463,7 +463,7 @@ function SelectExample() {
                   selectedItem === item && 'font-bold',
                   'py-2 px-3 shadow-sm flex flex-col',
                 )}
-                key={`${item.value}${index}`}
+                key={item.id}
                 {...getItemProps({item, index})}
               >
                 <span>{item.title}</span>
@@ -494,16 +494,16 @@ like shown below.
 ```jsx live
 function SelectExample() {
   const books = [
-    {author: 'Harper Lee', title: 'To Kill a Mockingbird'},
-    {author: 'Lev Tolstoy', title: 'War and Peace'},
-    {author: 'Fyodor Dostoyevsy', title: 'The Idiot'},
-    {author: 'Oscar Wilde', title: 'A Picture of Dorian Gray'},
-    {author: 'George Orwell', title: '1984'},
-    {author: 'Jane Austen', title: 'Pride and Prejudice'},
-    {author: 'Marcus Aurelius', title: 'Meditations'},
-    {author: 'Fyodor Dostoevsky', title: 'The Brothers Karamazov'},
-    {author: 'Lev Tolstoy', title: 'Anna Karenina'},
-    {author: 'Fyodor Dostoevsky', title: 'Crime and Punishment'},
+    {id: 'book-1', author: 'Harper Lee', title: 'To Kill a Mockingbird'},
+    {id: 'book-2', author: 'Lev Tolstoy', title: 'War and Peace'},
+    {id: 'book-3', author: 'Fyodor Dostoyevsy', title: 'The Idiot'},
+    {id: 'book-4', author: 'Oscar Wilde', title: 'A Picture of Dorian Gray'},
+    {id: 'book-5', author: 'George Orwell', title: '1984'},
+    {id: 'book-6', author: 'Jane Austen', title: 'Pride and Prejudice'},
+    {id: 'book-7', author: 'Marcus Aurelius', title: 'Meditations'},
+    {id: 'book-8', author: 'Fyodor Dostoevsky', title: 'The Brothers Karamazov'},
+    {id: 'book-9', author: 'Lev Tolstoy', title: 'Anna Karenina'},
+    {id: 'book-10', author: 'Fyodor Dostoevsky', title: 'Crime and Punishment'},
   ]
   function itemToString(item) {
     return item ? item.title : ''
@@ -551,7 +551,7 @@ function SelectExample() {
                   selectedItem === item && 'font-bold',
                   'py-2 px-3 shadow-sm flex flex-col',
                 )}
-                key={`${item.value}${index}`}
+                key={item.id}
                 {...getItemProps({item, index})}
               >
                 <span>{item.title}</span>
@@ -597,16 +597,16 @@ example][code-sandbox-basic-multiple-selection].
 ```jsx live
 function SelectExample() {
   const books = [
-    {author: 'Harper Lee', title: 'To Kill a Mockingbird'},
-    {author: 'Lev Tolstoy', title: 'War and Peace'},
-    {author: 'Fyodor Dostoyevsy', title: 'The Idiot'},
-    {author: 'Oscar Wilde', title: 'A Picture of Dorian Gray'},
-    {author: 'George Orwell', title: '1984'},
-    {author: 'Jane Austen', title: 'Pride and Prejudice'},
-    {author: 'Marcus Aurelius', title: 'Meditations'},
-    {author: 'Fyodor Dostoevsky', title: 'The Brothers Karamazov'},
-    {author: 'Lev Tolstoy', title: 'Anna Karenina'},
-    {author: 'Fyodor Dostoevsky', title: 'Crime and Punishment'},
+    {id: 'book-1', author: 'Harper Lee', title: 'To Kill a Mockingbird'},
+    {id: 'book-2', author: 'Lev Tolstoy', title: 'War and Peace'},
+    {id: 'book-3', author: 'Fyodor Dostoyevsy', title: 'The Idiot'},
+    {id: 'book-4', author: 'Oscar Wilde', title: 'A Picture of Dorian Gray'},
+    {id: 'book-5', author: 'George Orwell', title: '1984'},
+    {id: 'book-6', author: 'Jane Austen', title: 'Pride and Prejudice'},
+    {id: 'book-7', author: 'Marcus Aurelius', title: 'Meditations'},
+    {id: 'book-8', author: 'Fyodor Dostoevsky', title: 'The Brothers Karamazov'},
+    {id: 'book-9', author: 'Lev Tolstoy', title: 'Anna Karenina'},
+    {id: 'book-10', author: 'Fyodor Dostoevsky', title: 'Crime and Punishment'},
   ]
   function itemToString(item) {
     return item ? item.title : ''
@@ -691,7 +691,7 @@ function SelectExample() {
                   selectedItem === item && 'font-bold',
                   'py-2 px-3 shadow-sm flex gap-3 items-center',
                 )}
-                key={`${item.value}${index}`}
+                key={item.id}
                 {...getItemProps({
                   item,
                   index,
@@ -735,16 +735,16 @@ behaviors.
 ```jsx live
 function SelectExample() {
   const books = [
-    {author: 'Harper Lee', title: 'To Kill a Mockingbird'},
-    {author: 'Lev Tolstoy', title: 'War and Peace'},
-    {author: 'Fyodor Dostoyevsy', title: 'The Idiot'},
-    {author: 'Oscar Wilde', title: 'A Picture of Dorian Gray'},
-    {author: 'George Orwell', title: '1984'},
-    {author: 'Jane Austen', title: 'Pride and Prejudice'},
-    {author: 'Marcus Aurelius', title: 'Meditations'},
-    {author: 'Fyodor Dostoevsky', title: 'The Brothers Karamazov'},
-    {author: 'Lev Tolstoy', title: 'Anna Karenina'},
-    {author: 'Fyodor Dostoevsky', title: 'Crime and Punishment'},
+    {id: 'book-1', author: 'Harper Lee', title: 'To Kill a Mockingbird'},
+    {id: 'book-2', author: 'Lev Tolstoy', title: 'War and Peace'},
+    {id: 'book-3', author: 'Fyodor Dostoyevsy', title: 'The Idiot'},
+    {id: 'book-4', author: 'Oscar Wilde', title: 'A Picture of Dorian Gray'},
+    {id: 'book-5', author: 'George Orwell', title: '1984'},
+    {id: 'book-6', author: 'Jane Austen', title: 'Pride and Prejudice'},
+    {id: 'book-7', author: 'Marcus Aurelius', title: 'Meditations'},
+    {id: 'book-8', author: 'Fyodor Dostoevsky', title: 'The Brothers Karamazov'},
+    {id: 'book-9', author: 'Lev Tolstoy', title: 'Anna Karenina'},
+    {id: 'book-10', author: 'Fyodor Dostoevsky', title: 'Crime and Punishment'},
   ]
   function itemToString(item) {
     return item ? item.title : ''
@@ -811,7 +811,7 @@ function SelectExample() {
                   selectedItem === item && 'font-bold',
                   'py-2 px-3 shadow-sm flex flex-col',
                 )}
-                key={`${item.value}${index}`}
+                key={item.id}
                 {...getItemProps({item, index})}
               >
                 <span>{item.title}</span>

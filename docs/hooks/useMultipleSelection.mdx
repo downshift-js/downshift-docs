@@ -81,16 +81,20 @@ selection in this case.
 ```jsx live
 function MultipleComboBoxExample() {
   const books = [
-    {author: 'Harper Lee', title: 'To Kill a Mockingbird'},
-    {author: 'Lev Tolstoy', title: 'War and Peace'},
-    {author: 'Fyodor Dostoyevsy', title: 'The Idiot'},
-    {author: 'Oscar Wilde', title: 'A Picture of Dorian Gray'},
-    {author: 'George Orwell', title: '1984'},
-    {author: 'Jane Austen', title: 'Pride and Prejudice'},
-    {author: 'Marcus Aurelius', title: 'Meditations'},
-    {author: 'Fyodor Dostoevsky', title: 'The Brothers Karamazov'},
-    {author: 'Lev Tolstoy', title: 'Anna Karenina'},
-    {author: 'Fyodor Dostoevsky', title: 'Crime and Punishment'},
+    {id: 'book-1', author: 'Harper Lee', title: 'To Kill a Mockingbird'},
+    {id: 'book-2', author: 'Lev Tolstoy', title: 'War and Peace'},
+    {id: 'book-3', author: 'Fyodor Dostoyevsy', title: 'The Idiot'},
+    {id: 'book-4', author: 'Oscar Wilde', title: 'A Picture of Dorian Gray'},
+    {id: 'book-5', author: 'George Orwell', title: '1984'},
+    {id: 'book-6', author: 'Jane Austen', title: 'Pride and Prejudice'},
+    {id: 'book-7', author: 'Marcus Aurelius', title: 'Meditations'},
+    {
+      id: 'book-8',
+      author: 'Fyodor Dostoevsky',
+      title: 'The Brothers Karamazov',
+    },
+    {id: 'book-9', author: 'Lev Tolstoy', title: 'Anna Karenina'},
+    {id: 'book-10', author: 'Fyodor Dostoevsky', title: 'Crime and Punishment'},
   ]
   const initialSelectedItems = [books[0], books[1]]
 
@@ -281,16 +285,20 @@ the developer.
 ```jsx live
 function MultipleSelectExample() {
   const books = [
-    {author: 'Harper Lee', title: 'To Kill a Mockingbird'},
-    {author: 'Lev Tolstoy', title: 'War and Peace'},
-    {author: 'Fyodor Dostoyevsy', title: 'The Idiot'},
-    {author: 'Oscar Wilde', title: 'A Picture of Dorian Gray'},
-    {author: 'George Orwell', title: '1984'},
-    {author: 'Jane Austen', title: 'Pride and Prejudice'},
-    {author: 'Marcus Aurelius', title: 'Meditations'},
-    {author: 'Fyodor Dostoevsky', title: 'The Brothers Karamazov'},
-    {author: 'Lev Tolstoy', title: 'Anna Karenina'},
-    {author: 'Fyodor Dostoevsky', title: 'Crime and Punishment'},
+    {id: 'book-1', author: 'Harper Lee', title: 'To Kill a Mockingbird'},
+    {id: 'book-2', author: 'Lev Tolstoy', title: 'War and Peace'},
+    {id: 'book-3', author: 'Fyodor Dostoyevsy', title: 'The Idiot'},
+    {id: 'book-4', author: 'Oscar Wilde', title: 'A Picture of Dorian Gray'},
+    {id: 'book-5', author: 'George Orwell', title: '1984'},
+    {id: 'book-6', author: 'Jane Austen', title: 'Pride and Prejudice'},
+    {id: 'book-7', author: 'Marcus Aurelius', title: 'Meditations'},
+    {
+      id: 'book-8',
+      author: 'Fyodor Dostoevsky',
+      title: 'The Brothers Karamazov',
+    },
+    {id: 'book-9', author: 'Lev Tolstoy', title: 'Anna Karenina'},
+    {id: 'book-10', author: 'Fyodor Dostoevsky', title: 'Crime and Punishment'},
   ]
   function getBooksFilter(selectedItems) {
     return function booksFilter(book) {
