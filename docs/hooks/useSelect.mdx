@@ -80,7 +80,11 @@ function SelectExample() {
     {id: 'book-5', author: 'George Orwell', title: '1984'},
     {id: 'book-6', author: 'Jane Austen', title: 'Pride and Prejudice'},
     {id: 'book-7', author: 'Marcus Aurelius', title: 'Meditations'},
-    {id: 'book-8', author: 'Fyodor Dostoevsky', title: 'The Brothers Karamazov'},
+    {
+      id: 'book-8',
+      author: 'Fyodor Dostoevsky',
+      title: 'The Brothers Karamazov',
+    },
     {id: 'book-9', author: 'Lev Tolstoy', title: 'Anna Karenina'},
     {id: 'book-10', author: 'Fyodor Dostoevsky', title: 'Crime and Punishment'},
   ]
@@ -189,7 +193,11 @@ function SelectExample() {
     {id: 'book-5', author: 'George Orwell', title: '1984'},
     {id: 'book-6', author: 'Jane Austen', title: 'Pride and Prejudice'},
     {id: 'book-7', author: 'Marcus Aurelius', title: 'Meditations'},
-    {id: 'book-8', author: 'Fyodor Dostoevsky', title: 'The Brothers Karamazov'},
+    {
+      id: 'book-8',
+      author: 'Fyodor Dostoevsky',
+      title: 'The Brothers Karamazov',
+    },
     {id: 'book-9', author: 'Lev Tolstoy', title: 'Anna Karenina'},
     {id: 'book-10', author: 'Fyodor Dostoevsky', title: 'Crime and Punishment'},
   ]
@@ -287,7 +295,11 @@ function SelectExample() {
     {id: 'book-5', author: 'George Orwell', title: '1984'},
     {id: 'book-6', author: 'Jane Austen', title: 'Pride and Prejudice'},
     {id: 'book-7', author: 'Marcus Aurelius', title: 'Meditations'},
-    {id: 'book-8', author: 'Fyodor Dostoevsky', title: 'The Brothers Karamazov'},
+    {
+      id: 'book-8',
+      author: 'Fyodor Dostoevsky',
+      title: 'The Brothers Karamazov',
+    },
     {id: 'book-9', author: 'Lev Tolstoy', title: 'Anna Karenina'},
     {id: 'book-10', author: 'Fyodor Dostoevsky', title: 'Crime and Punishment'},
   ]
@@ -390,7 +402,11 @@ function SelectExample() {
     {id: 'book-5', author: 'George Orwell', title: '1984'},
     {id: 'book-6', author: 'Jane Austen', title: 'Pride and Prejudice'},
     {id: 'book-7', author: 'Marcus Aurelius', title: 'Meditations'},
-    {id: 'book-8', author: 'Fyodor Dostoevsky', title: 'The Brothers Karamazov'},
+    {
+      id: 'book-8',
+      author: 'Fyodor Dostoevsky',
+      title: 'The Brothers Karamazov',
+    },
     {id: 'book-9', author: 'Lev Tolstoy', title: 'Anna Karenina'},
     {id: 'book-10', author: 'Fyodor Dostoevsky', title: 'Crime and Punishment'},
   ]
@@ -501,7 +517,11 @@ function SelectExample() {
     {id: 'book-5', author: 'George Orwell', title: '1984'},
     {id: 'book-6', author: 'Jane Austen', title: 'Pride and Prejudice'},
     {id: 'book-7', author: 'Marcus Aurelius', title: 'Meditations'},
-    {id: 'book-8', author: 'Fyodor Dostoevsky', title: 'The Brothers Karamazov'},
+    {
+      id: 'book-8',
+      author: 'Fyodor Dostoevsky',
+      title: 'The Brothers Karamazov',
+    },
     {id: 'book-9', author: 'Lev Tolstoy', title: 'Anna Karenina'},
     {id: 'book-10', author: 'Fyodor Dostoevsky', title: 'Crime and Punishment'},
   ]
@@ -604,7 +624,11 @@ function SelectExample() {
     {id: 'book-5', author: 'George Orwell', title: '1984'},
     {id: 'book-6', author: 'Jane Austen', title: 'Pride and Prejudice'},
     {id: 'book-7', author: 'Marcus Aurelius', title: 'Meditations'},
-    {id: 'book-8', author: 'Fyodor Dostoevsky', title: 'The Brothers Karamazov'},
+    {
+      id: 'book-8',
+      author: 'Fyodor Dostoevsky',
+      title: 'The Brothers Karamazov',
+    },
     {id: 'book-9', author: 'Lev Tolstoy', title: 'Anna Karenina'},
     {id: 'book-10', author: 'Fyodor Dostoevsky', title: 'Crime and Punishment'},
   ]
@@ -614,12 +638,12 @@ function SelectExample() {
   function stateReducer(state, actionAndChanges) {
     const {changes, type} = actionAndChanges
     switch (type) {
-      case useSelect.stateChangeTypes.MenuKeyDownEnter:
-      case useSelect.stateChangeTypes.MenuKeyDownSpaceButton:
+      case useSelect.stateChangeTypes.ToggleButtonKeyDownEnter:
+      case useSelect.stateChangeTypes.ToggleButtonKeyDownSpaceButton:
       case useSelect.stateChangeTypes.ItemClick:
         return {
           ...changes,
-          isOpen: true, // keep menu open after selection.
+          isOpen: true, // Keep menu open after selection.
           highlightedIndex: state.highlightedIndex,
         }
       default:
@@ -662,8 +686,8 @@ function SelectExample() {
       },
     })
     const buttonText = selectedItems.length
-      ? `${selectedItems.length} elements selected`
-      : 'Elements'
+      ? `${selectedItems.length} books selected.`
+      : 'Best books ever.'
 
     return (
       <div>
@@ -742,7 +766,11 @@ function SelectExample() {
     {id: 'book-5', author: 'George Orwell', title: '1984'},
     {id: 'book-6', author: 'Jane Austen', title: 'Pride and Prejudice'},
     {id: 'book-7', author: 'Marcus Aurelius', title: 'Meditations'},
-    {id: 'book-8', author: 'Fyodor Dostoevsky', title: 'The Brothers Karamazov'},
+    {
+      id: 'book-8',
+      author: 'Fyodor Dostoevsky',
+      title: 'The Brothers Karamazov',
+    },
     {id: 'book-9', author: 'Lev Tolstoy', title: 'Anna Karenina'},
     {id: 'book-10', author: 'Fyodor Dostoevsky', title: 'Crime and Punishment'},
   ]
