@@ -836,6 +836,10 @@ function ComboBoxExample() {
       },
     })
 
+    const inputPlaceholder = selectedItems.length
+      ? `${selectedItems.length} books selected.`
+      : 'Best books ever.'
+
     return (
       <div>
         <div className="w-72 flex flex-col gap-1">
@@ -844,7 +848,7 @@ function ComboBoxExample() {
           </label>
           <div className="flex shadow-sm bg-white gap-0.5">
             <input
-              placeholder="Best book ever"
+              placeholder={inputPlaceholder}
               className="w-full p-1.5"
               {...getInputProps()}
             />
@@ -880,7 +884,6 @@ function ComboBoxExample() {
                 })}
               >
                 <input
-                  placeholder="Best book ever"
                   type="checkbox"
                   className="h-5 w-5"
                   checked={selectedItems.includes(item)}
