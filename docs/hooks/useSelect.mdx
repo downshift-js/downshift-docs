@@ -655,7 +655,6 @@ function SelectExample() {
     const [selectedItems, setSelectedItems] = useState([])
     const {
       isOpen,
-      selectedItem,
       getToggleButtonProps,
       getLabelProps,
       getMenuProps,
@@ -665,6 +664,7 @@ function SelectExample() {
       items: books,
       itemToString,
       stateReducer,
+       // there's no actual selection happening in the hook, we're doing it custom via selectedItems.
       selectedItem: null,
       onSelectedItemChange: ({selectedItem}) => {
         if (!selectedItem) {
@@ -712,7 +712,7 @@ function SelectExample() {
               <li
                 className={cx(
                   highlightedIndex === index && 'bg-blue-300',
-                  selectedItem === item && 'font-bold',
+                  selectedItems.includes(item) && 'font-bold',
                   'py-2 px-3 shadow-sm flex gap-3 items-center',
                 )}
                 key={item.id}
