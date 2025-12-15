@@ -6,6 +6,14 @@ slug: /use-multiple-selection
 
 # useMultipleSelection
 
+## DEPRECATED
+
+Please use the [useTagGroup](/use-tag-group) hook to create multiple selection
+dropdowns with tag groups. Check out the examples for each:
+
+- [useCombobox](/use-combobox#multiple-selection-with-tag-group)
+- [useSelect](/use-select#multiple-selection-with-tag-group)
+
 ## The problem
 
 You have a custom **select** or a **combobox** in your applications which
@@ -33,10 +41,11 @@ arrow navigation between dropdown and items, navigation between the items
 themselves, removing and adding items, and also a helpful _aria-live_ message
 when an item has been removed from the selection.
 
-## Breaking Changes in v8
+## Breaking Changes in v8 and v9
 
-_useMultipleSelection_ has been affected by breaking changes in v8, so check out
-the [migration page][migration-guide-v8].
+_useMultipleSelection_ has been affected by breaking changes in v8 and v9, so
+check out the migration pages for v8[migration-guide-v8] and
+v9[migration-guide-v9].
 
 ## Props used in examples
 
@@ -452,3 +461,5 @@ To see more cool stuff you can build with _useMultipleSelection_, explore the
   https://codesandbox.io/p/sandbox/github/kentcdodds/downshift-examples?file=%2Fsrc%2Findex.js%3A25%2C12&moduleview=1
 [migration-guide-v8]:
   https://github.com/downshift-js/downshift/tree/master/src/hooks/MIGRATION_V8.md
+[migration-guide-v9]:
+  https://github.com/downshift-js/downshift/tree/master/src/hooks/MIGRATION_V9.md

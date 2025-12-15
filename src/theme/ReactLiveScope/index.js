@@ -3,6 +3,7 @@ import Downshift, {
   useCombobox,
   useSelect,
   useMultipleSelection,
+  useTagGroup
 } from 'downshift'
 import cx from 'clsx'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
@@ -27,6 +28,7 @@ const ReactLiveScope = {
   useCombobox,
   useMultipleSelection,
   useSelect,
+  useTagGroup,
   cx,
   Box,
   ExpandMoreIcon,

@@ -1,0 +1,144 @@
+---
+title: useTagGroup
+description: useTagGroup for building tag lists
+slug: /use-tag-group
+---
+
+import {ThemedSnack} from '@site/src/components/ThemedSnack'
+
+# useTagGroup
+
+## The problem
+
+You want to build a tag group component in your app that's accessible and offers
+a great user experience. There is no dedicated ARIA design pattern for this
+component, but since it's widely used, we compiled the list of specifications
+and implemented them through a React hook that's compliant with Downshift's
+principles.
+
+## This solution
+
+**useTagGroup** is a React hook that manages all the stateful logic needed to
+make the tag group functional and accessible. It returns a set of props that are
+meant to be called, and their results destructured on the tag group's elements:
+its container, tag item and tag remove button. These are similar to the props
+provided by vanilla _Downshift_ to the children render prop.
+
+These props are called getter props, and their return values are destructured as
+a set of ARIA attributes and event listeners. Together with the action props and
+state props, they create all the stateful logic needed for the tag group to
+implement the list of requirements. Every functionality needed should be
+provided out-of-the-box: item removal and selection, and left/right arrow
+movement between items, screen reader support etc.
+
+## Props used in examples
+
+In the examples below, we use the _useTagGroup_ hook and destructure the getter
+props and state variables it returns. These are used in the following way:
+
+| Returned prop       | Element    | Comments                                                                                                           |
+| ------------------- | ---------- | ------------------------------------------------------------------------------------------------------------------ |
+| `getTagGroupProps`  | `<div>`    | Call and destructure its returned object on the container element.                                                 |
+| `getTagProps`       | `<span>`   | Call and destructure its returned object on the tag element.                                                       |
+| `getTagRemoveProps` | `<button>` | Call and destructure its returned object on the tag remove button element.                                         |
+| `items`             |            | State value with the items that are part of the tag group. Tags are created based on its iteration.                |
+| `activeIndex`       |            | State value with the index of active tag item. Used below for styling.                                             |
+| `addItem`           |            | Imperative function that adds an item to the group. Below, adding items is possible by clicking on the list items. |
+
+For a complete documentation on all the returned props, hook props and more
+information check out the [Github Page][use-tag-group-github].
+
+## Basic Usage
+
+A tag group can be created with a simple container, and multiple items in the
+container. Each item also has a button element child that's used to remove the
+tag.
+
+[CodeSandbox for basic usage example][code-sandbox-tag-group-usage].
+
+```jsx live
+function TagGroupExample() {
+  const books = [
+    {id: 'book-1', author: 'Harper Lee', title: 'To Kill a Mockingbird'},
+    {id: 'book-2', author: 'Lev Tolstoy', title: 'War and Peace'},
+    {id: 'book-3', author: 'Fyodor Dostoyevsy', title: 'The Idiot'},
+    {id: 'book-4', author: 'Oscar Wilde', title: 'A Picture of Dorian Gray'},
+    {id: 'book-5', author: 'George Orwell', title: '1984'},
+    {id: 'book-6', author: 'Jane Austen', title: 'Pride and Prejudice'},
+    {id: 'book-7', author: 'Marcus Aurelius', title: 'Meditations'},
+    {
+      id: 'book-8',
+      author: 'Fyodor Dostoevsky',
+      title: 'The Brothers Karamazov',
+    },
+    {id: 'book-9', author: 'Lev Tolstoy', title: 'Anna Karenina'},
+    {id: 'book-10', author: 'Fyodor Dostoevsky', title: 'Crime and Punishment'},
+  ]
+
+  function TagGroup() {
+    const initialItems = books.slice(0, 5)
+    const {
+      addItem,
+      getTagProps,
+      getTagRemoveProps,
+      getTagGroupProps,
+      items,
+      activeIndex,
+    } = useTagGroup({initialItems})
+    const itemsToAdd = books.filter(book => !items.includes(book))
+
+    return (
+      <div>
+        <div
+          {...getTagGroupProps({'aria-label': 'books usage example'})}
+          className="inline-flex gap-2 items-center flex-wrap p-1.5"
+        >
+          {items.map((item, index) => (
+            <span
+              className={`${
+                index === activeIndex ? 'italic' : ''
+              } "border border-green-800 bg-green-600 px-1.5 mx-0.5 rounded-[10px] cursor-default hover:opacity-50 focus:bg-red-600 focus:border-red-800"`}
+              key={item.id}
+              {...getTagProps({index, 'aria-label': item.title})}
+            >
+              {item.title}
+              <button
+                className="p-1 cursor-pointer border-0 bg-transparent"
+                type="button"
+                {...getTagRemoveProps({index, 'aria-label': 'remove'})}
+              >
+                &#10005;
+              </button>
+            </span>
+          ))}
+        </div>
+        <div>Add more items:</div>
+        <ul>
+          {itemsToAdd.map(item => (
+            <li key={item.id}>
+              <button
+                tabIndex={0}
+                onClick={() => {
+                  addItem(item)
+                }}
+                onKeyDown={({key}) => {
+                  key === 'Enter' && addItem(item)
+                }}
+              >
+                {item.title}
+              </button>
+            </li>
+          ))}
+        </ul>
+      </div>
+    )
+  }
+
+  return <TagGroup />
+}
+```
+
+[use-tag-group-github]:
+  https://github.com/downshift-js/downshift/tree/master/src/hooks/useTagGroup
+[code-sandbox-tag-group-usage]:
+  https://codesandbox.io/p/sandbox/solitary-fast-8kg78c?file=%2Fsrc%2Fhooks%2FuseTagGroup%2Fbasic-usage.js%3A7%2C10&moduleview=1
