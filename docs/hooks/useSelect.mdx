@@ -746,6 +746,18 @@ function SelectExample() {
 
 ## Multiple selection with Tag Group
 
+If your multiple selection scenario uses a tag group to display selected items,
+you can use the hook in combination with [useTagGroup](/use-tag-group).
+
+In the example below, we use:
+
+- _null_ to control **selectedItem** as the hook should not care about selection.
+- **onSelectedItemChange** to be able to call **addItem** from _useTagGroup_.
+- **stateReducer** to keep the menu open on selection.
+
+[CodeSandbox for combobox with tag group
+example][code-sandbox-combobox-tag-group].
+
 ```jsx live
 function TagGroupExample() {
   const books = [
@@ -1139,6 +1151,8 @@ repository][examples-code-sandbox].
   https://codesandbox.io/p/sandbox/github/kentcdodds/downshift-examples?file=%2Fsrc%2Fhooks%2FuseCombobox%2Faction-props.js&moduleview=1
 [code-sandbox-react-virtual]:
   https://codesandbox.io/p/sandbox/github/kentcdodds/downshift-examples?file=%2Fsrc%2Fhooks%2FuseCombobox%2Freact-virtual.js&moduleview=1
+[code-sandbox-select-tag-group]:
+  https://codesandbox.io/p/sandbox/github/kentcdodds/downshift-examples?file=%2Fsrc%2Fhooks%2FuseSelect%2Ftag-group-multiple-selection.js
 [examples-code-sandbox]:
   https://codesandbox.io/p/sandbox/github/kentcdodds/downshift-examples?file=%2Fsrc%2Findex.js&moduleview=1
 [react-virtual-github]: https://github.com/tannerlinsley/react-virtual
