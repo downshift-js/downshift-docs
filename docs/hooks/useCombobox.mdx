@@ -922,7 +922,7 @@ In the example below, we use:
 example][code-sandbox-combobox-tag-group].
 
 ```jsx live
-function TagGroupExample() {
+function ComboBoxExample() {
   const books = [
     {id: 'book-1', author: 'Harper Lee', title: 'To Kill a Mockingbird'},
     {id: 'book-2', author: 'Lev Tolstoy', title: 'War and Peace'},
@@ -940,7 +940,7 @@ function TagGroupExample() {
     {id: 'book-10', author: 'Fyodor Dostoevsky', title: 'Crime and Punishment'},
   ]
 
-  function TagGroup() {
+  function ComboBox() {
     const initialItems = books.slice(0, 2)
     const [inputValue, setInputValue] = React.useState('')
 
@@ -1061,7 +1061,7 @@ function TagGroupExample() {
     )
   }
 
-  return <TagGroup />
+  return <ComboBox />
 }
 ```
 
