@@ -751,7 +751,8 @@ you can use the hook in combination with [useTagGroup](/use-tag-group).
 
 In the example below, we use:
 
-- _null_ to control **selectedItem** as the hook should not care about selection.
+- _null_ to control **selectedItem** as the hook should not care about
+  selection.
 - **onSelectedItemChange** to be able to call **addItem** from _useTagGroup_.
 - **stateReducer** to keep the menu open on selection.
 
@@ -819,10 +820,16 @@ function TagGroupExample() {
         }
       },
       selectedItem: null,
+      itemToString(item) {
+        return item ? item.title : ''
+      },
       stateReducer(_state, actionAndChanges) {
-        const {changes} = actionAndChanges
+        const {changes, type} = actionAndChanges
 
-        if (changes.selectedItem) {
+        if (
+          changes.selectedItem &&
+          type !== useSelect.stateChangeTypes.ToggleButtonBlur
+        ) {
           return {...changes, inputValue: '', highlightedIndex: 0, isOpen: true}
         }
 
