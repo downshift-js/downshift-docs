@@ -46,7 +46,7 @@ props and state variables it returns. These are used in the following way:
 | `addItem`           |            | Imperative function that adds an item to the group. Below, adding items is possible by clicking on the list items. |
 
 For a complete documentation on all the returned props, hook props and more
-information check out the [Github Page][use-tag-group-github].
+information check out the [GitHub Page][use-tag-group-github].
 
 ## Basic Usage
 
@@ -61,7 +61,7 @@ function TagGroupExample() {
   const books = [
     {id: 'book-1', author: 'Harper Lee', title: 'To Kill a Mockingbird'},
     {id: 'book-2', author: 'Lev Tolstoy', title: 'War and Peace'},
-    {id: 'book-3', author: 'Fyodor Dostoyevsy', title: 'The Idiot'},
+    {id: 'book-3', author: 'Fyodor Dostoevsky', title: 'The Idiot'},
     {id: 'book-4', author: 'Oscar Wilde', title: 'A Picture of Dorian Gray'},
     {id: 'book-5', author: 'George Orwell', title: '1984'},
     {id: 'book-6', author: 'Jane Austen', title: 'Pride and Prejudice'},
@@ -97,7 +97,7 @@ function TagGroupExample() {
             <span
               className={`${
                 index === activeIndex ? 'italic' : ''
-              } "border border-green-800 bg-green-600 px-1.5 mx-0.5 rounded-[10px] cursor-default hover:opacity-50 focus:bg-red-600 focus:border-red-800"`}
+              } border border-green-800 bg-green-600 px-1.5 mx-0.5 rounded-[10px] cursor-default hover:opacity-50 focus:bg-red-600 focus:border-red-800`}
               key={item.id}
               {...getTagProps({index, 'aria-label': item.title})}
             >
