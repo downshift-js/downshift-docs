@@ -111,7 +111,7 @@ function SelectExample() {
         <div className="w-72 flex flex-col gap-1">
           <label {...getLabelProps()}>Choose your favorite book:</label>
           <div
-            className="p-2 bg-white flex justify-between cursor-pointer"
+            className="p-2 bg-white dark:bg-zinc-900 flex justify-between cursor-pointer"
             {...getToggleButtonProps()}
           >
             <span>{selectedItem ? selectedItem.title : 'Best book ever'}</span>
@@ -119,7 +119,7 @@ function SelectExample() {
           </div>
         </div>
         <ul
-          className={`absolute w-72 bg-white mt-1 shadow-md max-h-80 overflow-scroll p-0 z-10 ${
+          className={`absolute w-72 bg-white dark:bg-zinc-900 mt-1 shadow-md max-h-80 overflow-scroll p-0 z-10 ${
             !isOpen && 'hidden'
           }`}
           {...getMenuProps()}
@@ -128,15 +128,19 @@ function SelectExample() {
             books.map((item, index) => (
               <li
                 className={cx(
-                  highlightedIndex === index && 'bg-blue-300',
-                  selectedItem === item && 'font-bold',
-                  'py-2 px-3 shadow-sm flex flex-col',
+                  highlightedIndex === index &&
+                    'bg-blue-300 !text-black dark:bg-sky-700 dark:!text-white',
+                  selectedItem === item &&
+                    'font-bold !text-black dark:!text-white',
+                  'py-2 px-3 shadow-sm flex flex-col text-zinc-900 dark:text-zinc-100',
                 )}
                 key={item.id}
                 {...getItemProps({item, index})}
               >
                 <span>{item.title}</span>
-                <span className="text-sm text-gray-700">{item.author}</span>
+                <span className="text-sm text-zinc-600 dark:text-zinc-300">
+                  {item.author}
+                </span>
               </li>
             ))}
         </ul>
@@ -240,7 +244,7 @@ function SelectExample() {
         <List
           className={cx(
             !isOpen && 'hidden',
-            '!absolute bg-white w-72 shadow-md max-h-80 overflow-scroll',
+            '!absolute bg-white dark:bg-zinc-900 w-72 shadow-md max-h-80 overflow-scroll',
           )}
           {...getMenuProps()}
         >
@@ -249,9 +253,11 @@ function SelectExample() {
               return (
                 <ListItem
                   className={cx(
-                    highlightedIndex === index && 'bg-blue-300',
-                    selectedItem === item && 'font-bold',
-                    'py-2 px-3 shadow-sm',
+                    highlightedIndex === index &&
+                      'bg-blue-300 !text-black dark:bg-sky-700 dark:!text-white',
+                    selectedItem === item &&
+                      'font-bold !text-black dark:!text-white',
+                    'py-2 px-3 shadow-sm text-zinc-900 dark:text-zinc-100',
                   )}
                   key={item.id}
                   {...getItemProps({
@@ -259,7 +265,16 @@ function SelectExample() {
                     index,
                   })}
                 >
-                  <ListItemText primary={item.title} secondary={item.author} />
+                  <ListItemText
+                    primary={item.title}
+                    secondary={item.author}
+                    primaryTypographyProps={{
+                      className: 'text-zinc-900 dark:text-zinc-100',
+                    }}
+                    secondaryTypographyProps={{
+                      className: 'text-zinc-600 dark:text-zinc-300',
+                    }}
+                  />
                 </ListItem>
               )
             })}
@@ -329,7 +344,7 @@ function SelectExample() {
         <div className="w-72 flex flex-col gap-1">
           <label {...getLabelProps()}>Choose your favorite book:</label>
           <div
-            className="p-2 bg-white flex justify-between cursor-pointer"
+            className="p-2 bg-white dark:bg-zinc-900 flex justify-between cursor-pointer"
             {...getToggleButtonProps()}
           >
             <span>{selectedItem ? selectedItem.title : 'Best book ever'}</span>
@@ -337,7 +352,7 @@ function SelectExample() {
           </div>
         </div>
         <ul
-          className={`absolute w-72 bg-white mt-1 shadow-md max-h-80 overflow-scroll p-0 z-10 ${
+          className={`absolute w-72 bg-white dark:bg-zinc-900 mt-1 shadow-md max-h-80 overflow-scroll p-0 z-10 ${
             !isOpen && 'hidden'
           }`}
           {...getMenuProps()}
@@ -346,15 +361,19 @@ function SelectExample() {
             books.map((item, index) => (
               <li
                 className={cx(
-                  highlightedIndex === index && 'bg-blue-300',
-                  selectedItem === item && 'font-bold',
-                  'py-2 px-3 shadow-sm flex flex-col',
+                  highlightedIndex === index &&
+                    'bg-blue-300 !text-black dark:bg-sky-700 dark:!text-white',
+                  selectedItem === item &&
+                    'font-bold !text-black dark:!text-white',
+                  'py-2 px-3 shadow-sm flex flex-col text-zinc-900 dark:text-zinc-100',
                 )}
                 key={item.id}
                 {...getItemProps({item, index})}
               >
                 <span>{item.title}</span>
-                <span className="text-sm text-gray-700">{item.author}</span>
+                <span className="text-sm text-zinc-600 dark:text-zinc-300">
+                  {item.author}
+                </span>
               </li>
             ))}
         </ul>
@@ -458,7 +477,7 @@ function SelectExample() {
         <div className="w-72 flex flex-col gap-1">
           <label {...getLabelProps()}>Choose your favorite book:</label>
           <div
-            className="p-2 bg-white flex justify-between cursor-pointer"
+            className="p-2 bg-white dark:bg-zinc-900 flex justify-between cursor-pointer"
             {...getToggleButtonProps()}
           >
             <span>{selectedItem ? selectedItem.title : 'Best book ever'}</span>
@@ -466,7 +485,7 @@ function SelectExample() {
           </div>
         </div>
         <ul
-          className={`absolute w-72 bg-white mt-1 shadow-md max-h-80 overflow-scroll p-0 z-10 ${
+          className={`absolute w-72 bg-white dark:bg-zinc-900 mt-1 shadow-md max-h-80 overflow-scroll p-0 z-10 ${
             !isOpen && 'hidden'
           }`}
           {...getMenuProps()}
@@ -475,15 +494,19 @@ function SelectExample() {
             books.map((item, index) => (
               <li
                 className={cx(
-                  highlightedIndex === index && 'bg-blue-300',
-                  selectedItem === item && 'font-bold',
-                  'py-2 px-3 shadow-sm flex flex-col',
+                  highlightedIndex === index &&
+                    'bg-blue-300 !text-black dark:bg-sky-700 dark:!text-white',
+                  selectedItem === item &&
+                    'font-bold !text-black dark:!text-white',
+                  'py-2 px-3 shadow-sm flex flex-col text-zinc-900 dark:text-zinc-100',
                 )}
                 key={item.id}
                 {...getItemProps({item, index})}
               >
                 <span>{item.title}</span>
-                <span className="text-sm text-gray-700">{item.author}</span>
+                <span className="text-sm text-zinc-600 dark:text-zinc-300">
+                  {item.author}
+                </span>
               </li>
             ))}
         </ul>
@@ -550,7 +573,7 @@ function SelectExample() {
         <div className="w-72 flex flex-col gap-1">
           <label {...getLabelProps()}>Choose your favorite book:</label>
           <div
-            className="p-2 bg-white flex justify-between cursor-pointer"
+            className="p-2 bg-white dark:bg-zinc-900 flex justify-between cursor-pointer"
             {...getToggleButtonProps()}
           >
             <span>{selectedItem ? selectedItem.title : 'Best book ever'}</span>
@@ -558,7 +581,7 @@ function SelectExample() {
           </div>
         </div>
         <ul
-          className={`absolute w-72 bg-white mt-1 shadow-md max-h-80 overflow-scroll p-0 z-10 ${
+          className={`absolute w-72 bg-white dark:bg-zinc-900 mt-1 shadow-md max-h-80 overflow-scroll p-0 z-10 ${
             !isOpen && 'hidden'
           }`}
           {...getMenuProps()}
@@ -567,15 +590,19 @@ function SelectExample() {
             books.map((item, index) => (
               <li
                 className={cx(
-                  highlightedIndex === index && 'bg-blue-300',
-                  selectedItem === item && 'font-bold',
-                  'py-2 px-3 shadow-sm flex flex-col',
+                  highlightedIndex === index &&
+                    'bg-blue-300 !text-black dark:bg-sky-700 dark:!text-white',
+                  selectedItem === item &&
+                    'font-bold !text-black dark:!text-white',
+                  'py-2 px-3 shadow-sm flex flex-col text-zinc-900 dark:text-zinc-100',
                 )}
                 key={item.id}
                 {...getItemProps({item, index})}
               >
                 <span>{item.title}</span>
-                <span className="text-sm text-gray-700">{item.author}</span>
+                <span className="text-sm text-zinc-600 dark:text-zinc-300">
+                  {item.author}
+                </span>
               </li>
             ))}
         </ul>
@@ -694,7 +721,7 @@ function SelectExample() {
         <div className="w-72 flex flex-col gap-1">
           <label {...getLabelProps()}>Choose your favorite book:</label>
           <div
-            className="p-2 bg-white flex justify-between cursor-pointer"
+            className="p-2 bg-white dark:bg-zinc-900 flex justify-between cursor-pointer"
             {...getToggleButtonProps()}
           >
             <span>{buttonText}</span>
@@ -702,7 +729,7 @@ function SelectExample() {
           </div>
         </div>
         <ul
-          className={`absolute w-72 bg-white mt-1 shadow-md max-h-80 overflow-scroll p-0 z-10 ${
+          className={`absolute w-72 bg-white dark:bg-zinc-900 mt-1 shadow-md max-h-80 overflow-scroll p-0 z-10 ${
             !isOpen && 'hidden'
           }`}
           {...getMenuProps()}
@@ -711,9 +738,11 @@ function SelectExample() {
             books.map((item, index) => (
               <li
                 className={cx(
-                  highlightedIndex === index && 'bg-blue-300',
-                  selectedItems.includes(item) && 'font-bold',
-                  'py-2 px-3 shadow-sm flex gap-3 items-center',
+                  highlightedIndex === index &&
+                    'bg-blue-300 !text-black dark:bg-sky-700 dark:!text-white',
+                  selectedItems.includes(item) &&
+                    'font-bold !text-black dark:!text-white',
+                  'py-2 px-3 shadow-sm flex gap-3 items-center text-zinc-900 dark:text-zinc-100',
                 )}
                 key={item.id}
                 {...getItemProps({
@@ -731,7 +760,9 @@ function SelectExample() {
                 />
                 <div className="flex flex-col">
                   <span>{item.title}</span>
-                  <span className="text-sm text-gray-700">{item.author}</span>
+                  <span className="text-sm text-zinc-600 dark:text-zinc-300">
+                    {item.author}
+                  </span>
                 </div>
               </li>
             ))}
@@ -864,7 +895,7 @@ function TagGroupExample() {
         <div className="w-72 flex flex-col gap-1">
           <label {...getLabelProps()}>Choose your favorite book:</label>
           <div
-            className="p-2 bg-white flex justify-between cursor-pointer"
+            className="p-2 bg-white dark:bg-zinc-900 flex justify-between cursor-pointer"
             {...getToggleButtonProps()}
           >
             <span>{selectedItem ? selectedItem.title : 'Best book ever'}</span>
@@ -872,7 +903,7 @@ function TagGroupExample() {
           </div>
         </div>
         <ul
-          className={`absolute w-72 bg-white mt-1 shadow-md max-h-80 overflow-scroll p-0 z-10 ${
+          className={`absolute w-72 bg-white dark:bg-zinc-900 mt-1 shadow-md max-h-80 overflow-scroll p-0 z-10 ${
             !isOpen && 'hidden'
           }`}
           {...getMenuProps()}
@@ -881,15 +912,19 @@ function TagGroupExample() {
             itemsToAdd.map((item, index) => (
               <li
                 className={cx(
-                  highlightedIndex === index && 'bg-blue-300',
-                  selectedItem === item && 'font-bold',
-                  'py-2 px-3 shadow-sm flex flex-col',
+                  highlightedIndex === index &&
+                    'bg-blue-300 !text-black dark:bg-sky-700 dark:!text-white',
+                  selectedItem === item &&
+                    'font-bold !text-black dark:!text-white',
+                  'py-2 px-3 shadow-sm flex flex-col text-zinc-900 dark:text-zinc-100',
                 )}
                 key={item.id}
                 {...getItemProps({item, index})}
               >
                 <span>{item.title}</span>
-                <span className="text-sm text-gray-700">{item.author}</span>
+                <span className="text-sm text-zinc-600 dark:text-zinc-300">
+                  {item.author}
+                </span>
               </li>
             ))}
         </ul>
@@ -958,7 +993,7 @@ function SelectExample() {
           <label {...getLabelProps()}>Choose your favorite book:</label>
           <div className="flex justify-between">
             <div
-              className="p-2 bg-white flex justify-between grow cursor-pointer"
+              className="p-2 bg-white dark:bg-zinc-900 flex justify-between grow cursor-pointer"
               {...getToggleButtonProps({
                 onMouseEnter() {
                   openMenu()
@@ -974,7 +1009,7 @@ function SelectExample() {
             </div>
             <button
               aria-label="clear selection"
-              className="p-2 bg-white"
+              className="p-2 bg-white dark:bg-zinc-900"
               type="button"
               onClick={() => {
                 selectItem(null)
@@ -985,7 +1020,7 @@ function SelectExample() {
           </div>
         </div>
         <ul
-          className={`absolute w-72 bg-white mt-1 shadow-md max-h-80 overflow-scroll p-0 z-10 ${
+          className={`absolute w-72 bg-white dark:bg-zinc-900 mt-1 shadow-md max-h-80 overflow-scroll p-0 z-10 ${
             !isOpen && 'hidden'
           }`}
           {...getMenuProps()}
@@ -994,15 +1029,19 @@ function SelectExample() {
             books.map((item, index) => (
               <li
                 className={cx(
-                  highlightedIndex === index && 'bg-blue-300',
-                  selectedItem === item && 'font-bold',
-                  'py-2 px-3 shadow-sm flex flex-col',
+                  highlightedIndex === index &&
+                    'bg-blue-300 !text-black dark:bg-sky-700 dark:!text-white',
+                  selectedItem === item &&
+                    'font-bold !text-black dark:!text-white',
+                  'py-2 px-3 shadow-sm flex flex-col text-zinc-900 dark:text-zinc-100',
                 )}
                 key={item.id}
                 {...getItemProps({item, index})}
               >
                 <span>{item.title}</span>
-                <span className="text-sm text-gray-700">{item.author}</span>
+                <span className="text-sm text-zinc-600 dark:text-zinc-300">
+                  {item.author}
+                </span>
               </li>
             ))}
         </ul>
@@ -1078,7 +1117,7 @@ function SelectExample() {
         <div className="w-72 flex flex-col gap-1">
           <label {...getLabelProps()}>Choose your favorite book:</label>
           <div
-            className="p-2 bg-white flex justify-between cursor-pointer"
+            className="p-2 bg-white dark:bg-zinc-900 flex justify-between cursor-pointer"
             {...getToggleButtonProps()}
           >
             <span>{selectedItem ? selectedItem.title : 'Best book ever'}</span>
@@ -1086,7 +1125,7 @@ function SelectExample() {
           </div>
         </div>
         <ul
-          className={`absolute w-72 bg-white mt-1 shadow-md max-h-80 overflow-scroll p-0 z-10 ${
+          className={`absolute w-72 bg-white dark:bg-zinc-900 mt-1 shadow-md max-h-80 overflow-scroll p-0 z-10 ${
             !isOpen && 'hidden'
           }`}
           {...getMenuProps()}
@@ -1097,9 +1136,11 @@ function SelectExample() {
               {rowVirtualizer.virtualItems.map(virtualRow => (
                 <li
                   className={cx(
-                    highlightedIndex === virtualRow.index && 'bg-blue-300',
-                    selectedItem === books[virtualRow.index] && 'font-bold',
-                    'py-2 px-3 shadow-sm flex flex-col',
+                    highlightedIndex === virtualRow.index &&
+                      'bg-blue-300 !text-black dark:bg-sky-700 dark:!text-white',
+                    selectedItem === books[virtualRow.index] &&
+                      'font-bold !text-black dark:!text-white',
+                    'py-2 px-3 shadow-sm flex flex-col text-zinc-900 dark:text-zinc-100',
                   )}
                   key={books[virtualRow.index].id}
                   {...getItemProps({
@@ -1116,7 +1157,7 @@ function SelectExample() {
                   }}
                 >
                   <span>{books[virtualRow.index].title}</span>
-                  <span className="text-sm text-gray-700">
+                  <span className="text-sm text-zinc-600 dark:text-zinc-300">
                     {books[virtualRow.index].author}
                   </span>
                 </li>

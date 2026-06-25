@@ -135,7 +135,7 @@ function ComboBoxExample() {
           <label className="w-fit" {...getLabelProps()}>
             Choose your favorite book:
           </label>
-          <div className="flex shadow-sm bg-white gap-0.5">
+          <div className="flex shadow-sm bg-white dark:bg-zinc-900 gap-0.5">
             <input
               placeholder="Best book ever"
               className="w-full p-1.5"
@@ -152,7 +152,7 @@ function ComboBoxExample() {
           </div>
         </div>
         <ul
-          className={`absolute w-72 bg-white mt-1 shadow-md max-h-80 overflow-scroll p-0 z-10 ${
+          className={`absolute w-72 bg-white dark:bg-zinc-900 mt-1 shadow-md max-h-80 overflow-scroll p-0 z-10 ${
             !(isOpen && items.length) && 'hidden'
           }`}
           {...getMenuProps()}
@@ -161,15 +161,19 @@ function ComboBoxExample() {
             items.map((item, index) => (
               <li
                 className={cx(
-                  highlightedIndex === index && 'bg-blue-300',
-                  selectedItem === item && 'font-bold',
-                  'py-2 px-3 shadow-sm flex flex-col',
+                  highlightedIndex === index &&
+                    'bg-blue-300 !text-black dark:bg-sky-700 dark:!text-white',
+                  selectedItem === item &&
+                    'font-bold !text-black dark:!text-white',
+                  'py-2 px-3 shadow-sm flex flex-col text-zinc-900 dark:text-zinc-100',
                 )}
                 key={item.id}
                 {...getItemProps({item, index})}
               >
                 <span>{item.title}</span>
-                <span className="text-sm text-gray-700">{item.author}</span>
+                <span className="text-sm text-zinc-600 dark:text-zinc-300">
+                  {item.author}
+                </span>
               </li>
             ))}
         </ul>
@@ -279,7 +283,7 @@ function ComboBoxExample() {
           <FormLabel className="w-fit" {...getLabelProps()}>
             Choose your favorite book:
           </FormLabel>
-          <Box className="flex shadow-sm bg-white gap-0.5">
+          <Box className="flex shadow-sm bg-white dark:bg-zinc-900 gap-0.5">
             <Input
               placeholder="Best book ever"
               className="w-full p-1.5"
@@ -297,7 +301,7 @@ function ComboBoxExample() {
         <List
           className={cx(
             (!isOpen || !items.length) && 'hidden',
-            '!absolute bg-white w-72 shadow-md max-h-80 overflow-scroll',
+            '!absolute bg-white dark:bg-zinc-900 w-72 shadow-md max-h-80 overflow-scroll',
           )}
           {...getMenuProps()}
         >
@@ -306,9 +310,11 @@ function ComboBoxExample() {
               return (
                 <ListItem
                   className={cx(
-                    highlightedIndex === index && 'bg-blue-300',
-                    selectedItem === item && 'font-bold',
-                    'py-2 px-3 shadow-sm',
+                    highlightedIndex === index &&
+                      'bg-blue-300 !text-black dark:bg-sky-700 dark:!text-white',
+                    selectedItem === item &&
+                      'font-bold !text-black dark:!text-white',
+                    'py-2 px-3 shadow-sm text-zinc-900 dark:text-zinc-100',
                   )}
                   key={item.id}
                   {...getItemProps({
@@ -316,7 +322,16 @@ function ComboBoxExample() {
                     index,
                   })}
                 >
-                  <ListItemText primary={item.title} secondary={item.author} />
+                  <ListItemText
+                    primary={item.title}
+                    secondary={item.author}
+                    primaryTypographyProps={{
+                      className: 'text-zinc-900 dark:text-zinc-100',
+                    }}
+                    secondaryTypographyProps={{
+                      className: 'text-zinc-600 dark:text-zinc-300',
+                    }}
+                  />
                 </ListItem>
               )
             })}
@@ -400,7 +415,7 @@ function ComboBoxExample() {
           <label className="w-fit" {...getLabelProps()}>
             Choose your favorite book:
           </label>
-          <div className="flex shadow-sm bg-white gap-0.5">
+          <div className="flex shadow-sm bg-white dark:bg-zinc-900 gap-0.5">
             <input
               placeholder="Best book ever"
               className="w-full p-1.5"
@@ -417,7 +432,7 @@ function ComboBoxExample() {
           </div>
         </div>
         <ul
-          className={`absolute w-72 bg-white mt-1 shadow-md max-h-80 overflow-scroll p-0 z-10 ${
+          className={`absolute w-72 bg-white dark:bg-zinc-900 mt-1 shadow-md max-h-80 overflow-scroll p-0 z-10 ${
             !(isOpen && items.length) && 'hidden'
           }`}
           {...getMenuProps()}
@@ -426,15 +441,19 @@ function ComboBoxExample() {
             items.map((item, index) => (
               <li
                 className={cx(
-                  highlightedIndex === index && 'bg-blue-300',
-                  selectedItem === item && 'font-bold',
-                  'py-2 px-3 shadow-sm flex flex-col',
+                  highlightedIndex === index &&
+                    'bg-blue-300 !text-black dark:bg-sky-700 dark:!text-white',
+                  selectedItem === item &&
+                    'font-bold !text-black dark:!text-white',
+                  'py-2 px-3 shadow-sm flex flex-col text-zinc-900 dark:text-zinc-100',
                 )}
                 key={item.id}
                 {...getItemProps({item, index})}
               >
                 <span>{item.title}</span>
-                <span className="text-sm text-gray-700">{item.author}</span>
+                <span className="text-sm text-zinc-600 dark:text-zinc-300">
+                  {item.author}
+                </span>
               </li>
             ))}
         </ul>
@@ -557,7 +576,7 @@ function ComboBoxExample() {
           <label className="w-fit" {...getLabelProps()}>
             Choose your favorite book:
           </label>
-          <div className="flex shadow-sm bg-white gap-0.5">
+          <div className="flex shadow-sm bg-white dark:bg-zinc-900 gap-0.5">
             <input
               placeholder="Best book ever"
               className="w-full p-1.5"
@@ -574,7 +593,7 @@ function ComboBoxExample() {
           </div>
         </div>
         <ul
-          className={`absolute w-72 bg-white mt-1 shadow-md max-h-80 overflow-scroll p-0 z-10 ${
+          className={`absolute w-72 bg-white dark:bg-zinc-900 mt-1 shadow-md max-h-80 overflow-scroll p-0 z-10 ${
             !(isOpen && items.length) && 'hidden'
           }`}
           {...getMenuProps()}
@@ -583,15 +602,19 @@ function ComboBoxExample() {
             items.map((item, index) => (
               <li
                 className={cx(
-                  highlightedIndex === index && 'bg-blue-300',
-                  selectedItem === item && 'font-bold',
-                  'py-2 px-3 shadow-sm flex flex-col',
+                  highlightedIndex === index &&
+                    'bg-blue-300 !text-black dark:bg-sky-700 dark:!text-white',
+                  selectedItem === item &&
+                    'font-bold !text-black dark:!text-white',
+                  'py-2 px-3 shadow-sm flex flex-col text-zinc-900 dark:text-zinc-100',
                 )}
                 key={item.id}
                 {...getItemProps({item, index})}
               >
                 <span>{item.title}</span>
-                <span className="text-sm text-gray-700">{item.author}</span>
+                <span className="text-sm text-zinc-600 dark:text-zinc-300">
+                  {item.author}
+                </span>
               </li>
             ))}
         </ul>
@@ -672,7 +695,7 @@ function ComboBoxExample() {
           <label className="w-fit" {...getLabelProps()}>
             Choose your favorite book:
           </label>
-          <div className="flex shadow-sm bg-white gap-0.5">
+          <div className="flex shadow-sm bg-white dark:bg-zinc-900 gap-0.5">
             <input
               placeholder="Best book ever"
               className="w-full p-1.5"
@@ -689,7 +712,7 @@ function ComboBoxExample() {
           </div>
         </div>
         <ul
-          className={`absolute w-72 bg-white mt-1 shadow-md max-h-80 overflow-scroll p-0 z-10 ${
+          className={`absolute w-72 bg-white dark:bg-zinc-900 mt-1 shadow-md max-h-80 overflow-scroll p-0 z-10 ${
             !(isOpen && items.length) && 'hidden'
           }`}
           {...getMenuProps()}
@@ -698,15 +721,19 @@ function ComboBoxExample() {
             items.map((item, index) => (
               <li
                 className={cx(
-                  highlightedIndex === index && 'bg-blue-300',
-                  selectedItem === item && 'font-bold',
-                  'py-2 px-3 shadow-sm flex flex-col',
+                  highlightedIndex === index &&
+                    'bg-blue-300 !text-black dark:bg-sky-700 dark:!text-white',
+                  selectedItem === item &&
+                    'font-bold !text-black dark:!text-white',
+                  'py-2 px-3 shadow-sm flex flex-col text-zinc-900 dark:text-zinc-100',
                 )}
                 key={item.id}
                 {...getItemProps({item, index})}
               >
                 <span>{item.title}</span>
-                <span className="text-sm text-gray-700">{item.author}</span>
+                <span className="text-sm text-zinc-600 dark:text-zinc-300">
+                  {item.author}
+                </span>
               </li>
             ))}
         </ul>
@@ -847,7 +874,7 @@ function ComboBoxExample() {
           <label className="w-fit" {...getLabelProps()}>
             Choose your favorite books:
           </label>
-          <div className="flex shadow-sm bg-white gap-0.5">
+          <div className="flex shadow-sm bg-white dark:bg-zinc-900 gap-0.5">
             <input
               placeholder={inputPlaceholder}
               className="w-full p-1.5"
@@ -864,7 +891,7 @@ function ComboBoxExample() {
           </div>
         </div>
         <ul
-          className={`absolute w-72 bg-white mt-1 shadow-md max-h-80 overflow-scroll p-0 z-10 ${
+          className={`absolute w-72 bg-white dark:bg-zinc-900 mt-1 shadow-md max-h-80 overflow-scroll p-0 z-10 ${
             !(isOpen && items.length) && 'hidden'
           }`}
           {...getMenuProps()}
@@ -873,9 +900,11 @@ function ComboBoxExample() {
             items.map((item, index) => (
               <li
                 className={cx(
-                  highlightedIndex === index && 'bg-blue-300',
-                  selectedItems.includes(item) && 'font-bold',
-                  'py-2 px-3 shadow-sm flex gap-3 items-center',
+                  highlightedIndex === index &&
+                    'bg-blue-300 !text-black dark:bg-sky-700 dark:!text-white',
+                  selectedItems.includes(item) &&
+                    'font-bold !text-black dark:!text-white',
+                  'py-2 px-3 shadow-sm flex gap-3 items-center text-zinc-900 dark:text-zinc-100',
                 )}
                 key={item.id}
                 {...getItemProps({
@@ -893,7 +922,9 @@ function ComboBoxExample() {
                 />
                 <div className="flex flex-col">
                   <span>{item.title}</span>
-                  <span className="text-sm text-gray-700">{item.author}</span>
+                  <span className="text-sm text-zinc-600 dark:text-zinc-300">
+                    {item.author}
+                  </span>
                 </div>
               </li>
             ))}
@@ -1030,7 +1061,7 @@ function ComboBoxExample() {
           <label className="w-fit" {...getLabelProps()}>
             Choose your favorite book:
           </label>
-          <div className="flex shadow-sm bg-white gap-0.5">
+          <div className="flex shadow-sm bg-white dark:bg-zinc-900 gap-0.5">
             <input
               placeholder="Best book ever"
               className="w-full p-1.5"
@@ -1047,7 +1078,7 @@ function ComboBoxExample() {
           </div>
         </div>
         <ul
-          className={`absolute w-72 bg-white mt-1 shadow-md max-h-80 overflow-scroll p-0 z-10 ${
+          className={`absolute w-72 bg-white dark:bg-zinc-900 mt-1 shadow-md max-h-80 overflow-scroll p-0 z-10 ${
             !(isOpen && itemsToAdd.length) && 'hidden'
           }`}
           {...getMenuProps()}
@@ -1056,14 +1087,17 @@ function ComboBoxExample() {
             itemsToAdd.map((item, index) => (
               <li
                 className={cx(
-                  highlightedIndex === index && 'bg-blue-300',
-                  'py-2 px-3 shadow-sm flex flex-col',
+                  highlightedIndex === index &&
+                    'bg-blue-300 !text-black dark:bg-sky-700 dark:!text-white',
+                  'py-2 px-3 shadow-sm flex flex-col text-zinc-900 dark:text-zinc-100',
                 )}
                 key={item.id}
                 {...getItemProps({item, index})}
               >
                 <span>{item.title}</span>
-                <span className="text-sm text-gray-700">{item.author}</span>
+                <span className="text-sm text-zinc-600 dark:text-zinc-300">
+                  {item.author}
+                </span>
               </li>
             ))}
         </ul>
@@ -1143,7 +1177,7 @@ function ComboBoxExample() {
           <label className="w-fit" {...getLabelProps()}>
             Choose your favorite book:
           </label>
-          <div className="flex shadow-sm bg-white gap-0.5">
+          <div className="flex shadow-sm bg-white dark:bg-zinc-900 gap-0.5">
             <input
               placeholder="Best book ever"
               className="w-full p-1.5"
@@ -1171,7 +1205,7 @@ function ComboBoxExample() {
           </div>
         </div>
         <ul
-          className={`absolute w-72 bg-white mt-1 shadow-md max-h-80 overflow-scroll p-0 z-10 ${
+          className={`absolute w-72 bg-white dark:bg-zinc-900 mt-1 shadow-md max-h-80 overflow-scroll p-0 z-10 ${
             !(isOpen && items.length) && 'hidden'
           }`}
           {...getMenuProps()}
@@ -1180,15 +1214,19 @@ function ComboBoxExample() {
             items.map((item, index) => (
               <li
                 className={cx(
-                  highlightedIndex === index && 'bg-blue-300',
-                  selectedItem === item && 'font-bold',
-                  'py-2 px-3 shadow-sm flex flex-col',
+                  highlightedIndex === index &&
+                    'bg-blue-300 !text-black dark:bg-sky-700 dark:!text-white',
+                  selectedItem === item &&
+                    'font-bold !text-black dark:!text-white',
+                  'py-2 px-3 shadow-sm flex flex-col text-zinc-900 dark:text-zinc-100',
                 )}
                 key={item.id}
                 {...getItemProps({item, index})}
               >
                 <span>{item.title}</span>
-                <span className="text-sm text-gray-700">{item.author}</span>
+                <span className="text-sm text-zinc-600 dark:text-zinc-300">
+                  {item.author}
+                </span>
               </li>
             ))}
         </ul>
@@ -1280,7 +1318,7 @@ function ComboBoxExample() {
           <label className="w-fit" {...getLabelProps()}>
             Choose your favorite book:
           </label>
-          <div className="flex shadow-sm bg-white gap-0.5">
+          <div className="flex shadow-sm bg-white dark:bg-zinc-900 gap-0.5">
             <input
               placeholder="Best book ever"
               className="w-full p-1.5"
@@ -1297,7 +1335,7 @@ function ComboBoxExample() {
           </div>
         </div>
         <ul
-          className={`absolute w-72 bg-white mt-1 shadow-md max-h-80 overflow-scroll p-0 z-10 ${
+          className={`absolute w-72 bg-white dark:bg-zinc-900 mt-1 shadow-md max-h-80 overflow-scroll p-0 z-10 ${
             !(isOpen && items.length) && 'hidden'
           }`}
           {...getMenuProps({ref: listRef})}
@@ -1308,9 +1346,11 @@ function ComboBoxExample() {
               {rowVirtualizer.virtualItems.map(virtualRow => (
                 <li
                   className={cx(
-                    highlightedIndex === virtualRow.index && 'bg-blue-300',
-                    selectedItem === items[virtualRow.index] && 'font-bold',
-                    'py-2 px-3 shadow-sm flex flex-col',
+                    highlightedIndex === virtualRow.index &&
+                      'bg-blue-300 !text-black dark:bg-sky-700 dark:!text-white',
+                    selectedItem === items[virtualRow.index] &&
+                      'font-bold !text-black dark:!text-white',
+                    'py-2 px-3 shadow-sm flex flex-col text-zinc-900 dark:text-zinc-100',
                   )}
                   key={items[virtualRow.index].id}
                   {...getItemProps({
@@ -1327,7 +1367,7 @@ function ComboBoxExample() {
                   }}
                 >
                   <span>{items[virtualRow.index].title}</span>
-                  <span className="text-sm text-gray-700">
+                  <span className="text-sm text-zinc-600 dark:text-zinc-300">
                     {items[virtualRow.index].author}
                   </span>
                 </li>
