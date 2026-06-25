@@ -4,6 +4,26 @@
 const lightCodeTheme = require('prism-react-renderer/themes/github')
 const darkCodeTheme = require('prism-react-renderer/themes/dracula')
 
+function reactJsxRuntimeCompatPlugin() {
+  return {
+    name: 'react-jsx-runtime-compat',
+    configureWebpack() {
+      return {
+        module: {
+          rules: [
+            {
+              test: /\.m?js$/,
+              resolve: {
+                fullySpecified: false,
+              },
+            },
+          ],
+        },
+      }
+    },
+  }
+}
+
 /** @type {import('@docusaurus/types').Config} */
 const config = {
   title: 'Downshift',
@@ -48,7 +68,7 @@ const config = {
     ],
   ],
   themes: ['@docusaurus/theme-live-codeblock'],
-  plugins: ['my-loaders'],
+  plugins: ['my-loaders', reactJsxRuntimeCompatPlugin],
 
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
