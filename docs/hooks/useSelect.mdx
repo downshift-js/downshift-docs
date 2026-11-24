@@ -177,13 +177,10 @@ Since _MaterialUI_ components already accept a _ref_ prop that will be filled
 with the resulting DOM element, we don't need to do anything specific other than
 just spreading the getter props.
 
-Another point worth mentioning is that in this case items are objects and not
-strings. As a result, the _itemToString_ prop is passed to _useSelect_. It will
-return the string equivalent of the item which will be used for
-selection/highlight by character keys and for the aria-live a11y
-selectionmessage that will occur on every item selection: _$ItemString has been
-selected_. _item.title_ is chosen to be the string equivalent of each item
-object.
+`itemToString` returns a book's title so users can type the first letters of a
+title to find it. The button also uses that function to display the selected
+book. In v9, custom live region messages are opt-in. To announce a custom
+selection message, pass `getA11yStatusMessage` to `useSelect`.
 
 [CodeSandbox for MaterialUI usage example][code-sandbox-material-ui-usage].
 
