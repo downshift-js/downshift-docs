@@ -618,10 +618,8 @@ function SelectExample() {
 
 ## Basic Multiple selection
 
-The _useSelect_ hook can be used to create a widget that supports multiple
-selection. In the example below, we mark each selected item with a checked
-checkbox inside the menu list. Every other aspect remains the same as with the
-single selection dropdown. To display selected items as removable tags, see the
+Select any number of books from the list. To display selected items as removable
+tags, see the
 [useTagGroup example](#multiple-selection-with-tag-group).
 
 In the example below, we control the _selectedItem_ to always be _null_ and keep
@@ -631,8 +629,9 @@ which is added to / removed from the _selectedItems_ array. We also use
 _stateReducer_ to keep the menu open on selection by Enter key or by click, and
 also to keep the _highlightedIndex_ to be the most recent selected item.
 
-In order to visually illustrate the selection, we render a checkbox before each
-of them and check only the ones that are selected.
+The listbox has `aria-multiselectable="true"`, and each option exposes its
+selection state through `aria-selected`. A decorative checkmark shows which
+books are selected.
 
 [CodeSandbox for basic multiple selection
 example][code-sandbox-basic-multiple-selection].
@@ -728,7 +727,7 @@ function SelectExample() {
           className={`absolute w-72 bg-white dark:bg-zinc-900 mt-1 shadow-md max-h-80 overflow-scroll p-0 z-10 ${
             !isOpen && 'hidden'
           }`}
-          {...getMenuProps()}
+          {...getMenuProps({'aria-multiselectable': true})}
         >
           {isOpen &&
             books.map((item, index) => (
@@ -747,13 +746,9 @@ function SelectExample() {
                   'aria-selected': selectedItems.includes(item),
                 })}
               >
-                <input
-                  type="checkbox"
-                  className="h-5 w-5"
-                  checked={selectedItems.includes(item)}
-                  value={item}
-                  onChange={() => null}
-                />
+                <span aria-hidden="true" className="w-5 shrink-0">
+                  {selectedItems.includes(item) ? '✓' : ''}
+                </span>
                 <div className="flex flex-col">
                   <span>{item.title}</span>
                   <span className="text-sm text-zinc-600 dark:text-zinc-300">
