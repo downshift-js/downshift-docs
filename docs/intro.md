@@ -28,9 +28,10 @@ list below.
 
 - [useSelect](/use-select) for a custom select component.
 - [useCombobox](/use-combobox) for a combobox/autocomplete input.
-- [useMultipleSelection](/use-multiple-selection) for selecting multiple items
-  in a select or a combobox, as well as deleting items from selection or
-  navigating between the selected items.
+- [useTagGroup](/use-tag-group) for navigating and removing selected items
+  displayed as tags. See the
+  [combobox with tags](/use-combobox#multiple-selection-with-tag-group) and
+  [select with tags](/use-select#multiple-selection-with-tag-group) examples.
 
 The second solution is the [Downshift](/downshift) component, which can also be
 used to create accessible combobox and select components, providing the logic in

@@ -624,9 +624,8 @@ function SelectExample() {
 The _useSelect_ hook can be used to create a widget that supports multiple
 selection. In the example below, we mark each selected item with a checked
 checkbox inside the menu list. Every other aspect remains the same as with the
-single selection dropdown. For a more interactive example of multiple selection,
-you can use our _useMultipleSelection_ hook together with _useSelect_, as shown
-in the [multiple selection section](/use-multiple-selection#usage-with-select).
+single selection dropdown. To display selected items as removable tags, see the
+[useTagGroup example](#multiple-selection-with-tag-group).
 
 In the example below, we control the _selectedItem_ to always be _null_ and keep
 our selected items in a state variable, _selectedItems_. We use
