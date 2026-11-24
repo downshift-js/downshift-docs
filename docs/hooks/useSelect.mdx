@@ -1119,7 +1119,7 @@ function SelectExample() {
           className={`absolute w-72 bg-white dark:bg-zinc-900 mt-1 shadow-md max-h-80 overflow-scroll p-0 z-10 ${
             !isOpen && 'hidden'
           }`}
-          {...getMenuProps()}
+          {...getMenuProps({ref: listRef})}
         >
           {isOpen && (
             <>
@@ -1133,7 +1133,7 @@ function SelectExample() {
                       'font-bold !text-black dark:!text-white',
                     'py-2 px-3 shadow-sm flex flex-col text-zinc-900 dark:text-zinc-100',
                   )}
-                  key={books[virtualRow.index].id}
+                  key={virtualRow.key}
                   {...getItemProps({
                     index: virtualRow.index,
                     item: books[virtualRow.index],
