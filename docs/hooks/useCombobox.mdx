@@ -181,6 +181,102 @@ function ComboBoxExample() {
 }
 ```
 
+## Async search
+
+Type `p`, then quickly type `r`. The simulated search for `pr` finishes first
+and shows *Pride and Prejudice*. When the slower search for `p` finishes, its
+results go into a `Map` under `p`. Press Backspace to see both *Piranesi* and
+*Pride and Prejudice* immediately. Try `xyz` to see the empty state.
+
+The menu reads only the entry for the current query. Trimming and lowercasing
+the input lets `P` and `p` reuse the same search, even while it is in flight.
+
+Each search returns fresh book objects. `itemToKey` gives Downshift a stable ID
+for comparing books across responses, and `itemToString` supplies the title to
+display after selection.
+
+```jsx live noInline
+function searchBooks(query) {
+  const books = [
+    {id: 1, title: 'Piranesi'},
+    {id: 2, title: 'Pride and Prejudice'},
+    {id: 3, title: 'Middlemarch'},
+  ]
+  const delay = query.length === 1 ? 1200 : 250
+  return new Promise(resolve => {
+    setTimeout(() => {
+      resolve(books.filter(book => book.title.toLowerCase().includes(query)))
+    }, delay)
+  })
+}
+
+function AsyncBookSearch() {
+  const [inputValue, setInputValue] = React.useState('')
+  const [booksByQuery, setBooksByQuery] = React.useState(() => new Map())
+  const pendingQueries = React.useRef(new Set())
+  const query = inputValue.trim().toLowerCase()
+  const loading = query !== '' && !booksByQuery.has(query)
+  const items = booksByQuery.get(query) || []
+
+  React.useEffect(() => {
+    const pending = pendingQueries.current
+    // After unmount, outstanding searches no longer need to update this cache.
+    return () => pending.clear()
+  }, [])
+
+  React.useEffect(() => {
+    const pending = pendingQueries.current
+    if (!loading || pending.has(query)) return
+
+    pending.add(query)
+    searchBooks(query).then(books => {
+      if (!pending.delete(query)) return
+      setBooksByQuery(previous => new Map(previous).set(query, books))
+    })
+  }, [query, loading])
+
+  const {
+    isOpen,
+    highlightedIndex,
+    getLabelProps,
+    getInputProps,
+    getMenuProps,
+    getItemProps,
+  } = useCombobox({
+    items,
+    inputValue,
+    onInputValueChange: ({inputValue}) => setInputValue(inputValue),
+    itemToKey: book => (book ? book.id : null),
+    itemToString: book => (book ? book.title : ''),
+  })
+
+  return (
+    <div>
+      <label {...getLabelProps()}>Search for a book</label>
+      <input className="block border rounded p-1" {...getInputProps()} />
+      <p role="status">
+        {isOpen && loading && 'Searching…'}
+        {isOpen && query && !loading && items.length === 0 && 'No books found.'}
+      </p>
+      <ul {...getMenuProps()} hidden={!isOpen || !items.length}>
+        {isOpen &&
+          items.map((book, index) => (
+            <li
+              key={book.id}
+              className={highlightedIndex === index ? 'underline' : ''}
+              {...getItemProps({item: book, index})}
+            >
+              {book.title}
+            </li>
+          ))}
+      </ul>
+    </div>
+  )
+}
+
+render(<AsyncBookSearch />)
+```
+
 ## React Native
 
 The hook can be used with _React Native_ as well. The HTML elements and styles
@@ -608,6 +704,31 @@ function ComboBoxExample() {
   return <ComboBox />
 }
 ```
+
+### Outside dismissal
+
+If a parent popover closes and unmounts the combobox on an outside click or
+tap, it can handle that dismissal itself. Since v9.5, Downshift marks that
+`InputBlur` action with `source === 'outside'`. Return the current state for
+that action and pass through the usual changes when the user tabs away.
+
+```jsx
+useCombobox({
+  items,
+  stateReducer(state, {type, source, changes}) {
+    if (
+      type === useCombobox.stateChangeTypes.InputBlur &&
+      source === 'outside'
+    ) {
+      return state
+    }
+    return changes
+  },
+})
+```
+
+Try the [select inside a popover](/use-select#outside-dismissal) to compare an
+outside click with Tab.
 
 ## Custom window
 

@@ -152,6 +152,69 @@ function SelectExample() {
 }
 ```
 
+## Disabled options
+
+Open the list and use the arrow keys to move from *Piranesi* to *Middlemarch*.
+*War and Peace* is on loan, so the highlight skips it and clicking it leaves
+the selection unchanged. Pass `isItemDisabled` to `useSelect`.
+`getItemProps` then sets `aria-disabled` on the option and handles the
+interaction. The visible “on loan” text explains why the book is unavailable.
+
+```jsx live noInline
+const books = [
+  {title: 'Piranesi', onLoan: false},
+  {title: 'War and Peace', onLoan: true},
+  {title: 'Middlemarch', onLoan: false},
+]
+
+function AvailableBookSelect() {
+  const {
+    isOpen,
+    selectedItem,
+    highlightedIndex,
+    getLabelProps,
+    getToggleButtonProps,
+    getMenuProps,
+    getItemProps,
+  } = useSelect({
+    items: books,
+    itemToString: book => (book ? book.title : ''),
+    isItemDisabled: book => book.onLoan,
+  })
+
+  return (
+    <div>
+      <label {...getLabelProps()}>Choose a book to borrow</label>
+      <button
+        type="button"
+        className="block border rounded px-2"
+        {...getToggleButtonProps()}
+      >
+        {selectedItem ? selectedItem.title : 'Select a book'}
+      </button>
+      <ul {...getMenuProps()} hidden={!isOpen}>
+        {isOpen &&
+          books.map((book, index) => (
+            <li
+              key={book.title}
+              className={cx(
+                highlightedIndex === index && 'underline',
+                book.onLoan && 'italic cursor-not-allowed',
+              )}
+              {...getItemProps({item: book, index})}
+            >
+              {book.title}
+              {book.onLoan && ' (on loan)'}
+            </li>
+          ))}
+      </ul>
+    </div>
+  )
+}
+
+render(<AvailableBookSelect />)
+```
+
 ## React Native
 
 The hook can be used with _React Native_ as well. The HTML elements and styles
@@ -512,6 +575,89 @@ function SelectExample() {
   }
 
   return <Select />
+}
+```
+
+### Outside dismissal
+
+Open **Book filter**, focus **Choose a book**, and press Arrow Down to highlight
+a title. Click outside the popover to dismiss it and keep the previous
+selection. Repeat with Tab to accept the highlighted book and move to **Done**.
+
+The native popover handles outside dismissal. Since v9.5, an outside mouse or
+touch interaction sets `source` to `'outside'` on Downshift's `ToggleButtonBlur`
+action. The reducer lets the list close and preserves the selected book in that
+case. A blur from tabbing away uses Downshift's default changes.
+
+```jsx live
+function BookFilter() {
+  const books = ['Piranesi', 'Middlemarch', 'Persuasion']
+  const {
+    isOpen,
+    selectedItem,
+    highlightedIndex,
+    getLabelProps,
+    getToggleButtonProps,
+    getMenuProps,
+    getItemProps,
+  } = useSelect({
+    items: books,
+    stateReducer(state, {type, source, changes}) {
+      if (
+        type === useSelect.stateChangeTypes.ToggleButtonBlur &&
+        source === 'outside'
+      ) {
+        return {...changes, selectedItem: state.selectedItem}
+      }
+      return changes
+    },
+  })
+
+  return (
+    <div>
+      <button
+        type="button"
+        popovertarget="book-filter"
+        className="border rounded px-2"
+      >
+        Book filter
+      </button>
+      <p>Selected book: {selectedItem || 'None'}</p>
+      <div
+        id="book-filter"
+        popover="auto"
+        className="m-auto border rounded p-4"
+      >
+        <label {...getLabelProps()}>Choose a book</label>
+        <button
+          type="button"
+          className="block border rounded px-2"
+          {...getToggleButtonProps()}
+        >
+          {selectedItem || 'Select a book'}
+        </button>
+        <ul {...getMenuProps()} hidden={!isOpen}>
+          {isOpen &&
+            books.map((book, index) => (
+              <li
+                key={book}
+                className={highlightedIndex === index ? 'underline' : ''}
+                {...getItemProps({item: book, index})}
+              >
+                {book}
+              </li>
+            ))}
+        </ul>
+        <button
+          type="button"
+          popovertarget="book-filter"
+          popovertargetaction="hide"
+        >
+          Done
+        </button>
+      </div>
+    </div>
+  )
 }
 ```
 
