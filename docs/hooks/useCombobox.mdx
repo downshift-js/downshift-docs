@@ -21,7 +21,7 @@ your specific needs.
 **useCombobox** is a React hook that manages all the stateful logic needed to
 make the combobox functional and accessible. It returns a set of props that are
 meant to be called and their results destructured on the combobox's elements:
-its label, toggle button, input, combobox container, list and list items. The
+its label, toggle button, input, list and list items. The
 props are similar to the ones provided by the **Downshift** component to its
 children via render prop.
 
@@ -68,13 +68,10 @@ information check out the [Github Page][use-combobox-github].
 
 ## Basic Usage
 
-A _combobox_ element can be created with HTML elements such as: **label**,
-**ul**, **li**, **button**, **input** and a **div** or something similar to
-contain the input and the toggle button. It is absolutely important to follow
-the HTML structure below, as it will allow all screen readers to properly work
-with the widget. Most importantly, the **input** needs to be contained by the
-combobox **div** and the **ul** needs to be at the same level with the combobox
-**div**.
+Spread `getInputProps()` on the input. It sets `role="combobox"` and connects the
+input to the listbox through `aria-controls`. Spread `getMenuProps()` on the list
+to give it the matching ID and `role="listbox"`, and `getItemProps({item, index})`
+on each option. The surrounding divs in this example are for layout.
 
 [CodeSandbox for basic usage example][code-sandbox-basic-usage].
 
@@ -201,27 +198,14 @@ guidelines. _useCombobox_ is providing the additional stateful logic that will
 transform this selection of basic components into a fully working dropdown
 component.
 
-As _useCombobox_ needs to perform some _focus()_ and _scroll()_ logic on the DOM
-elements, it will require the refs to the _React_ components used. The example
-below will illustrate how to use _useCombobox_ with _MaterialUI_ library
-components and how to correctly pass refs to the hook where needed.
+Material UI's `Input` renders a wrapper around the native input. Pass
+`getInputProps()` to its `inputProps` prop so the native input receives the
+combobox role, ARIA attributes, event handlers, and ref.
 
-Since _MaterialUI_ components already accept a _ref_ prop that will be filled
-with the resulting DOM element, we don't need to do anything specific rather
-than just spreading the getter props, apart from the case of the _Input_, which
-renders a wrapper element over the actual HTML _input_. In this case, since
-_Input_ provides a prop for accessing the _input_ element called _inputRef_, we
-will use the getter function like this: `getInputProps({refKey: 'inputRef'})`.
-
-Another point worth mentioning is that in this case items are objects and not
-strings. As a result, the _itemToString_ prop is passed to _useCombobox_. It
-will return the string equivalent of the item which will be used for displaying
-the item in the _input_ once selected and for the a11y _aria-live_ message that
-will occur on every item selection: _${itemToString(item)} has been selected_.
-_item.title_ is chosen to be the string equivalent of each item object, so our
-prop will be passed as _itemToString: item => item ? item.title : ''_. Since
-clearing the input by _Escape_ key is also considered an element change, we will
-return an empty string in this case.
+Selecting a book displays its title in the input because `itemToString` returns
+the title for a book and an empty string for `null`. In v9, custom live region
+messages are opt-in. To announce a custom selection message, pass
+`getA11yStatusMessage` to `useCombobox`.
 
 [CodeSandbox for MaterialUI usage example][code-sandbox-material-ui-usage].
 
@@ -287,7 +271,7 @@ function ComboBoxExample() {
             <Input
               placeholder="Best book ever"
               className="w-full p-1.5"
-              {...getInputProps({refKey: 'inputRef'})}
+              inputProps={getInputProps()}
             />
             <IconButton
               className="px-2"
@@ -1386,7 +1370,7 @@ To see more cool stuff you can build with _useCombobox_, explore the [examples
 repository][examples-code-sandbox].
 
 [combobox-aria]:
-  https://w3c.github.io/aria-practices/examples/combobox/combobox-autocomplete-list.html
+  https://www.w3.org/WAI/ARIA/apg/patterns/combobox/
 [use-combobox-github]:
   https://github.com/downshift-js/downshift/tree/master/src/hooks/useCombobox
 [code-sandbox-basic-usage]:

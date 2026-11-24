@@ -33,13 +33,11 @@ you are building a _combobox_) or a _button_ (if you are building a _select_),
 and the selected items. The props are similar to the ones provided by vanilla
 _Downshift_ to the children render prop.
 
-These props are called getter props and their return values are destructured as
-a set of ARIA attributes and event listeners. Together with the action props and
-state props, they create all the stateful logic needed for the dropdown to
-become accessible. Every functionality needed should be provided out of the box:
-arrow navigation between dropdown and items, navigation between the items
-themselves, removing and adding items, and also a helpful _aria-live_ message
-when an item has been removed from the selection.
+The getter props supply ARIA attributes and event handlers for keyboard
+navigation between the dropdown and the selected items. The hook also provides
+actions to add and remove items. In v9, removal announcements are opt-in. To
+announce a removal in a live region, pass `getA11yStatusMessage` to
+`useMultipleSelection`.
 
 ## Breaking Changes in v8 and v9
 
