@@ -8,66 +8,52 @@ import {ThemedSnack} from '@site/src/components/ThemedSnack'
 
 # useMultipleSelection
 
-## DEPRECATED
+## Deprecated
 
-Please use the [useTagGroup](/use-tag-group) hook to create multiple selection
-dropdowns with tag groups. Check out the examples for each:
+`useMultipleSelection` manages keyboard navigation and removal for selected
+items in existing dropdowns. For new tag lists, use [useTagGroup](/use-tag-group)
+with a [combobox](/use-combobox#multiple-selection-with-tag-group) or
+[select](/use-select#multiple-selection-with-tag-group).
 
-- [useCombobox](/use-combobox#multiple-selection-with-tag-group)
-- [useSelect](/use-select#multiple-selection-with-tag-group)
+## Quickstart
 
-## The problem
+```jsx
+import React from 'react'
+import {useMultipleSelection} from 'downshift'
 
-You have a custom **select** or a **combobox** in your applications which
-performs a multiple selection. You want the whole experience to be accessible,
-including adding and removing items from selection, navigating between the items
-and back to the dropdown. You also want this solution to be simple to use and
-flexible enough so you can tailor it further to your specific needs.
+const fruits = ['Apple', 'Apricot', 'Banana']
 
-## This solution
+export default function SelectedFruit() {
+  const {
+    selectedItems,
+    setSelectedItems,
+    getSelectedItemProps,
+    getDropdownProps,
+  } = useMultipleSelection({initialSelectedItems: fruits})
 
-**useMultipleSelection** is a React hook that manages all the stateful logic
-needed to make the multiple selection dropdown functional and accessible. It
-returns a set of props that are meant to be called and their results
-destructured on the dropdown's elements that involve the multiple selection
-experience: the dropdown main element itself, which can be either an _input_ (if
-you are building a _combobox_) or a _button_ (if you are building a _select_),
-and the selected items. The props are similar to the ones provided by vanilla
-_Downshift_ to the children render prop.
+  return (
+    <div>
+      <ul aria-label="Selected fruit">
+        {selectedItems.map((fruit, index) => (
+          <li key={fruit} {...getSelectedItemProps({index})}>
+            {fruit}
+          </li>
+        ))}
+      </ul>
+      <button
+        type="button"
+        {...getDropdownProps({onClick: () => setSelectedItems(fruits)})}
+      >
+        Select all fruit
+      </button>
+    </div>
+  )
+}
+```
 
-The getter props supply ARIA attributes and event handlers for keyboard
-navigation between the dropdown and the selected items. The hook also provides
-actions to add and remove items. In v9, removal announcements are opt-in. To
-announce a removal in a live region, pass `getA11yStatusMessage` to
-`useMultipleSelection`.
-
-## Breaking Changes in v8 and v9
-
-_useMultipleSelection_ has been affected by breaking changes in v8 and v9, so
-check out the migration pages for [v8][migration-guide-v8] and
-[v9][migration-guide-v9].
-
-## Props used in examples
-
-In the examples below, we use the _useMultipleSelection_ hook with both
-_useSelect_ and _useCombobox_, destructure from its result the getter props and
-state variables. The **getDropdownProps** can be called with a
-**preventKeyAction** parameter. In some cases you may not want the user to
-navigate from the dropdown to the selected items or to delete them with
-**Backspace**. For example you can pass _isOpen_ as its value in order to keep
-removal and navigation actions from occuring while the dropdown is open. The
-returned props are used as follows:
-
-| Returned prop          | Element                 | Comments                                                                                                                                   |
-| ---------------------- | ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
-| `getDropdownProps`     | `<input>` or `<button>` | Call optionally with _preventKeyAction_ and destructure its returned object on the toggle button (select) or input (combobox) element.     |
-| `getSelectedItemProps` | `<span>`                | Call and destructure its returned object on the selected item element.                                                                     |
-| `selectedItems`        | `<span>`                | State value with the items currently selected. Used to render the Tags.                                                                    |
-| `addSelectedItem`      |                         | Action prop that adds the item to the selection. Best used in _useSelect_ and _useCombobox_ prop _onStateChange_ or _onSelectedItemChange_ |
-| `removeSelectedItem`   | `<span>` icon           | Action prop that removes the item from the selection. Used in the _X_ icon/button onClick handler.                                         |
-
-For a complete documentation on all the returned props, hook props and more
-information check out the [Github Page][use-multiple-selection-github].
+Focus **Select all fruit** and press Arrow Left to reach the last selected
+item. Press Backspace to remove it, or activate the button to restore all three
+items.
 
 ## Usage with combobox
 
@@ -446,6 +432,23 @@ function MultipleSelectExample() {
 }
 ```
 
+## Props used in examples
+
+Pass `{preventKeyAction: isOpen}` to `getDropdownProps` to keep Backspace and
+the arrow keys in the open dropdown. When it closes, those keys can remove or
+navigate the selected items again.
+
+| Returned prop | Element | Purpose |
+| --- | --- | --- |
+| `getDropdownProps` | `<input>` or `<button>` | Handles keyboard navigation from the dropdown to the selected items. |
+| `getSelectedItemProps` | `<span>` or `<li>` | Handles focus and keyboard removal for a selected item. |
+| `selectedItems` |  | The selected items to render. |
+| `addSelectedItem` |  | Adds an item to the selection. |
+| `removeSelectedItem` |  | Removes an item from the selection. |
+| `setSelectedItems` |  | Replaces the selection. |
+
+See the [useMultipleSelection API reference][use-multiple-selection-github] for all props and return values.
+
 ## React Native
 
 The hook can be used with _React Native_ as well. The HTML elements and styles
@@ -453,6 +456,15 @@ are replaced with React Native equivalents, but the _useMultipleSelection_ usage
 is exactly the same as on React web.
 
 <ThemedSnack snackId="@silviuaavram/downshift-usemultipleselection-in-react-native" />
+
+## Breaking Changes in v8 and v9
+
+_useMultipleSelection_ has been affected by breaking changes in v8 and v9, so
+check out the migration pages for [v8][migration-guide-v8] and
+[v9][migration-guide-v9].
+
+In v9, removal announcements are opt-in. To announce a removal in a live
+region, pass `getA11yStatusMessage` to `useMultipleSelection`.
 
 ## Other usage examples
 

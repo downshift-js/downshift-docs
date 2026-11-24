@@ -4,57 +4,53 @@ description: useTagGroup for building tag lists
 slug: /use-tag-group
 ---
 
-import {ThemedSnack} from '@site/src/components/ThemedSnack'
-
 # useTagGroup
 
-## The problem
+`useTagGroup` lets people move between tags with the arrow keys and remove them
+with the keyboard or a remove button.
 
-You want to build a tag group component in your app that's accessible and offers
-a great user experience. There is no dedicated ARIA design pattern for this
-component, but since it's widely used, we compiled the list of specifications
-and implemented them through a React hook that's compliant with Downshift's
-principles.
+## Quickstart
 
-## This solution
+```jsx
+import React from 'react'
+import {useTagGroup} from 'downshift'
 
-**useTagGroup** is a React hook that manages all the stateful logic needed to
-make the tag group functional and accessible. It returns a set of props that are
-meant to be called, and their results destructured on the tag group's elements:
-its container, tag item and tag remove button. These are similar to the props
-provided by vanilla _Downshift_ to the children render prop.
+const fruits = ['Apple', 'Apricot', 'Banana']
 
-These props are called getter props, and their return values are destructured as
-a set of ARIA attributes and event listeners. Together with the action props and
-state props, they create all the stateful logic needed for the tag group to
-implement the list of requirements. Every functionality needed should be
-provided out-of-the-box: item removal and selection, and left/right arrow
-movement between items, screen reader support etc.
+export default function FruitTags() {
+  const {items, getTagGroupProps, getTagProps, getTagRemoveProps} = useTagGroup(
+    {initialItems: fruits},
+  )
 
-## Props used in examples
+  return (
+    <div {...getTagGroupProps({'aria-label': 'Selected fruit'})}>
+      {items.map((fruit, index) => (
+        <span key={fruit} {...getTagProps({index, 'aria-label': fruit})}>
+          {fruit}
+          <button
+            type="button"
+            {...getTagRemoveProps({index, 'aria-label': 'Remove'})}
+          >
+            ×
+          </button>
+        </span>
+      ))}
+    </div>
+  )
+}
+```
 
-In the examples below, we use the _useTagGroup_ hook and destructure the getter
-props and state variables it returns. These are used in the following way:
+Tab to the first tag, press Arrow Right to focus Apricot, then press Delete to
+remove it.
 
-| Returned prop       | Element    | Comments                                                                                                           |
-| ------------------- | ---------- | ------------------------------------------------------------------------------------------------------------------ |
-| `getTagGroupProps`  | `<div>`    | Call and destructure its returned object on the container element.                                                 |
-| `getTagProps`       | `<span>`   | Call and destructure its returned object on the tag element.                                                       |
-| `getTagRemoveProps` | `<button>` | Call and destructure its returned object on the tag remove button element.                                         |
-| `items`             |            | State value with the items that are part of the tag group. Tags are created based on its iteration.                |
-| `activeIndex`       |            | State value with the index of active tag item. Used below for styling.                                             |
-| `addItem`           |            | Imperative function that adds an item to the group. Below, adding items is possible by clicking on the list items. |
+<span id="basic-usage" />
 
-For a complete documentation on all the returned props, hook props and more
-information check out the [GitHub Page][use-tag-group-github].
+## Using object items
 
-## Basic Usage
+The book example uses each title as the tag's label and calls `addItem` to put a
+book back in the group.
 
-A tag group can be created with a simple container, and multiple items in the
-container. Each item also has a button element child that's used to remove the
-tag.
-
-[CodeSandbox for basic usage example][code-sandbox-basic-usage].
+[Open the book example in CodeSandbox][code-sandbox-basic-usage].
 
 ```jsx live
 function TagGroupExample() {
@@ -137,6 +133,19 @@ function TagGroupExample() {
   return <TagGroup />
 }
 ```
+
+## Props used in examples
+
+| Returned prop | Element | Purpose |
+| --- | --- | --- |
+| `getTagGroupProps` | `<div>` | Labels the group and handles keyboard navigation. |
+| `getTagProps` | `<span>` | Makes the tag at `index` focusable by the hook. |
+| `getTagRemoveProps` | `<button>` | Removes the tag at `index`. |
+| `items` |  | The items to render as tags. |
+| `activeIndex` |  | Index of the active tag. |
+| `addItem` |  | Adds an item to the group. |
+
+See the [useTagGroup API reference][use-tag-group-github] for all props and return values.
 
 [use-tag-group-github]:
   https://github.com/downshift-js/downshift/tree/master/src/hooks/useTagGroup

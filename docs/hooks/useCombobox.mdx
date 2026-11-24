@@ -8,72 +8,58 @@ import {ThemedSnack} from '@site/src/components/ThemedSnack'
 
 # useCombobox
 
-## The problem
+`useCombobox` lets people type to filter a list and choose a suggestion with the
+keyboard or pointer.
 
-You have a **combobox/autocomplete** dropdown in your application and you want
-it to be accessible and functional. For consistency reasons you want it to
-follow the [ARIA design pattern][combobox-aria] for a combobox. You also want
-this solution to be simple to use and flexible so you can tailor it further to
-your specific needs.
+## Quickstart
 
-## This solution
+```jsx
+import React from 'react'
+import {useCombobox} from 'downshift'
 
-**useCombobox** is a React hook that manages all the stateful logic needed to
-make the combobox functional and accessible. It returns a set of props that are
-meant to be called and their results destructured on the combobox's elements:
-its label, toggle button, input, list and list items. The
-props are similar to the ones provided by the **Downshift** component to its
-children via render prop.
+const fruits = ['Apple', 'Apricot', 'Banana']
 
-These props are called getter props and their return values are destructured as
-a set of ARIA attributes and event listeners. Together with the action props and
-state props, they create all the stateful logic needed for the combobox to
-implement the corresponding ARIA pattern. Every functionality needed should be
-provided out-of-the-box: menu toggle, item selection and up/down movement
-between them, screen reader support, focus management etc.
+export default function FruitCombobox() {
+  const [items, setItems] = React.useState(fruits)
+  const combobox = useCombobox({
+    items,
+    onInputValueChange({inputValue}) {
+      const query = inputValue.toLowerCase()
+      setItems(fruits.filter(fruit => fruit.toLowerCase().startsWith(query)))
+    },
+  })
 
-## Breaking Changes in v8 and v9
+  return (
+    <div>
+      <label {...combobox.getLabelProps()}>Search fruit</label>
+      <input {...combobox.getInputProps()} />
+      <ul {...combobox.getMenuProps()} hidden={!combobox.isOpen}>
+        {items.map((item, index) => (
+          <li
+            key={item}
+            {...combobox.getItemProps({item, index})}
+            style={{fontWeight: combobox.highlightedIndex === index ? 'bold' : 'normal'}}
+          >
+            {item}
+          </li>
+        ))}
+      </ul>
+    </div>
+  )
+}
+```
 
-_useCombobox_ has been affected by breaking changes in v8 and v9, so check out
-the migration pages for [v8][migration-guide-v8] and [v9][migration-guide-v9].
+Type `ap` to see Apple and Apricot. Press Arrow Down to highlight a fruit and
+Enter to put it in the input.
 
-## Breaking Changes in v7
+<span id="basic-usage" />
 
-Since version 7, _useCombobox_ to supports the ARIA 1.2 pattern for the
-combobox, which contains some changes from the ARIA 1.1 pattern. This brings
-changes in the API and the behaviour of _useCombobox_, detailed in the
-[migration page][migration-guide-v7].
+## Using object items
 
-## Props used in examples
+When each item is a book, use `itemToString` to display its title in the input.
+The example below searches both the title and the author.
 
-In the examples below, we use the _useCombobox_ hook and destructure from its
-result the getter props and state variables. The hooks also has the
-_onInputValueChange_ prop passed in order to filter the items in the list
-according to the input value. The getter props are used as follows:
-
-| Returned prop          | Element    | Comments                                                                                     |
-| ---------------------- | ---------- | -------------------------------------------------------------------------------------------- |
-| `getLabelProps`        | `<label>`  | Call and destructure its returned object on the label element.                               |
-| `getToggleButtonProps` | `<button>` | Call and destructure its returned object on the toggle button (if any).                      |
-| `getInputProps`        | `<input>`  | Call and destructure its returned object on the input element.                               |
-| `getMenuProps`         | `<ul>`     | Call and destructure its returned object on the menu element.                                |
-| `getItemProps`         | `<li>`     | Call with `index` or `item` and destructure its returned object on each menu item element.   |
-| `isOpen`               |            | State value with the open state of the menu. Used below for conditionally showing the items. |
-| `highlightedIndex`     |            | State value with the index of thehighlighted menu item. Used below for styling.              |
-| `selectedItem`         |            | State value with the item that is selected. Used below for styling.                          |
-| `inputValue`           |            | State value with the search query. Used below for filtering the items.                       |
-
-For a complete documentation on all the returned props, hook props and more
-information check out the [Github Page][use-combobox-github].
-
-## Basic Usage
-
-Spread `getInputProps()` on the input. It sets `role="combobox"` and connects the
-input to the listbox through `aria-controls`. Spread `getMenuProps()` on the list
-to give it the matching ID and `role="listbox"`, and `getItemProps({item, index})`
-on each option. The surrounding divs in this example are for layout.
-
-[CodeSandbox for basic usage example][code-sandbox-basic-usage].
+[Open the book example in CodeSandbox][code-sandbox-basic-usage].
 
 ```jsx live
 function ComboBoxExample() {
@@ -180,6 +166,27 @@ function ComboBoxExample() {
   return <ComboBox />
 }
 ```
+
+## Props used in examples
+
+In the [combobox pattern][combobox-aria], the input keeps focus while the
+highlight moves through the options. `getInputProps()` sets `role="combobox"`
+and connects the input to the listbox from `getMenuProps()` through
+`aria-controls`.
+
+| Returned prop | Element | Purpose |
+| --- | --- | --- |
+| `getLabelProps` | `<label>` | Labels the input. |
+| `getInputProps` | `<input>` | Handles typing and keyboard navigation. |
+| `getToggleButtonProps` | `<button>` | Opens or closes the list from an optional button. |
+| `getMenuProps` | `<ul>` | Identifies the listbox. |
+| `getItemProps` | `<li>` | Wires each option to its item and index. |
+| `isOpen` |  | Whether the list is open. |
+| `highlightedIndex` |  | Index of the highlighted option, or `-1` when none is highlighted. |
+| `selectedItem` |  | The selected item. |
+| `inputValue` |  | The text in the input. |
+
+See the [useCombobox API reference][use-combobox-github] for all props and return values.
 
 ## Async search
 
@@ -1479,6 +1486,18 @@ function ComboBoxExample() {
   return <ComboBox />
 }
 ```
+
+## Breaking Changes in v8 and v9
+
+_useCombobox_ has been affected by breaking changes in v8 and v9, so check out
+the migration pages for [v8][migration-guide-v8] and [v9][migration-guide-v9].
+
+## Breaking Changes in v7
+
+Since version 7, _useCombobox_ supports the ARIA 1.2 pattern for the
+combobox, which contains some changes from the ARIA 1.1 pattern. This brings
+changes in the API and the behaviour of _useCombobox_, detailed in the
+[migration page][migration-guide-v7].
 
 ## Other usage examples
 
